@@ -19,13 +19,13 @@ import javax.swing.table.DefaultTableModel;
 import tubespbo.Contoller.Controller;
 import tubespbo.Model.User;
 
-public class MainMenuUser {
+public class MainMenuPassanger {
 
-    public MainMenuUser(String category) {
-        showDataScreen(category);
+    public MainMenuPassanger(String id) {
+        showDataScreen(id);
     }
 
-    private void showDataScreen(String category) {
+    private void showDataScreen(String id) {
         Controller con = new Controller();
         ArrayList<User> listUser;
 

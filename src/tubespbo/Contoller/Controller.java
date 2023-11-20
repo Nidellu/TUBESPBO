@@ -118,20 +118,37 @@ public class Controller {
         return exists;
     }
 
-    public static boolean getUser(String username) {
+    public String getIDUser(String username) {
         conn.connect();
-        String query = "SELECT user_id FROM users WHERE user_name = '" + username;
-        boolean exists = false;
+        String query = "SELECT user_id FROM users WHERE user_name = '" + username + "'";
+        String id = "";
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                exists = true;
+                id = (rs.getString("user_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
-        return exists;
+        return id;
+    }
+    
+    public String getRolesUser(String userID) {
+        conn.connect();
+        String query = "SELECT user_role FROM users WHERE user_id = '" + userID + "'";
+        String roles = "";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                roles = (rs.getString("user_role"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return roles;
     }
 }

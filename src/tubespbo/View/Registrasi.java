@@ -4,6 +4,7 @@
  */
 package tubespbo.View;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,7 +25,18 @@ public class Registrasi {
         JFrame f = new JFrame("Form Registrasi");
         Controller con = new Controller();
 
-        //NIK
+        JLabel intro = new JLabel("Selamat Datang di Josen!");
+        Font font = new Font("Courier", Font.BOLD, 20);
+        JLabel intro2 = new JLabel("Satu langkah lagi untuk masuk");
+        Font font2 = new Font("Courier", Font.PLAIN, 16);
+        intro.setFont(font);
+        intro2.setFont(font2);
+        intro.setBounds(10, 10, 300, 30);
+        intro2.setBounds(10, 30, 250, 30);
+
+        Font fontLabel = new Font("Courier", Font.BOLD, 16);
+        
+        //Email
         JLabel labelEmail = new JLabel("Email: ");
         JTextField textEmail = new JTextField();
         labelEmail.setBounds(10, 20, 200, 20);

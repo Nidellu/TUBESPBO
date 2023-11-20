@@ -59,7 +59,7 @@ public class StartMenu {
             }
         });
         
-        JButton buttonRegis = new JButton("Aku baru nih, Daftarkan Aku");
+        JButton buttonRegis = new JButton("Belum ada akun? Daftar dulu");
         buttonRegis.setFont(fontButton);
         buttonRegis.setBounds(90, 360, 200, 30);
         buttonRegis.addActionListener(new ActionListener() {

@@ -20,11 +20,11 @@ import tubespbo.Model.User;
 
 public class MainMenuAdmin {
 
-    public MainMenuAdmin(String category) {
-        showDataScreen(category);
+    public MainMenuAdmin(String id) {
+        showDataScreen(id);
     }
 
-    private void showDataScreen(String category) {
+    private void showDataScreen(String id) {
         Controller con = new Controller();
         ArrayList<User> listUser;
 
