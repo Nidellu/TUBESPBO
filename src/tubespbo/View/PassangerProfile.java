@@ -1,4 +1,3 @@
-
 package tubespbo.View;
 
 import java.awt.Font;
@@ -23,10 +22,12 @@ public class PassangerProfile {
     private void showDataScreen(int id) {
         Controller con = new Controller();
         JFrame f = new JFrame();
-        
+
         ArrayList<Passanger> pass = con.getUserByID(id);
 
-        JLabel intro = new JLabel("Hai Kamu, " + pass.get(0).getUser_name() + "!");
+        JOptionPane.showMessageDialog(f, pass, "", JOptionPane.WARNING_MESSAGE);
+
+        JLabel intro = new JLabel("Hai Kamu, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
         JLabel intro2 = new JLabel("Mau update apa nih?");
         Font font2 = new Font("Courier", Font.PLAIN, 16);
@@ -35,26 +36,26 @@ public class PassangerProfile {
         intro.setBounds(10, 10, 400, 30);
         intro2.setBounds(10, 30, 300, 30);
 
-        Font fontButton = new Font("Courier", Font.BOLD,12);
-        
+        Font fontButton = new Font("Courier", Font.BOLD, 12);
+
         JLabel lineDiv = new JLabel("_______________________________"
                 + "__________________________________________");
         lineDiv.setBounds(10, 50, 500, 20);
-        
+
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
-        
+
         JLabel labelNama = new JLabel("Username ");
-        JTextField textNama = new JTextField(pass.get(0).getUser_name());
+        JTextField textNama = new JTextField(pass.get(pass.size() - 1).getUser_name());
         labelNama.setFont(fontLabel);
         labelNama.setBounds(10, 80, 200, 30);
         textNama.setBounds(200, 80, 250, 30);
 
         JLabel labelTelepon = new JLabel("Nomor  Telepon ");
-        JTextField textTelepon = new JTextField(pass.get(0).getPhone_number());
+        JTextField textTelepon = new JTextField(pass.get(pass.size() - 1).getPhone_number());
         labelTelepon.setFont(fontLabel);
         labelTelepon.setBounds(10, 80, 200, 30);
         textTelepon.setBounds(200, 80, 250, 30);
-        
+
         JButton buttonCari = new JButton("Pesan Order");
         buttonCari.setFont(fontButton);
         buttonCari.setBounds(215, 300, 100, 30);
@@ -64,18 +65,17 @@ public class PassangerProfile {
             }
         });
 
-        
         f.add(buttonCari);
         f.add((intro));
         f.add((intro2));
-        f.add(profileButton);
+//        f.add(profileButton);
         f.add(lineDiv);
 
         f.setSize(500, 600);
         f.setLayout(null);
         f.setVisible(true);
     }
-    
+
     public static void main(String[] args) {
         new PassangerProfile(5);
     }

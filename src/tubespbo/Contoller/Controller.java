@@ -91,8 +91,8 @@ public class Controller {
         conn.connect();
         String query = "SELECT users.user_name, passangers.passanger_phonNum "
                 + "FROM users"
-                + "JOIN passangers ON passangers.passanger_id = users.user_id "
-                + "WHERE passangers.passanger_id = '" + id + "'";
+                + "JOIN passangers ON passangers.passanger_id = users.user_id"
+                + "WHERE passangers.passanger_id = '" + id +"'";
         ArrayList<Passanger> listPass = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();
@@ -101,6 +101,7 @@ public class Controller {
                 Passanger pass = new Passanger();
                 pass.setUser_name(rs.getString("users.user_name"));
                 pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
+                
                 listPass.add(pass);
             }
         } catch (SQLException e) {
@@ -108,7 +109,7 @@ public class Controller {
         }
         return (listPass);
     }
-    
+
 //
 //    public int getIntCategory(String category) {
 //        conn.connect();
@@ -125,7 +126,6 @@ public class Controller {
 //        }
 //        return (id);
 //    }
-
     public boolean getByUserName(String username) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
