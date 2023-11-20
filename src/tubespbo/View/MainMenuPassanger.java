@@ -1,19 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package tubespbo.View;
 
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import tubespbo.Contoller.Controller;
-import tubespbo.Model.User;
 
 public class MainMenuPassanger {
 
@@ -23,7 +17,6 @@ public class MainMenuPassanger {
 
     private void showDataScreen(int id) {
         Controller con = new Controller();
-        ArrayList<User> listUser;
         JFrame f = new JFrame();
         
         String nameDisplay = con.getUsername(id);
@@ -49,7 +42,7 @@ public class MainMenuPassanger {
         f.add((intro2));
         f.add((backButton));
 
-        f.setSize(800, 500);
+        f.setSize(500, 500);
         f.setLayout(null);
         f.setVisible(true);
     }
