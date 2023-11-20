@@ -21,11 +21,11 @@ import tubespbo.Model.User;
 
 public class MainMenuPassanger {
 
-    public MainMenuPassanger(String id) {
+    public MainMenuPassanger(int id) {
         showDataScreen(id);
     }
 
-    private void showDataScreen(String id) {
+    private void showDataScreen(int id) {
         Controller con = new Controller();
         ArrayList<User> listUser;
 

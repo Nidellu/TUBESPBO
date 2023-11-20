@@ -1,0 +1,136 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package tubespbo.View;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import javax.swing.*;
+import tubespbo.Contoller.Controller;
+
+/**
+ *
+ * @author brian
+ */
+public class RegistrasiDriver {
+
+    public RegistrasiDriver(String username, String password, String roles) {
+        form(username, password, roles);
+    }
+
+    private void form(String username, String password, String roles) {
+        JFrame f = new JFrame("Form Registrasi Driver");
+        Controller con = new Controller();
+
+        JLabel intro = new JLabel("Selamat Datang di Josen!");
+        Font font = new Font("Courier", Font.BOLD, 20);
+        JLabel intro2 = new JLabel("Silahkan nomor telepon dan data kendaraan");
+        Font font2 = new Font("Courier", Font.PLAIN, 16);
+        intro.setFont(font);
+        intro2.setFont(font2);
+        intro.setBounds(10, 10, 300, 30);
+        intro2.setBounds(10, 30, 350, 30);
+
+        Font fontLabel = new Font("Courier", Font.BOLD, 16);
+
+        //Email
+        JLabel labelTelepon = new JLabel("Nomor  Telepon ");
+        JTextField textTelepon = new JTextField();
+        labelTelepon.setFont(fontLabel);
+        labelTelepon.setBounds(10, 80, 200, 30);
+        textTelepon.setBounds(200, 80, 250, 30);
+
+        //Nama
+        JLabel labelNama = new JLabel("Nama Kendaraan ");
+        JTextField textNama = new JTextField();
+        labelNama.setFont(fontLabel);
+        labelNama.setBounds(10, 110, 200, 30);
+        textNama.setBounds(200, 110, 250, 30);
+
+        //Tempat lahir
+        JLabel labelPlat = new JLabel("Plat Nomor Kendaraan ");
+        JTextField textPlat = new JTextField();
+        labelPlat.setFont(fontLabel);
+        labelPlat.setBounds(10, 140, 200, 30);
+        textPlat.setBounds(200, 140, 250, 30);
+
+        JLabel labelJenis = new JLabel("Category: ");
+        String listCategory[] = {"Mobil", "Motor"};
+        JComboBox boxJenis = new JComboBox(listCategory);
+        boxJenis.setSelectedItem(null);
+        labelJenis.setFont(fontLabel);
+        labelJenis.setBounds(10, 170, 200, 30);
+        boxJenis.setBounds(200, 170, 250, 30);
+
+        //tombol submit
+        JButton insertData = new JButton("Submit");
+        insertData.setBounds(260, 300, 150, 30);
+        insertData.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String telepon = textTelepon.getText();
+                String namaKendaraan = textNama.getText();
+                String plat = textPlat.getText();
+                String jenis = boxJenis.getSelectedItem().toString();
+
+                if (telepon.isEmpty() || namaKendaraan.isEmpty() || plat.isEmpty() || jenis.isEmpty()) {
+                    JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    boolean succeed = true;
+                    if (succeed) {
+                        boolean succeedDriver = true;
+                        if (succeedDriver) {
+                            JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
+                            String id = con.getIDUser(username);
+                            new MainMenuDriver(id);
+
+                        } else {
+                            JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+
+            }
+        }
+        );
+        f.add(insertData);
+
+        JButton backButton = new JButton("Back to Main Menu");
+
+        backButton.setBounds(
+                60, 300, 150, 30);
+        backButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new StartMenu();
+            }
+        }
+        );
+
+        f.add(intro);
+        f.add(intro2);
+
+        f.add(labelTelepon);
+        f.add(textTelepon);
+        f.add(labelNama);
+        f.add(textNama);
+        f.add(labelPlat);
+        f.add(textPlat);
+        f.add(labelJenis);
+        f.add(boxJenis);
+        f.setSize(500, 400);
+        f.setLayout(null);
+        f.setVisible(true);
+        f.add(backButton);
+    }
+
+    public static void main(String[] args) {
+        new RegistrasiDriver("", "", "", "");
+    }
+}

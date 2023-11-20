@@ -15,13 +15,13 @@ import tubespbo.Contoller.Controller;
  *
  * @author brian
  */
-public class Registrasi {
+public class RegistrasiUser {
 
-    public Registrasi() {
-        form();
+    public RegistrasiUser(String username, String password, String roles) {
+        form(username, password, roles);
     }
 
-    private void form() {
+    private void form(String username,String password, String roles) {
         JFrame f = new JFrame("Form Registrasi");
         Controller con = new Controller();
 
@@ -36,53 +36,67 @@ public class Registrasi {
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
+        //Email
+        JLabel labelEmail = new JLabel("Email ");
+        JTextField textEmail = new JTextField();
+        labelEmail.setFont(fontLabel);
+        labelEmail.setBounds(10, 80, 200, 30);
+        textEmail.setBounds(200, 80, 250, 30);
+
         //Nama
         JLabel labelNama = new JLabel("Username ");
         JTextField textNama = new JTextField();
         labelNama.setFont(fontLabel);
-        labelNama.setBounds(10, 80, 200, 30);
-        textNama.setBounds(200, 80, 250, 30);
+        labelNama.setBounds(10, 110, 200, 30);
+        textNama.setBounds(200, 110, 250, 30);
 
         //Tempat lahir
         JLabel labelPassword = new JLabel("Password ");
         JPasswordField textPassword = new JPasswordField();
         labelPassword.setFont(fontLabel);
-        labelPassword.setBounds(10, 110, 200, 30);
-        textPassword.setBounds(200, 110, 250, 30);
+        labelPassword.setBounds(10, 140, 200, 30);
+        textPassword.setBounds(200, 140, 250, 30);
 
         JLabel labelCategory = new JLabel("Category: ");
-        String listCategory[] = {"Driver", "Passangger"};
+        String listCategory[] = {"Driver", "Status"};
         JComboBox boxRoles = new JComboBox(listCategory);
         boxRoles.setSelectedItem(null);
         labelCategory.setFont(fontLabel);
-        labelCategory.setBounds(10, 140, 200, 30);
-        boxRoles.setBounds(200, 140, 250, 30);
+        labelCategory.setBounds(10, 170, 200, 30);
+        boxRoles.setBounds(200, 170, 250, 30);
 
         //tombol submit
-        JButton next = new JButton("Lanjut");
-        next.setBounds(260, 300, 150, 30);
-        next.addActionListener(new ActionListener() {
+        JButton insertData = new JButton("Submit");
+        insertData.setBounds(260, 300, 150, 30);
+        insertData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String email = textEmail.getText();
                 String nama = textNama.getText();
                 String password = String.valueOf(textPassword.getPassword());
                 String roles = boxRoles.getSelectedItem().toString();
 
-                if (nama.isEmpty() || password.isEmpty() || roles.isEmpty()) {
+                if (email.isEmpty() || nama.isEmpty() || password.isEmpty() || roles.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    if (roles.equalsIgnoreCase("Passangger")) {
-                        new RegistrasiUser(nama, password, roles);
-                        f.dispose();
-                    } else if (roles.equalsIgnoreCase("Driver")) {
-                        new RegistrasiDriver(nama, password, roles);
-                        f.dispose();
+                    boolean find = con.getUserName(nama);
+                    f.dispose();
+                    if (!find) {
+                        boolean succeed = true;
+                        if(succeed){
+                            JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
+                            String id = con.getIDUser(nama);
+                            new MainMenuDriver(id);
+                            
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(f, "Maaf username udah dipake nih", "", JOptionPane.WARNING_MESSAGE);
                     }
                 }
 
             }
         });
-        f.add(next);
+        f.add(insertData);
 
         JButton backButton = new JButton("Back to Main Menu");
         backButton.setBounds(60, 300, 150, 30);
@@ -110,4 +124,7 @@ public class Registrasi {
         f.add(backButton);
     }
 
+    public static void main(String[] args) {
+        new RegistrasiUser();
+    }
 }

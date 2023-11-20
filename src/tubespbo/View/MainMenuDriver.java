@@ -20,11 +20,11 @@ import tubespbo.Model.User;
 
 public class MainMenuDriver {
 
-    public MainMenuDriver(String category) {
+    public MainMenuDriver(int category) {
         showDataScreen(category);
     }
 
-    private void showDataScreen(String category) {
+    private void showDataScreen(int category) {
         Controller con = new Controller();
         ArrayList<User> listUser;
 

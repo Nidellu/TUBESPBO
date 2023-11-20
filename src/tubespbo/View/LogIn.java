@@ -48,7 +48,7 @@ public class LogIn {
                 boolean found = con.logIn(inputName.getText(), password);
                 if (found) {
                     f.dispose();
-                    String id = con.getIDUser(inputName.getText());
+                    int id = con.getIDUser(inputName.getText());
                     String role = con.getRolesUser(id);
                     if (role.equalsIgnoreCase("Admin")) {
                         new MainMenuAdmin(id);
@@ -87,7 +87,4 @@ public class LogIn {
         f.setVisible(true);
     }
     
-    public static void main(String[] args) {
-        new LogIn();
-    }
 }

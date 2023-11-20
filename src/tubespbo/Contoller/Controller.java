@@ -11,17 +11,32 @@ public class Controller {
 
     static DatabaseHandler conn = new DatabaseHandler();
 
-    public boolean inputDataToDB(String nama, String email, String password, String photoPath, int kategoriUser) {
+    public boolean inputUserDataToDB(String username, String password, String kategoriUser) {
         conn.connect();
-        String query = "INSERT INTO users (name, email, password, idCategory, photo) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (user_name, user_pass, user_role) VALUES (?, ?, ?)";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
-            stmt.setString(1, nama);
-            stmt.setString(2, email);
-            stmt.setString(3, password);
-            stmt.setInt(4, kategoriUser);
-            stmt.setString(5, photoPath);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, kategoriUser);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean inputDriverDataToDB(String username, String password, String kategoriUser) {
+        conn.connect();
+        String query = "INSERT INTO drivers (user_name, user_pass, user_role) VALUES (?, ?, ?)";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, kategoriUser);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -86,20 +101,20 @@ public class Controller {
         return (id);
     }
 
-    public String getStringCategory(int category) {
+    public boolean getUserName(String username) {
         conn.connect();
-        String query = "SELECT name FROM categoryusers WHERE id = '" + category + "'";
-        String name = "";
+        String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
+        boolean exists = false;
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                name = (rs.getString("name"));
+                exists =  true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return (name);
+        return (exists);
     }
     
     public boolean logIn(String username, String password) {
@@ -118,15 +133,15 @@ public class Controller {
         return exists;
     }
 
-    public String getIDUser(String username) {
+    public int getIDUser(String username) {
         conn.connect();
         String query = "SELECT user_id FROM users WHERE user_name = '" + username + "'";
-        String id = "";
+        int id = 0;
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                id = (rs.getString("user_id"));
+                id = (rs.getInt("user_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,7 +150,7 @@ public class Controller {
         return id;
     }
     
-    public String getRolesUser(String userID) {
+    public String getRolesUser(int userID) {
         conn.connect();
         String query = "SELECT user_role FROM users WHERE user_id = '" + userID + "'";
         String roles = "";
