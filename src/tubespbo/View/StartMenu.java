@@ -83,8 +83,7 @@ public class StartMenu {
         mainMenu.add(buttonLogin);
         mainMenu.add(buttonRegis);
         mainMenu.add(buttonExit);
-        
-        
+
         mainMenu.setSize(400, 600);
         mainMenu.setLayout(null);
         mainMenu.setVisible(true);

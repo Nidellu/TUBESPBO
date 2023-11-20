@@ -52,7 +52,7 @@ public class LogIn {
                     String role = con.getRolesUser(id);
                     if (role.equalsIgnoreCase("Admin")) {
                         new MainMenuAdmin(id);
-                    } else if (role.equalsIgnoreCase("Passangger")) {
+                    } else if (role.equalsIgnoreCase("Passanger")) {
                         new MainMenuPassanger(id);
                     } else if (role.equalsIgnoreCase("Driver")) {
                         new MainMenuDriver(id);

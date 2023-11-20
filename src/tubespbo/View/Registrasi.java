@@ -51,7 +51,7 @@ public class Registrasi {
         textPassword.setBounds(200, 110, 250, 30);
 
         JLabel labelCategory = new JLabel("Category: ");
-        String listCategory[] = {"Driver", "Passangger"};
+        String listCategory[] = {"Driver", "Passanger"};
         JComboBox boxRoles = new JComboBox(listCategory);
         boxRoles.setSelectedItem(null);
         labelCategory.setFont(fontLabel);
@@ -71,8 +71,8 @@ public class Registrasi {
                 if (nama.isEmpty() || password.isEmpty() || roles.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    if (roles.equalsIgnoreCase("Passangger")) {
-                        new RegistrasiUser(nama, password, roles);
+                    if (roles.equalsIgnoreCase("Passanger")) {
+                        new RegistrasiPassanger(nama, password, roles);
                         f.dispose();
                     } else if (roles.equalsIgnoreCase("Driver")) {
                         new RegistrasiDriver(nama, password, roles);
@@ -96,8 +96,6 @@ public class Registrasi {
         f.add(intro);
         f.add(intro2);
 
-        f.add(labelEmail);
-        f.add(textEmail);
         f.add(labelNama);
         f.add(textNama);
         f.add(labelPassword);

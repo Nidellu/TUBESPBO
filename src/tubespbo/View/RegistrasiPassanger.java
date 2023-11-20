@@ -15,13 +15,13 @@ import tubespbo.Contoller.Controller;
  *
  * @author brian
  */
-public class RegistrasiDriver {
+public class RegistrasiPassanger {
 
-    public RegistrasiDriver(String username, String password, String roles) {
+    public RegistrasiPassanger(String username, String password, String roles) {
         form(username, password, roles);
     }
 
-    private void form(String username, String password, String roles) {
+    private void form(String username,String password, String roles) {
         JFrame f = new JFrame("Form Registrasi Driver");
         Controller con = new Controller();
 
@@ -35,32 +35,12 @@ public class RegistrasiDriver {
         intro2.setBounds(10, 30, 350, 30);
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
-
+        
         JLabel labelTelepon = new JLabel("Nomor  Telepon ");
         JTextField textTelepon = new JTextField();
         labelTelepon.setFont(fontLabel);
         labelTelepon.setBounds(10, 80, 200, 30);
         textTelepon.setBounds(200, 80, 250, 30);
-
-        JLabel labelNama = new JLabel("Nama Kendaraan ");
-        JTextField textNama = new JTextField();
-        labelNama.setFont(fontLabel);
-        labelNama.setBounds(10, 110, 200, 30);
-        textNama.setBounds(200, 110, 250, 30);
-
-        JLabel labelPlat = new JLabel("Plat Nomor Kendaraan ");
-        JTextField textPlat = new JTextField();
-        labelPlat.setFont(fontLabel);
-        labelPlat.setBounds(10, 140, 200, 30);
-        textPlat.setBounds(200, 140, 250, 30);
-
-        JLabel labelJenis = new JLabel("Category: ");
-        String listCategory[] = {"Mobil", "Motor"};
-        JComboBox boxJenis = new JComboBox(listCategory);
-        boxJenis.setSelectedItem(null);
-        labelJenis.setFont(fontLabel);
-        labelJenis.setBounds(10, 170, 200, 30);
-        boxJenis.setBounds(200, 170, 250, 30);
 
         //tombol submit
         JButton insertData = new JButton("Submit");
@@ -69,20 +49,17 @@ public class RegistrasiDriver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String telepon = textTelepon.getText();
-                String namaKendaraan = textNama.getText();
-                String plat = textPlat.getText();
-                String jenis = boxJenis.getSelectedItem().toString();
 
-                if (telepon.isEmpty() || namaKendaraan.isEmpty() || plat.isEmpty() || jenis.isEmpty()) {
+                if (telepon.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
                     boolean succeed = con.inputUserDataToDB(username, password, roles);
                     if (succeed) {
                         int id = con.getIDUser(username);
-                        boolean succeedDriver = con.inputDriverDataToDB(id, telepon, namaKendaraan, jenis, plat);
+                        boolean succeedDriver = con.inputPassangerDataToDB(id, telepon);
                         if (succeedDriver) {
                             JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
-                            new MainMenuDriver(id);
+                            new MainMenuPassanger(id);
                         } else {
                             JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                         }
@@ -113,12 +90,6 @@ public class RegistrasiDriver {
 
         f.add(labelTelepon);
         f.add(textTelepon);
-        f.add(labelNama);
-        f.add(textNama);
-        f.add(labelPlat);
-        f.add(textPlat);
-        f.add(labelJenis);
-        f.add(boxJenis);
 
         f.setSize(500, 400);
         f.setLayout(null);
@@ -126,4 +97,7 @@ public class RegistrasiDriver {
         f.add(backButton);
     }
 
+    public static void main(String[] args) {
+        new RegistrasiPassanger("", "", "");
+    }
 }

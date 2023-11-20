@@ -13,13 +13,14 @@ public class Controller {
 
     public boolean inputUserDataToDB(String username, String password, String kategoriUser) {
         conn.connect();
-        String query = "INSERT INTO users (user_name, user_pass, user_role) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (user_name, user_pass, user_role, user_wallet) VALUES (?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, kategoriUser);
+            stmt.setDouble(4, 0);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -28,15 +29,33 @@ public class Controller {
         }
     }
     
-    public boolean inputDriverDataToDB(String username, String password, String kategoriUser) {
+    public boolean inputDriverDataToDB(int id, String phonNum, String namaKendaraan, String tipe, String plat) {
         conn.connect();
-        String query = "INSERT INTO drivers (user_name, user_pass, user_role) VALUES (?, ?, ?)";
+        String query = "INSERT INTO drivers (driver_id, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            stmt.setString(3, kategoriUser);
+            stmt.setInt(1, id);
+            stmt.setString(2, phonNum);
+            stmt.setString(3, namaKendaraan);
+            stmt.setString(4, tipe);
+            stmt.setString(5, plat);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean inputPassangerDataToDB(int id, String phonNum) {
+        conn.connect();
+        String query = "INSERT INTO passangers (passanger_id, passanger_phonNum) VALUES (?, ?)";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.setInt(1, id);
+            stmt.setString(2, phonNum);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -69,37 +88,37 @@ public class Controller {
 //        return (listUsers);
 //    }
 
-    public ArrayList<String> getCategory() {
-        conn.connect();
-        String query = "SELECT name FROM categoryusers";
-        ArrayList<String> listUsers = new ArrayList<>();
-        try {
-            Statement stmt = conn.con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                listUsers.add(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return (listUsers);
-    }
-
-    public int getIntCategory(String category) {
-        conn.connect();
-        String query = "SELECT id FROM categoryusers WHERE name = '" + category +"'";
-        int id = 0;
-        try {
-            Statement stmt = conn.con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                id = (rs.getInt("id"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return (id);
-    }
+//    public ArrayList<String> getCategory() {
+//        conn.connect();
+//        String query = "SELECT name FROM categoryusers";
+//        ArrayList<String> listUsers = new ArrayList<>();
+//        try {
+//            Statement stmt = conn.con.createStatement();
+//            ResultSet rs = stmt.executeQuery(query);
+//            while (rs.next()) {
+//                listUsers.add(rs.getString("name"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return (listUsers);
+//    }
+//
+//    public int getIntCategory(String category) {
+//        conn.connect();
+//        String query = "SELECT id FROM categoryusers WHERE name = '" + category +"'";
+//        int id = 0;
+//        try {
+//            Statement stmt = conn.con.createStatement();
+//            ResultSet rs = stmt.executeQuery(query);
+//            while (rs.next()) {
+//                id = (rs.getInt("id"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return (id);
+//    }
 
     public boolean getUserName(String username) {
         conn.connect();
