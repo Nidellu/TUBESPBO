@@ -28,7 +28,7 @@ public class Controller {
             return false;
         }
     }
-    
+
     public boolean inputDriverDataToDB(int id, String phonNum, String namaKendaraan, String tipe, String plat) {
         conn.connect();
         String query = "INSERT INTO drivers (driver_id, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?)";
@@ -47,7 +47,7 @@ public class Controller {
             return false;
         }
     }
-    
+
     public boolean inputPassangerDataToDB(int id, String phonNum) {
         conn.connect();
         String query = "INSERT INTO passangers (passanger_id, passanger_phonNum) VALUES (?, ?)";
@@ -87,22 +87,28 @@ public class Controller {
 //        }
 //        return (listUsers);
 //    }
-
-//    public ArrayList<String> getCategory() {
-//        conn.connect();
-//        String query = "SELECT name FROM categoryusers";
-//        ArrayList<String> listUsers = new ArrayList<>();
-//        try {
-//            Statement stmt = conn.con.createStatement();
-//            ResultSet rs = stmt.executeQuery(query);
-//            while (rs.next()) {
-//                listUsers.add(rs.getString("name"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return (listUsers);
-//    }
+    public ArrayList<Passanger> getUserByID(int id) {
+        conn.connect();
+        String query = "SELECT users.user_name, passangers.passanger_phonNum "
+                + "FROM users"
+                + "JOIN passangers ON passangers.passanger_id = users.user_id "
+                + "WHERE passangers.passanger_id = '" + id + "'";
+        ArrayList<Passanger> listPass = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Passanger pass = new Passanger();
+                pass.setUser_name(rs.getString("users.user_name"));
+                pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
+                listPass.add(pass);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listPass);
+    }
+    
 //
 //    public int getIntCategory(String category) {
 //        conn.connect();
@@ -128,14 +134,14 @@ public class Controller {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                exists =  true;
+                exists = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return (exists);
     }
-    
+
     public boolean logIn(String username, String password) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "' AND user_pass = '" + password + "'";
@@ -168,7 +174,7 @@ public class Controller {
         }
         return id;
     }
-    
+
     public String getUsername(int id) {
         conn.connect();
         String query = "SELECT user_name FROM users WHERE user_id = '" + id + "'";
@@ -177,7 +183,7 @@ public class Controller {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                id = (rs.getInt("user_name"));
+                username = (rs.getString("user_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,7 +191,7 @@ public class Controller {
         }
         return username;
     }
-    
+
     public String getRolesUser(int userID) {
         conn.connect();
         String query = "SELECT user_role FROM users WHERE user_id = '" + userID + "'";
@@ -202,4 +208,5 @@ public class Controller {
         }
         return roles;
     }
+
 }

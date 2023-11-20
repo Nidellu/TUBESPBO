@@ -36,14 +36,12 @@ public class Registrasi {
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
-        //Nama
         JLabel labelNama = new JLabel("Username ");
         JTextField textNama = new JTextField();
         labelNama.setFont(fontLabel);
         labelNama.setBounds(10, 80, 200, 30);
         textNama.setBounds(200, 80, 250, 30);
 
-        //Tempat lahir
         JLabel labelPassword = new JLabel("Password ");
         JPasswordField textPassword = new JPasswordField();
         labelPassword.setFont(fontLabel);
