@@ -120,7 +120,7 @@ public class Controller {
 //        return (id);
 //    }
 
-    public boolean getUserName(String username) {
+    public boolean getByUserName(String username) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
         boolean exists = false;
@@ -167,6 +167,23 @@ public class Controller {
 
         }
         return id;
+    }
+    
+    public String getUsername(int id) {
+        conn.connect();
+        String query = "SELECT user_name FROM users WHERE user_id = '" + id + "'";
+        String username = "";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                id = (rs.getInt("user_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return username;
     }
     
     public String getRolesUser(int userID) {

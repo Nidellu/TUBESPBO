@@ -71,12 +71,17 @@ public class Registrasi {
                 if (nama.isEmpty() || password.isEmpty() || roles.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    if (roles.equalsIgnoreCase("Passanger")) {
-                        new RegistrasiPassanger(nama, password, roles);
-                        f.dispose();
-                    } else if (roles.equalsIgnoreCase("Driver")) {
-                        new RegistrasiDriver(nama, password, roles);
-                        f.dispose();
+                    boolean check = con.getByUserName(nama);
+                    if (!check) {
+                        if (roles.equalsIgnoreCase("Passanger")) {
+                            new RegistrasiPassanger(nama, password, roles);
+                            f.dispose();
+                        } else if (roles.equalsIgnoreCase("Driver")) {
+                            new RegistrasiDriver(nama, password, roles);
+                            f.dispose();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(f, "Maaf username udah diambil deh", "", JOptionPane.WARNING_MESSAGE);
                     }
                 }
 
