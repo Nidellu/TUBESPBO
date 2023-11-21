@@ -25,7 +25,7 @@ public class MainMenuPassanger {
         
         String nameDisplay = con.getUsername(id);
 
-        JLabel intro = new JLabel("Selamat Datang Kembali, " + nameDisplay + "!");
+        JLabel intro = new JLabel("Selamat Datang di Josen " + nameDisplay + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
         JLabel intro2 = new JLabel("Kita jalan kemana yuk!");
         Font font2 = new Font("Courier", Font.PLAIN, 16);
@@ -82,7 +82,7 @@ public class MainMenuPassanger {
         cekOrder.setBounds(70, 270, 350, 30);
         cekOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                new CekOrder(id);
             }
         });
         
@@ -91,7 +91,8 @@ public class MainMenuPassanger {
         logOut.setBounds(340, 500, 100, 30);
         logOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                new StartMenu();
+                f.dispose();
             }
         });       
         

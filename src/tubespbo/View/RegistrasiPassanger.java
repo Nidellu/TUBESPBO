@@ -63,8 +63,8 @@ public class RegistrasiPassanger {
                         int id = con.getIDUser(username);
                         boolean succeedDriver = con.inputPassangerDataToDB(id, telepon);
                         if (succeedDriver) {
-                            JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
-                            new MainMenuPassanger(id);
+                            JOptionPane.showMessageDialog(f, "Data berhasil disimpan,  Silahkan Login");
+                            new LogIn();
                         } else {
                             JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                         }
