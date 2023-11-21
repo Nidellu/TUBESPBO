@@ -130,6 +130,41 @@ public class Controller {
         return (listPass);
     }
 
+    public OrderStatusEnum getEnum(String type) {
+        if (type.equalsIgnoreCase("FINISHED")) {
+            return OrderStatusEnum.FINISHED;
+        } else if (type.equalsIgnoreCase("NOW")) {
+            return OrderStatusEnum.NOW;
+        } else if (type.equalsIgnoreCase("CANCEL")) {
+            return OrderStatusEnum.CANCEL;
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<Order> getOrder() {
+        conn.connect();
+        String query = "SELECT order_destination, order_date, order_final_price, order_status, order_vehicle_name "
+                + "FROM orders";
+        ArrayList<Order> listOrder = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Order orders = new Order();
+                orders.setOrder_destination(rs.getString("order_destination"));
+                orders.setOrder_date(rs.getDate("order_date"));
+                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_status(getEnum(rs.getString("order_status")));
+                orders.setOrder_vehicle_name(rs.getString("order_vehicle_name"));
+                listOrder.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listOrder);
+    }
+
     public boolean getByUserName(String username) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
