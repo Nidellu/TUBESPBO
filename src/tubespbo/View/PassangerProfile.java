@@ -59,7 +59,7 @@ public class PassangerProfile {
         buttonGanti.setBounds(40, 480, 400, 30);
         buttonGanti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+              new GantiPassword(id, pass.get(pass.size() - 1).getUser_pass());
             }
         });
 
@@ -67,8 +67,9 @@ public class PassangerProfile {
         buttonSimpan.setBounds(40, 515, 400, 30);
         buttonSimpan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                boolean succeed = con.updateDataPassangerToDB(id, textNama.getText(), textTelepon.getText());
-                if (succeed) {
+                boolean succeed = con.updateUserNameDataPassangerToDB(id, textNama.getText());
+                boolean succeed2 = con.updatePhoneNumDataPassangerToDB(id, textTelepon.getText());
+                if (succeed && succeed2) {
                     JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
                 } else {
                     JOptionPane.showMessageDialog(f, "Gagal di Update", "", JOptionPane.WARNING_MESSAGE);

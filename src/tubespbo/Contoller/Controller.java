@@ -64,10 +64,23 @@ public class Controller {
         }
     }
 
-    public boolean updateDataPassangerToDB(int idMasuk, String username, String telepon) {
+    public boolean updateUserNameDataPassangerToDB(int idMasuk, String username) {
         conn.connect();
-        String query = "UPDATE users SET users.user_name = 'Stevenss' WHERE users.user_id = '5';"
-                + "UPDATE passangers SET passangers.passanger_phonNum = '00000' WHERE passangers.passanger_id = '5';";
+        String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" +idMasuk + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean updatePhoneNumDataPassangerToDB(int idMasuk,String telepon) {
+        conn.connect();
+        String query =  "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" +idMasuk + "';";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
@@ -104,7 +117,7 @@ public class Controller {
 //    }
     public ArrayList<Passanger> getUserByID(int id) {
         conn.connect();
-        String query = "SELECT users.user_name, passangers.passanger_phonNum "
+        String query = "SELECT users.user_name, users.user_pass, passangers.passanger_phonNum "
                 + "FROM users "
                 + "JOIN passangers ON passangers.passanger_id = users.user_id "
                 + "WHERE passangers.passanger_id = '" + id + "'";
@@ -115,6 +128,7 @@ public class Controller {
             while (rs.next()) {
                 Passanger pass = new Passanger();
                 pass.setUser_name(rs.getString("users.user_name"));
+                pass.setUser_pass(rs.getString("users.user_pass"));
                 pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
 
                 listPass.add(pass);
