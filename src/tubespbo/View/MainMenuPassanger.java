@@ -47,9 +47,9 @@ public class MainMenuPassanger {
             }
         });
         
-        JButton buttonCari = new JButton("Pesan Order");
+        JButton buttonCari = new JButton("Pesan JoRide");
         buttonCari.setFont(fontButton);
-        buttonCari.setBounds(215, 300, 100, 30);
+        buttonCari.setBounds(215, 300, 200, 30);
         buttonCari.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 //                

@@ -8,8 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.border.*;
 import javax.swing.JTextField;
 import tubespbo.Contoller.Controller;
 import tubespbo.Model.Passanger;
@@ -59,7 +57,9 @@ public class PassangerProfile {
         buttonGanti.setBounds(40, 480, 400, 30);
         buttonGanti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              new GantiPassword(id, pass.get(pass.size() - 1).getUser_pass());
+                JOptionPane.showMessageDialog(f, pass.get(pass.size() - 1).getUser_pass());
+                new GantiPassword(id, pass.get(pass.size() - 1).getUser_pass());
+                f.dispose();
             }
         });
 
@@ -107,7 +107,4 @@ public class PassangerProfile {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new PassangerProfile(5);
-    }
 }

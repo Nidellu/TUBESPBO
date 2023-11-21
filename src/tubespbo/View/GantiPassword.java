@@ -9,8 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.border.*;
-import javax.swing.JTextField;
 import tubespbo.Contoller.Controller;
 import tubespbo.Model.Passanger;
 
@@ -41,28 +39,31 @@ public class GantiPassword {
 
         JLabel password = new JLabel("Password Lama");
         password.setFont(fontLabel);
-        password.setBounds(40, 130, 100, 30);
+        password.setBounds(30, 130, 200, 30);
         JPasswordField inputPassword = new JPasswordField();
-        inputPassword.setBounds(120, 130, 200, 30);
+        inputPassword.setBounds(260, 130, 200, 30);
         
-        JLabel passwordBaru = new JLabel("Password Lama");
+        JLabel passwordBaru = new JLabel("Password Baru");
         passwordBaru.setFont(fontLabel);
-        passwordBaru.setBounds(40, 130, 100, 30);
+        passwordBaru.setBounds(30, 170, 200, 30);
         JPasswordField inputPasswordBaru = new JPasswordField();
-        inputPasswordBaru.setBounds(120, 130, 200, 30);
+        inputPasswordBaru.setBounds(260, 170, 200, 30);
 
-        JButton buttonSimpan = new JButton("Simpan");
+        JButton buttonSimpan = new JButton("Ubah Password");
         buttonSimpan.setBounds(40, 515, 400, 30);
         buttonSimpan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String password = String.valueOf(inputPassword.getPassword());
-                if (passwordCheck == password) {
-                    boolean succeed = con.updateUserNameDataPassangerToDB(id, password);
+                String passwordBaru = String.valueOf(inputPasswordBaru.getPassword());
+                if (passwordCheck.equals(password)) {
+                    boolean succeed = con.updatePasswordDataPassangerToDB(id, passwordBaru);
                     if (succeed) {
                         JOptionPane.showMessageDialog(f, "Password Berhasil diubah");
+                        f.dispose();
+                        new PassangerProfile(id);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(f, "Password Tidak Sama!", "", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(f, "Password Lama Tidak Sama!", "", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -85,6 +86,8 @@ public class GantiPassword {
         f.add((intro));
         f.add((password));
         f.add(inputPassword);
+        f.add(passwordBaru);
+        f.add(inputPasswordBaru);
         f.add(backButton);
         f.add(lineDiv);
 

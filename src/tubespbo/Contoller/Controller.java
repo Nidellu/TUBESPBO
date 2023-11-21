@@ -66,7 +66,7 @@ public class Controller {
 
     public boolean updateUserNameDataPassangerToDB(int idMasuk, String username) {
         conn.connect();
-        String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" +idMasuk + "';";
+        String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" + idMasuk + "';";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
@@ -77,10 +77,24 @@ public class Controller {
             return false;
         }
     }
-    
-    public boolean updatePhoneNumDataPassangerToDB(int idMasuk,String telepon) {
+
+    public boolean updatePhoneNumDataPassangerToDB(int idMasuk, String telepon) {
         conn.connect();
-        String query =  "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" +idMasuk + "';";
+        String query = "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" + idMasuk + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updatePasswordDataPassangerToDB(int idMasuk, String pass) {
+        conn.connect();
+        String query = "UPDATE users SET user_pass = '" + pass + "' WHERE user_id = '" + idMasuk + "';";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
