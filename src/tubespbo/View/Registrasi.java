@@ -56,8 +56,11 @@ public class Registrasi {
         labelCategory.setBounds(10, 140, 200, 30);
         boxRoles.setBounds(200, 140, 250, 30);
 
+        Font fontButton = new Font("Courier", Font.BOLD, 12);
+
         //tombol submit
         JButton next = new JButton("Lanjut");
+        next.setFont(fontButton);
         next.setBounds(260, 300, 150, 30);
         next.addActionListener(new ActionListener() {
             @Override
@@ -89,6 +92,7 @@ public class Registrasi {
 
         JButton backButton = new JButton("Back to Main Menu");
         backButton.setBounds(60, 300, 150, 30);
+        backButton.setFont(fontButton);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();

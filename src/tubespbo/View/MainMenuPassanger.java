@@ -38,6 +38,7 @@ public class MainMenuPassanger {
         lineDiv.setBounds(10, 50, 500, 20);
         
         JButton profileButton = new JButton("Check Profil");
+        profileButton.setFont(fontButton);
         profileButton.setBounds(10, 80, 470, 30);
         profileButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

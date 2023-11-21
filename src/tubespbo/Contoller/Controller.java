@@ -64,6 +64,21 @@ public class Controller {
         }
     }
 
+    public boolean updateDataPassangerToDB(int idMasuk, String username, String telepon) {
+        conn.connect();
+        String query = "UPDATE users SET users.user_name = 'Stevenss' WHERE users.user_id = '5';"
+                + "UPDATE passangers SET passangers.passanger_phonNum = '00000' WHERE passangers.passanger_id = '5';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 //    public ArrayList<User> getUserCategory(int category) {
 //        conn.connect();
 //        String query = "SELECT * FROM users WHERE idCategory = '" + category + "'";
@@ -90,9 +105,9 @@ public class Controller {
     public ArrayList<Passanger> getUserByID(int id) {
         conn.connect();
         String query = "SELECT users.user_name, passangers.passanger_phonNum "
-                + "FROM users"
-                + "JOIN passangers ON passangers.passanger_id = users.user_id"
-                + "WHERE passangers.passanger_id = '" + id +"'";
+                + "FROM users "
+                + "JOIN passangers ON passangers.passanger_id = users.user_id "
+                + "WHERE passangers.passanger_id = '" + id + "'";
         ArrayList<Passanger> listPass = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();
@@ -101,7 +116,7 @@ public class Controller {
                 Passanger pass = new Passanger();
                 pass.setUser_name(rs.getString("users.user_name"));
                 pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
-                
+
                 listPass.add(pass);
             }
         } catch (SQLException e) {

@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.border.*;
 import javax.swing.JTextField;
 import tubespbo.Contoller.Controller;
 import tubespbo.Model.Passanger;
@@ -25,50 +26,79 @@ public class PassangerProfile {
 
         ArrayList<Passanger> pass = con.getUserByID(id);
 
-        JOptionPane.showMessageDialog(f, pass, "", JOptionPane.WARNING_MESSAGE);
-
-        JLabel intro = new JLabel("Hai Kamu, " + pass.get(pass.size() - 1).getUser_name() + "!");
+        JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
         JLabel intro2 = new JLabel("Mau update apa nih?");
         Font font2 = new Font("Courier", Font.PLAIN, 16);
         intro.setFont(font);
         intro2.setFont(font2);
-        intro.setBounds(10, 10, 400, 30);
-        intro2.setBounds(10, 30, 300, 30);
+        intro.setBounds(30, 70, 400, 30);
+        intro2.setBounds(30, 90, 300, 30);
 
-        Font fontButton = new Font("Courier", Font.BOLD, 12);
+        Font fontButton = new Font("Courier", Font.BOLD, 13);
 
         JLabel lineDiv = new JLabel("_______________________________"
                 + "__________________________________________");
-        lineDiv.setBounds(10, 50, 500, 20);
+        lineDiv.setBounds(10, 120, 500, 20);
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
         JLabel labelNama = new JLabel("Username ");
         JTextField textNama = new JTextField(pass.get(pass.size() - 1).getUser_name());
         labelNama.setFont(fontLabel);
-        labelNama.setBounds(10, 80, 200, 30);
-        textNama.setBounds(200, 80, 250, 30);
+        labelNama.setBounds(30, 160, 100, 30);
+        textNama.setBounds(260, 160, 200, 30);
 
         JLabel labelTelepon = new JLabel("Nomor  Telepon ");
         JTextField textTelepon = new JTextField(pass.get(pass.size() - 1).getPhone_number());
         labelTelepon.setFont(fontLabel);
-        labelTelepon.setBounds(10, 80, 200, 30);
-        textTelepon.setBounds(200, 80, 250, 30);
+        labelTelepon.setBounds(30, 190, 200, 30);
+        textTelepon.setBounds(260, 190, 200, 30);
 
-        JButton buttonCari = new JButton("Pesan Order");
-        buttonCari.setFont(fontButton);
-        buttonCari.setBounds(215, 300, 100, 30);
-        buttonCari.addActionListener(new ActionListener() {
+        JButton buttonGanti = new JButton("Ganti Password");
+        buttonGanti.setBounds(40, 480, 400, 30);
+        buttonGanti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 //                
             }
         });
 
-        f.add(buttonCari);
+        JButton buttonSimpan = new JButton("Simpan");
+        buttonSimpan.setBounds(40, 515, 400, 30);
+        buttonSimpan.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean succeed = con.updateDataPassangerToDB(id, textNama.getText(), textTelepon.getText());
+                if (succeed) {
+                    JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
+                } else {
+                    JOptionPane.showMessageDialog(f, "Gagal di Update", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
+        JButton backButton = new JButton("Kembali");
+
+        backButton.setFont(fontButton);
+
+        backButton.setBounds(
+                10, 10, 85, 30);
+        backButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new MainMenuPassanger(id);
+            }
+        });
+
+        f.add(buttonSimpan);
+        f.add(buttonGanti);
         f.add((intro));
         f.add((intro2));
-//        f.add(profileButton);
+        f.add(labelNama);
+        f.add(textNama);
+        f.add(labelTelepon);
+        f.add(textTelepon);
+        f.add(backButton);
         f.add(lineDiv);
 
         f.setSize(500, 600);
