@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 
 public class MainMenuPassanger {
 

@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
 
 public class MainMenuDriver {

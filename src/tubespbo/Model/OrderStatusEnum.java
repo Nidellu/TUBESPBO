@@ -4,19 +4,19 @@ public enum OrderStatusEnum {
     NOW{
         @Override
         public String toString() {
-            return "DALAM PERJALANAN";
+            return "Dalam Perjalanan";
         }
     },
     CANCEL{
         @Override
         public String toString() {
-            return "DICANCEL";
+            return "Di Cancel";
         }
     },
     FINISHED{
         @Override
         public String toString() {
-            return "PERJALANAN SELESAI";
+            return "Perjalanan Selesai";
         }
     }
 }

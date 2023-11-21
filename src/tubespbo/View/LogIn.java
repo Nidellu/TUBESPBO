@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 
 public class LogIn {
 

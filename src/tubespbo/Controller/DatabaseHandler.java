@@ -1,4 +1,4 @@
-package tubespbo.Contoller;
+package tubespbo.Controller;
 
 
 import java.sql.Connection;
