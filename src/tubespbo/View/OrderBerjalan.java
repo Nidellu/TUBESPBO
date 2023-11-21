@@ -9,9 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Contoller.Controller;
+import tubespbo.Model.Order;
 import tubespbo.Model.Passanger;
 
 public class OrderBerjalan {
@@ -26,14 +30,12 @@ public class OrderBerjalan {
 
         ArrayList<Passanger> pass = con.getUserByID(id);
 
-        JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
-        JLabel intro2 = new JLabel("Mau update apa nih?");
         Font font2 = new Font("Courier", Font.PLAIN, 16);
+
+        JLabel intro = new JLabel("Orderan saat Ini.");
         intro.setFont(font);
-        intro2.setFont(font2);
         intro.setBounds(30, 70, 400, 30);
-        intro2.setBounds(30, 90, 300, 30);
 
         Font fontButton = new Font("Courier", Font.BOLD, 13);
 
@@ -49,57 +51,58 @@ public class OrderBerjalan {
         labelNama.setBounds(30, 160, 100, 30);
         textNama.setBounds(260, 160, 200, 30);
 
-        JLabel labelTelepon = new JLabel("Nomor  Telepon ");
-        JTextField textTelepon = new JTextField(pass.get(pass.size() - 1).getPhone_number());
-        labelTelepon.setFont(fontLabel);
-        labelTelepon.setBounds(30, 190, 200, 30);
-        textTelepon.setBounds(260, 190, 200, 30);
+        ArrayList<Order> listOrder = new ArrayList<>();
+        
+        DefaultTableModel tableModel = new DefaultTableModel();
 
-        JButton buttonGanti = new JButton("Ganti Password");
-        buttonGanti.setBounds(40, 480, 400, 30);
-        buttonGanti.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new GantiPassword(id, pass.get(pass.size() - 1).getUser_pass());
-                f.dispose();
-            }
-        });
+        JTable table = new JTable(tableModel);
 
-        JButton buttonSimpan = new JButton("Simpan");
-        buttonSimpan.setBounds(40, 515, 400, 30);
-        buttonSimpan.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean succeed = con.updateUserNameDataPassangerToDB(id, textNama.getText());
-                boolean succeed2 = con.updatePhoneNumDataPassangerToDB(id, textTelepon.getText());
-                if (succeed && succeed2) {
-                    JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
-                } else {
-                    JOptionPane.showMessageDialog(f, "Gagal di Update", "", JOptionPane.WARNING_MESSAGE);
+        for (int i = 0; i < listOrder.size(); i++) {
+            int idOrder = listOrder.get(i).getOrder_id();
+            
+            String destanition = listOrder.get(i).getOrder_destination();
+            int userID = listOrder.get(i).getUser_id();
+            
+            
+            Object[] dataRow1 = {idTr, userID, name, gameID, gameName, price};
+            tableModel.insertRow(i, dataRow1);
+            
+            String name = listOrder.get(i).getUsername();
+            int gameID = listOrder.get(i).getGame_id();
+            String gameName = listOrder.get(i).getGameName();
+            String price = listOrder.get(i).getPrice();
+            JButton backButton = new JButton("Back to Game List");
+            backButton.setBounds(170, 350, 150, 30);
+            backButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    f.dispose();
+                    new MenuGameList(id);
                 }
-            }
-        });
+            });
+
+
+        }
+
+        table.setBounds(50, 100, 700, 200);
+        table.setRowHeight(100);
+
+        f.setSize(800, 500);
+        f.add(backButton);
+        f.add(new JScrollPane(table));
 
         JButton backButton = new JButton("Kembali");
-
         backButton.setFont(fontButton);
-
-        backButton.setBounds(
-                10, 10, 85, 30);
+        backButton.setBounds(10, 10, 85, 30);
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuPassanger(id);
+                new CekOrder(id);
             }
         });
 
-        f.add(buttonSimpan);
-        f.add(buttonGanti);
         f.add((intro));
-        f.add((intro2));
         f.add(labelNama);
         f.add(textNama);
-        f.add(labelTelepon);
-        f.add(textTelepon);
         f.add(backButton);
         f.add(lineDiv);
 
