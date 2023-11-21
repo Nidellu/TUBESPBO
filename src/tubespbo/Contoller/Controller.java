@@ -106,29 +106,6 @@ public class Controller {
         }
     }
 
-//    public ArrayList<User> getUserCategory(int category) {
-//        conn.connect();
-//        String query = "SELECT * FROM users WHERE idCategory = '" + category + "'";
-//        ArrayList<User> listUsers = new ArrayList<>();
-//        try {
-//            Statement stmt = conn.con.createStatement();
-//            ResultSet rs = stmt.executeQuery(query);
-//            while (rs.next()) {
-//                User users = new User();
-//                users.setId(rs.getInt("id"));
-//                users.setName(rs.getString("name"));
-//                users.setEmail(rs.getString("email"));
-//                users.setPassword(rs.getString("password"));
-//                users.setIdCategory(rs.getInt("idCategory"));
-//                users.setPhoto(rs.getString("photo"));
-//
-//                listUsers.add(users);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return (listUsers);
-//    }
     public ArrayList<Passanger> getUserByID(int id) {
         conn.connect();
         String query = "SELECT users.user_name, users.user_pass, passangers.passanger_phonNum "
@@ -153,22 +130,6 @@ public class Controller {
         return (listPass);
     }
 
-//
-//    public int getIntCategory(String category) {
-//        conn.connect();
-//        String query = "SELECT id FROM categoryusers WHERE name = '" + category +"'";
-//        int id = 0;
-//        try {
-//            Statement stmt = conn.con.createStatement();
-//            ResultSet rs = stmt.executeQuery(query);
-//            while (rs.next()) {
-//                id = (rs.getInt("id"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return (id);
-//    }
     public boolean getByUserName(String username) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
@@ -252,4 +213,19 @@ public class Controller {
         return roles;
     }
 
+    public double getWallet(int id) {
+        conn.connect();
+        String query = "SELECT user_wallet FROM users WHERE user_id = '" + id + "'";
+        double walletResult = 0;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                walletResult = (rs.getDouble("user_wallet"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (walletResult);
+    }
 }
