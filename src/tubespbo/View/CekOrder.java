@@ -41,7 +41,8 @@ public class CekOrder {
         berjalan.setBounds(70, 260, 350, 30);
         berjalan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                f.dispose();
+                new OrderBerjalan(id);
             }
         });
 
@@ -50,7 +51,8 @@ public class CekOrder {
         riwayat.setBounds(70, 310, 350, 30);
         riwayat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                f.dispose();
+                new OrderRiwayat(id);
             }
         });
 

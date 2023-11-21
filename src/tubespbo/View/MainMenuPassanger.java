@@ -1,4 +1,3 @@
-
 package tubespbo.View;
 
 import java.awt.Color;
@@ -22,7 +21,7 @@ public class MainMenuPassanger {
     private void showDataScreen(int id) {
         Controller con = new Controller();
         JFrame f = new JFrame();
-        
+
         String nameDisplay = con.getUsername(id);
 
         JLabel intro = new JLabel("Selamat Datang di Josen " + nameDisplay + "!");
@@ -34,12 +33,12 @@ public class MainMenuPassanger {
         intro.setBounds(10, 10, 400, 30);
         intro2.setBounds(10, 30, 300, 30);
 
-        Font fontButton = new Font("Courier", Font.BOLD,12);
-        
+        Font fontButton = new Font("Courier", Font.BOLD, 12);
+
         JLabel lineDiv = new JLabel("_______________________________"
                 + "__________________________________________");
         lineDiv.setBounds(10, 50, 500, 20);
-        
+
         JButton profileButton = new JButton("Check Profil");
         profileButton.setFont(fontButton);
         profileButton.setBounds(10, 80, 470, 30);
@@ -49,12 +48,12 @@ public class MainMenuPassanger {
                 new PassangerProfile(id);
             }
         });
-                
+
         double walletDisplay = con.getWallet(id);
         JLabel border = new JLabel();
         border.setBorder(BorderFactory.createLineBorder(Color.black));
         border.setBounds(30, 135, 425, 60);
-        
+
         JLabel wallet = new JLabel("JOPAY: Rp. " + Double.toString(walletDisplay));
         wallet.setFont(font2);
         wallet.setBounds(50, 150, 400, 30);
@@ -64,10 +63,11 @@ public class MainMenuPassanger {
         topUp.setBounds(340, 150, 100, 30);
         topUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                f.dispose();
 //                
             }
         });
-        
+
         JButton pesanRide = new JButton("Pesan JoRide");
         pesanRide.setFont(fontButton);
         pesanRide.setBounds(70, 220, 350, 30);
@@ -76,26 +76,27 @@ public class MainMenuPassanger {
 //                
             }
         });
-        
+
         JButton cekOrder = new JButton("Lihat Pesanan");
         cekOrder.setFont(fontButton);
         cekOrder.setBounds(70, 270, 350, 30);
         cekOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                f.dispose();
                 new CekOrder(id);
             }
         });
-        
+
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
         logOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new StartMenu();
                 f.dispose();
+                new StartMenu();
             }
-        });       
-        
+        });
+
         f.add((intro));
         f.add((intro2));
         f.add(border);
@@ -103,7 +104,7 @@ public class MainMenuPassanger {
         f.add(topUp);
         f.add(profileButton);
         f.add(lineDiv);
-        
+
         f.add(pesanRide);
         f.add(cekOrder);
         f.add(logOut);
@@ -112,7 +113,5 @@ public class MainMenuPassanger {
         f.setLayout(null);
         f.setVisible(true);
     }
-    public static void main(String[] args) {
-        new MainMenuPassanger(5);
-    }
+
 }
