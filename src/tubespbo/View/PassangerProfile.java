@@ -59,7 +59,6 @@ public class PassangerProfile {
         buttonGanti.setBounds(40, 480, 400, 30);
         buttonGanti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(f, pass.get(pass.size() - 1).getUser_pass());
                 new GantiPassword(id, pass.get(pass.size() - 1).getUser_pass());
                 f.dispose();
             }
