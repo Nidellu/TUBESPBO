@@ -160,8 +160,8 @@ public class OrderRiwayat {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new OrderRiwayat(5);
-    }
+    // public static void main(String[] args) {
+    //     new OrderRiwayat(5);
+    // }
 
 }
