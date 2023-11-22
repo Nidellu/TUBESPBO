@@ -37,7 +37,7 @@ public class OrderRiwayat {
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
         JLabel intro = new JLabel("Orderan Selesai.");
-        JLabel intro = new JLabel("Riwayat Orderan.");
+        JLabel intro2 = new JLabel("Riwayat Orderan.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -217,5 +217,5 @@ public class OrderRiwayat {
     // public static void main(String[] args) {
     //     new OrderRiwayat(5);
     // }
-
+    }
 }
