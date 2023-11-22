@@ -289,10 +289,23 @@ public class Controller {
         }
         return (walletResult);
     }
+    
+    // promo's logic start here
+        // adding new promo
+        public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
+            conn.connect();
+            String query = "INSERT INTO promo (promo_code, promo_exp, promo_value) VALUES (?, ?, ?)";
+            PreparedStatement stmt;
+            try {
+                stmt = conn.con.prepareStatement(query);
+                stmt.setString(1, promoCode);
+                stmt.setDate(2, (java.sql.Date) expired);
+                stmt.setFloat(3, promoValue);
+                stmt.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
 }
-
-// promo's logic start here
-    // adding new promo
-    // public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
-    //    return false; 
-    // }
