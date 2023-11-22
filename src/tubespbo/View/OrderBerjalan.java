@@ -1,99 +1,22 @@
 package tubespbo.View;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
+import javax.swing.JTextField;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
-import tubespbo.Model.OrderStatusEnum;
-
-class ButtonRenderer extends JButton implements TableCellRenderer {
-
-    public ButtonRenderer() {
-        setOpaque(true);
-    }
-
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
-        if (isSelected) {
-            setForeground(table.getSelectionForeground());
-            setBackground(table.getSelectionBackground());
-        } else {
-            setForeground(table.getForeground());
-            setBackground(UIManager.getColor("Button.background"));
-        }
-        setText((value == null) ? "" : value.toString());
-        return this;
-    }
-}
-
-class ButtonEditor extends DefaultCellEditor {
-
-    protected JButton button;
-    private String label;
-    private boolean isPushed;
-
-    public ButtonEditor(JCheckBox checkBox, int id) {
-        super(checkBox);
-        button = new JButton();
-        button.setOpaque(true);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DetailOrder(id);
-            }
-        });
-    }
-
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value,
-            boolean isSelected, int row, int column) {
-        if (isSelected) {
-            button.setForeground(table.getSelectionForeground());
-            button.setBackground(table.getSelectionBackground());
-        } else {
-            button.setForeground(table.getForeground());
-            button.setBackground(table.getBackground());
-        }
-        label = (value == null) ? "" : value.toString();
-        button.setText(label);
-        isPushed = true;
-        return button;
-    }
-
-    @Override
-    public Object getCellEditorValue() {
-        if (isPushed) {
-            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-        }
-        isPushed = false;
-        return label;
-    }
-
-    @Override
-    public boolean stopCellEditing() {
-        isPushed = false;
-        return super.stopCellEditing();
-    }
-}
 
 public class OrderBerjalan {
 
@@ -120,7 +43,7 @@ public class OrderBerjalan {
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv.setBounds(10, 100, 968, 20);
+        lineDiv.setBounds(10, 100, 450, 20);
 
         ArrayList<Order> listOrder = con.getOrderNow(id);
 
@@ -131,64 +54,79 @@ public class OrderBerjalan {
             f.add(ingpo);
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("Coba1");
-        tableModel.addColumn("Coba2");
-        tableModel.addColumn("Coba3");
-        tableModel.addColumn("Coba4");
-        tableModel.addColumn("Coba5");
+        int height = (listOrder.size()) * 65;
+        System.out.println(listOrder.size());
 
-        JTable table = new JTable(tableModel);
-
-        for (int i = 0; i < listOrder.size(); i++) {
-            int idOrder = listOrder.get(i).getOrder_id();
-            
-            JOptionPane.showMessageDialog(f, idOrder, "", JOptionPane.WARNING_MESSAGE);
-
-
-            String tujuan = "Tujuan Kota:" + listOrder.get(i).getOrder_destination();
-            double harga = listOrder.get(i).getOrder_final_price();
-            OrderStatusEnum enumOrder = listOrder.get(i).getOrder_status();
-            String hasilEnum = enumOrder.toString();
-            String kendaraan = listOrder.get(i).getOrder_vehicle_name();
-
-            Object[] dataRow = {tujuan, "Kendaraan: " + kendaraan, "Rp. " + harga, hasilEnum, "Details"};
-            tableModel.insertRow(i, dataRow);
-            table.getColumn("Coba5").setCellRenderer(new ButtonRenderer());
-            table.getColumn("Coba5").setCellEditor(new ButtonEditor(new JCheckBox(),idOrder));
-        }
-
-        table.setFont(font2);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-
-        table.setBackground(new Color(238, 238, 238));
+        // if (height > 370) {
+        //     height = 370;
+        // }
 
         
+        JPanel containerOrders = new JPanel();
+        containerOrders.setLayout(null);
+        containerOrders.setBounds(5, 120, 425, 370);
+        
+        
 
-        table.setBounds(15, 140, 910, 350);
-        table.setRowHeight(30);
-        table.setShowGrid(false);
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        int orderHeight = 10;
 
-        f.setSize(800, 500);
-        f.add(new JScrollPane(table));
-        f.add(table);
+        for (Order order : listOrder) {
+            JPanel indivOrder = new JPanel(null);
+            indivOrder.setSize(300, 60);
+            indivOrder.setBounds(5, orderHeight, 400, 60);
+            indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+
+            int idOrder = order.getOrder_id();
+
+            JTextField nameField = new JTextField("Tujuan: " + order.getOrder_destination());
+            nameField.setBounds(10, 5, 100, 25);
+            nameField.setBackground(null);
+            nameField.setBorder(null);
+            nameField.setEditable(false);
+            indivOrder.add(nameField);
+            
+            JTextField dateField = new JTextField(order.getOrder_date() + "");
+            dateField.setBounds(150, 5, 150, 25);
+            dateField.setBorder(null);
+            dateField.setEditable(false);
+            indivOrder.add(dateField);
+            
+            JTextField priceField = new JTextField("Rp. " + order.getOrder_final_price() + "");
+            priceField.setBorder(null);
+            priceField.setBounds(300, 5, 70, 25);
+            priceField.setEditable(false);
+            indivOrder.add(priceField);
+            
+            JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
+            status.setBorder(null);
+            status.setBounds(10, 30, 80, 25);
+            status.setEditable(false);
+            indivOrder.add(status);
+
+            JButton buyButton = new JButton("Details");
+            buyButton.setBounds(300, 30, 90, 25);
+            buyButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    f.dispose();
+                    new DetailOrder(id, idOrder);
+                }
+            });
+            indivOrder.setVisible(true);
+            indivOrder.add(buyButton);
+            containerOrders.add(indivOrder);
+            containerOrders.setVisible(true);
+            orderHeight += 65;
+        }
 
         JLabel lineDiv2 = new JLabel("__________________________________"
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv2.setBounds(10, 500, 968, 20);
+        lineDiv2.setBounds(10, 510, 450, 20);
 
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
-        backButton.setBounds(10, 10, 85, 30);
+        backButton.setBounds(10, 10, 150, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -196,19 +134,29 @@ public class OrderBerjalan {
             }
         });
 
+        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // scrollPaneOrder.setVisible(false);
+        scrollPaneOrder.setBorder(null);
+        // scrollPaneOrder.setBackground(Color.CYAN);
+        scrollPaneOrder.setBounds(30, 120, 415, 400);
+        // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
+
+        // scrollPaneOrder.add(containerOrders);
+
+        f.getContentPane().add(scrollPaneOrder);
+
+        // f.add(containerOrders);
         f.add((intro));
+        // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);
         f.add(lineDiv2);
 
-        f.setSize(1000, 600);
+        f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new OrderBerjalan(5);
     }
 
 }

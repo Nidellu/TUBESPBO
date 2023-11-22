@@ -7,7 +7,6 @@ package tubespbo.View;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -101,9 +100,9 @@ public class MainMenuAdmin {
         panel.add(table);
         panel.add(sp);
         
-        f.setSize(800, 500);
-        f.add(panel);
-        f.setVisible(true);
+    }
 
+    public static void main(String[] args) {
+        new MainMenuAdmin(1);
     }
 }

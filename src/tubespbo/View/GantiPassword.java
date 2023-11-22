@@ -25,7 +25,7 @@ public class GantiPassword {
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ArrayList<Passanger> pass = con.getUserByID(id);
+        ArrayList<Passanger> pass = con.getPassangerByID(id);
 
         JLabel intro = new JLabel("Mengubah Kata Sandi.");
         Font font = new Font("Courier", Font.BOLD, 20);
