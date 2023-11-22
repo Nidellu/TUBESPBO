@@ -94,12 +94,14 @@ public class MainMenuAdmin {
         table.setRowHeight(50);
 
         JPanel panel = new JPanel(null);
-        panel.add(backButton);
-        panel.add(addPromoBtn);
-        panel.add(seePromoBtn);
-        panel.add(table);
-        panel.add(sp);
-        
+        f.setLayout(null);
+        f.setSize(500, 600);
+        f.add(backButton);
+        f.add(addPromoBtn);
+        f.add(seePromoBtn);
+        f.add(table);
+        f.add(sp);
+        f.setVisible(true);
     }
 
     public static void main(String[] args) {
