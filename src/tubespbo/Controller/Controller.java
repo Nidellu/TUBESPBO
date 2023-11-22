@@ -115,7 +115,7 @@ public class Controller {
     }
 
     // get list of passangers
-    public ArrayList<Passanger> getUserByID(int id) {
+    public ArrayList<Passanger> getPassangerByID(int id) {
         conn.connect();
         String query = "SELECT users.user_name, users.user_pass, passangers.passanger_phonNum "
                 + "FROM users "
@@ -137,6 +137,33 @@ public class Controller {
             e.printStackTrace();
         }
         return (listPass);
+    }
+    
+    public ArrayList<Driver> getDriverByID(int id) {
+        conn.connect();
+        String query = "SELECT users.user_name, users.user_pass, drivers.driver_phonNum, drivers.vehicle_name, drivers.vehicle_type, drivers.vehicle_plate "
+                + "FROM users "
+                + "JOIN drivers ON drivers.driver_id = users.user_id "
+                + "WHERE drivers.driver_id = '" + id + "'";
+        ArrayList<Driver> listDriver = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Driver drivers = new Driver();
+                drivers.setUser_name(rs.getString("users.user_name"));
+                drivers.setUser_pass(rs.getString("users.user_pass"));
+                drivers.setDriver_phonNum(rs.getString("drivers.driver_phonNum"));
+                drivers.setVehicle_name(rs.getString("drivers.vehicle_name"));
+                drivers.setVehicle_type(rs.getString("drivers.vehicle_type"));
+                drivers.setVehicle_plate(rs.getString("drivers.vehicle_plate"));
+
+                listDriver.add(drivers);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listDriver);
     }
 
     // order status
@@ -205,6 +232,29 @@ public class Controller {
         conn.connect();
         String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
                 + "FROM orders WHERE cust_id = '" + id + "' AND order_status = 'NOW'";
+        ArrayList<Order> listOrder = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Order orders = new Order();
+                orders.setOrder_id(rs.getInt("order_id"));
+                orders.setOrder_destination(rs.getString("order_destination"));
+                orders.setOrder_date(rs.getDate("order_date"));
+                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_status(getEnum(rs.getString("order_status")));
+                listOrder.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listOrder);
+    }
+    
+    public ArrayList<Order> getOrderCancelFinish(int id) {
+        conn.connect();
+        String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
+                + "FROM orders WHERE cust_id = '" + id + "' AND (order_status = 'FINISHED' OR order_status = 'CANCEL')";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();
