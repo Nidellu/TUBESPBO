@@ -81,10 +81,17 @@ public class AddPromo {
                     String codePromo = codePromoField.getText();
                     String promoVal = promoValField.getText();
                     float promoValFloat = Float.parseFloat(promoVal);                
-                    Date expiredDate = (Date) expdatePicker.getModel().getValue();
+                    java.util.Date utilDate = (java.util.Date) expdatePicker.getModel().getValue();
+                    Date expiredDate = new Date(utilDate.getTime());
 
-                    cntrl.addNewPromo(codePromo, promoValFloat, expiredDate);
+                    boolean valid = cntrl.addNewPromo(codePromo, promoValFloat, expiredDate);
+                    if (valid == true) {
+                        JOptionPane.showMessageDialog(null, "PROMO BERHASIL DITAMBAHKAN!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "GAGAL MENAMBAHKAN PROMO!", "Upss", JOptionPane.ERROR_MESSAGE);
+                    }
                     f.dispose();
+                    new SeeAndDeletePromo(id);
                 }
             }
 

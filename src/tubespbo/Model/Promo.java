@@ -1,6 +1,6 @@
 package tubespbo.Model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Promo {
     private int promoID;
