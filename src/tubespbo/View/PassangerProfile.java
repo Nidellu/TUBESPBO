@@ -25,7 +25,7 @@ public class PassangerProfile {
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ArrayList<Passanger> pass = con.getUserByID(id);
+        ArrayList<Passanger> pass = con.getPassangerByID(id);
 
         JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
