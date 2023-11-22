@@ -1,5 +1,6 @@
 package tubespbo.Controller;
-
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -401,10 +402,88 @@ public class Controller {
         return (walletResult);
     }
     
-}
+  
+    // promo's logic start here
+        // adding new promo
+        public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
+            conn.connect();
+            String query = "INSERT INTO promo (promo_code, promo_exp, promo_value) VALUES (?, ?, ?)";
+            PreparedStatement stmt;
+            try {
+                stmt = conn.con.prepareStatement(query);
+                stmt.setString(1, promoCode);
+                stmt.setDate(2, (java.sql.Date) expired);
+                stmt.setFloat(3, promoValue);
+                stmt.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
 
-// promo's logic start here
-// adding new promo
-// public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
-//    return false; 
-    // }
+    // show all promo 
+        public ArrayList<Promo> getPromoList() {
+            conn.connect();
+            String query = "SELECT * FROM promo ORDER BY promo_exp"; // biar nampilin dari promo yang terbaru
+            ArrayList<Promo> listpPromos = new ArrayList<>();
+            try {
+                Statement stmt = conn.con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    Promo prm = new Promo();
+                    prm.setPromoID(rs.getInt("promo_id"));
+                    prm.setPromoCode(rs.getString("promo_code"));
+                    prm.setPromoValue(rs.getFloat("promo_value"));
+                    prm.setExpired(rs.getDate("promo_exp"));
+                    listpPromos.add(prm);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return (listpPromos);
+        }
+
+    // check if the promo code still valid or not compared to current date
+        public boolean checkPromoValidation(int id) {
+            boolean valid = true;
+
+            try {
+                conn.connect();
+                String query = "SELECT promo_exp FROM promo WHERE promo_id = '" + id + "'";
+                try (Statement stmt = conn.con.createStatement();
+                    ResultSet rs = stmt.executeQuery(query)) {
+
+                    if (rs.next()) {
+                        // Move the date retrieval inside the 'if' block
+                        LocalDate expirationDate = rs.getDate("promo_exp").toLocalDate();
+                        LocalDate currentDate = LocalDate.now();
+                        
+                        // Compare dates using LocalDate methods
+                        valid = !currentDate.isAfter(expirationDate);
+                    } else {
+                        System.out.println("Promo code not found for id: " + id);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return valid;
+        }
+    
+    // deleting promo
+    public static boolean deletePromo(int id) {
+        conn.connect();
+
+        String query = "DELETE FROM promo WHERE promo_id='" + id + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
+}
