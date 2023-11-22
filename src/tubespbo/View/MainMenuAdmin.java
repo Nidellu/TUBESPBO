@@ -68,7 +68,7 @@ public class MainMenuAdmin {
         addPromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new AddPromo();
+                new AddPromo(id);
             }
         });
     
@@ -78,7 +78,7 @@ public class MainMenuAdmin {
         seePromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new SeeAndDeletePromo();
+                new SeeAndDeletePromo(id);
             }
         });
 
