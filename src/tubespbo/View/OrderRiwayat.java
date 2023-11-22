@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
@@ -33,8 +36,8 @@ public class OrderRiwayat {
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
-
         JLabel intro = new JLabel("Orderan Selesai.");
+        JLabel intro = new JLabel("Riwayat Orderan.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -44,9 +47,13 @@ public class OrderRiwayat {
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
+
         lineDiv.setBounds(10, 100, 968, 20);
 
         ArrayList<Order> listOrder = con.getOrderCancelFinish(id);
+        lineDiv.setBounds(10, 100, 450, 20);
+
+        ArrayList<Order> listOrder = con.getOrderHistory(id);
 
         if (listOrder.isEmpty()) {
             JLabel ingpo = new JLabel("Yah... Order masih kosong nih :'(");
@@ -92,6 +99,56 @@ public class OrderRiwayat {
             gamePanel.add(status);
 
             JButton buyButton = new JButton("Details");
+        System.out.println(listOrder.size());
+
+        // if (height > 370) {
+        //     height = 370;
+        // }
+
+        
+        JPanel containerOrders = new JPanel();
+        containerOrders.setLayout(null);
+        containerOrders.setBounds(5, 120, 425, 370);
+        
+        
+
+        int orderHeight = 10;
+
+        for (Order order : listOrder) {
+            JPanel indivOrder = new JPanel(null);
+            indivOrder.setSize(300, 60);
+            indivOrder.setBounds(5, orderHeight, 400, 60);
+            indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+
+            int idOrder = order.getOrder_id();
+
+            JTextField nameField = new JTextField("Tujuan: " + order.getOrder_destination());
+            nameField.setBounds(10, 5, 100, 25);
+            nameField.setBackground(null);
+            nameField.setBorder(null);
+            nameField.setEditable(false);
+            indivOrder.add(nameField);
+            
+            JTextField dateField = new JTextField(order.getOrder_date() + "");
+            dateField.setBounds(150, 5, 150, 25);
+            dateField.setBorder(null);
+            dateField.setEditable(false);
+            indivOrder.add(dateField);
+            
+            JTextField priceField = new JTextField("Rp. " + order.getOrder_final_price() + "");
+            priceField.setBorder(null);
+            priceField.setBounds(300, 5, 70, 25);
+            priceField.setEditable(false);
+            indivOrder.add(priceField);
+            
+            JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
+            status.setBorder(null);
+            status.setBounds(10, 30, 80, 25);
+            status.setEditable(false);
+            indivOrder.add(status);
+
+            JButton buyButton = new JButton("Details");
+            buyButton.setBounds(300, 30, 90, 25);
             buyButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
@@ -103,6 +160,11 @@ public class OrderRiwayat {
             gamePanel.setOpaque(true);
 
             gamePanelContainer.add(gamePanel);
+            indivOrder.setVisible(true);
+            indivOrder.add(buyButton);
+            containerOrders.add(indivOrder);
+            containerOrders.setVisible(true);
+            orderHeight += 65;
         }
 
         JLabel lineDiv2 = new JLabel("__________________________________"
@@ -111,9 +173,12 @@ public class OrderRiwayat {
                 + "___________________________");
         lineDiv2.setBounds(10, 500, 968, 20);
 
+        lineDiv2.setBounds(10, 510, 450, 20);
+
+
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
-        backButton.setBounds(10, 10, 85, 30);
+        backButton.setBounds(10, 10, 150, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -124,13 +189,33 @@ public class OrderRiwayat {
         f.add(gamePanelContainer);
         f.add((intro));
 
+        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // scrollPaneOrder.setVisible(false);
+        scrollPaneOrder.setBorder(null);
+        // scrollPaneOrder.setBackground(Color.CYAN);
+        scrollPaneOrder.setBounds(30, 120, 415, 400);
+        // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
+
+        // scrollPaneOrder.add(containerOrders);
+
+        f.getContentPane().add(scrollPaneOrder);
+
+        // f.add(containerOrders);
+        f.add((intro));
+        // f.add(scrollPaneOrder);
+
         f.add(backButton);
         f.add(lineDiv);
         f.add(lineDiv2);
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
+
+    // public static void main(String[] args) {
+    //     new OrderRiwayat(5);
+    // }
 
 }
