@@ -13,6 +13,8 @@ public class Promo {
         this.promoValue = promoValue;
         this.expired = expired;
     }
+    public Promo() {
+    }
     public int getPromoID() {
         return promoID;
     }
