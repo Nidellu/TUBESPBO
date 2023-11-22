@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 import tubespbo.Model.Passanger;
 
 public class OrderRiwayat {
@@ -26,7 +26,7 @@ public class OrderRiwayat {
 
         ArrayList<Passanger> pass = con.getUserByID(id);
 
-        JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
+        JLabel intro = new JLabel("Riwayat Order.");
         Font font = new Font("Courier", Font.BOLD, 20);
         JLabel intro2 = new JLabel("Mau update apa nih?");
         Font font2 = new Font("Courier", Font.PLAIN, 16);
@@ -49,7 +49,7 @@ public class OrderRiwayat {
         labelNama.setBounds(30, 160, 100, 30);
         textNama.setBounds(260, 160, 200, 30);
 
-        JLabel labelTelepon = new JLabel("Nomor  Telepon ");
+        JLabel labelTelepon = new JLabel("Nomor Telepon ");
         JTextField textTelepon = new JTextField(pass.get(pass.size() - 1).getPhone_number());
         labelTelepon.setFont(fontLabel);
         labelTelepon.setBounds(30, 190, 200, 30);
@@ -79,13 +79,9 @@ public class OrderRiwayat {
         });
 
         JButton backButton = new JButton("Kembali");
-
         backButton.setFont(fontButton);
-
-        backButton.setBounds(
-                10, 10, 85, 30);
+        backButton.setBounds(10, 10, 85, 30);
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new MainMenuPassanger(id);

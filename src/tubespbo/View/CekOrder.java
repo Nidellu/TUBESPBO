@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 
 public class CekOrder {
 
@@ -24,21 +24,28 @@ public class CekOrder {
 
         String nameDisplay = con.getUsername(id);
 
-        JLabel intro = new JLabel("Pesanan.");
         Font font = new Font("Courier", Font.BOLD, 20);
-
+        Font font2 = new Font("Courier", Font.PLAIN, 16);
+        
+        JLabel intro = new JLabel("Pesanan.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
+        JLabel intro2 = new JLabel("Yang kamu order ada disini kok");
+        intro2.setFont(font2);
+        intro2.setBounds(30, 95, 300, 30);
 
-        Font fontButton = new Font("Courier", Font.BOLD, 12);
+
+        Font fontButton = new Font("Courier", Font.BOLD, 14);
+        Font fontBack = new Font("Courier", Font.BOLD, 12);
+
 
         JLabel lineDiv = new JLabel("_______________________________"
                 + "__________________________________________");
-        lineDiv.setBounds(10, 90, 500, 20);
+        lineDiv.setBounds(10, 120, 500, 20);
 
         JButton berjalan = new JButton("Dalam Proses");
         berjalan.setFont(fontButton);
-        berjalan.setBounds(70, 260, 350, 30);
+        berjalan.setBounds(60, 280, 350, 30);
         berjalan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -48,7 +55,7 @@ public class CekOrder {
 
         JButton riwayat = new JButton("Riwayat");
         riwayat.setFont(fontButton);
-        riwayat.setBounds(70, 310, 350, 30);
+        riwayat.setBounds(60, 330, 350, 30);
         riwayat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -57,7 +64,7 @@ public class CekOrder {
         });
 
         JButton backButton = new JButton("Kembali");
-        backButton.setFont(fontButton);
+        backButton.setFont(fontBack);
         backButton.setBounds(10, 10, 85, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -69,6 +76,7 @@ public class CekOrder {
         f.add((backButton));
 
         f.add((intro));
+        f.add((intro2));
         f.add(lineDiv);
 
         f.add(berjalan);
@@ -79,7 +87,4 @@ public class CekOrder {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new CekOrder(5);
-    }
 }

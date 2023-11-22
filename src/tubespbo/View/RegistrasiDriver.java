@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 
 /**
  *

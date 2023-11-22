@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import tubespbo.Contoller.Controller;
+import tubespbo.Controller.Controller;
 import tubespbo.Model.Passanger;
 
 public class GantiPassword {

@@ -4,16 +4,16 @@
  */
 package tubespbo.Model;
 
-/**
- *
- * @author brian
- */
+
+import java.sql.Date;
+
 public class Order {
 
-    private String order_id;
-    private String cust_id;
-    private String promo_id;
-    private String driver_id;
+    private int order_id;
+    private int cust_id;
+    private int promo_id;
+    private int driver_id;
+    private Date order_date;
     private String order_pickup;
     private String order_destination;
     private double order_price;
@@ -22,11 +22,12 @@ public class Order {
     private String order_vehicle_plate;
     private OrderStatusEnum order_status;
 
-    public Order(String order_id, String cust_id, String promo_id, String driver_id, String order_pickup, String order_destination, double order_price, double order_final_price, String order_vehicle_name, String order_vehicle_plate, OrderStatusEnum order_status) {
+    public Order(int order_id, int cust_id, int promo_id, int driver_id, Date order_date, String order_pickup, String order_destination, double order_price, double order_final_price, String order_vehicle_name, String order_vehicle_plate, OrderStatusEnum order_status) {
         this.order_id = order_id;
         this.cust_id = cust_id;
         this.promo_id = promo_id;
         this.driver_id = driver_id;
+        this.order_date = order_date;
         this.order_pickup = order_pickup;
         this.order_destination = order_destination;
         this.order_price = order_price;
@@ -36,36 +37,47 @@ public class Order {
         this.order_status = order_status;
     }
 
-    public String getOrder_id() {
+    public Order() {
+    }
+
+    public int getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(String order_id) {
+    public void setOrder_id(int order_id) {
         this.order_id = order_id;
     }
 
-    public String getCust_id() {
+    public int getCust_id() {
         return cust_id;
     }
 
-    public void setCust_id(String cust_id) {
+    public void setCust_id(int cust_id) {
         this.cust_id = cust_id;
     }
 
-    public String getPromo_id() {
+    public int getPromo_id() {
         return promo_id;
     }
 
-    public void setPromo_id(String promo_id) {
+    public void setPromo_id(int promo_id) {
         this.promo_id = promo_id;
     }
 
-    public String getDriver_id() {
+    public int getDriver_id() {
         return driver_id;
     }
 
-    public void setDriver_id(String driver_id) {
+    public void setDriver_id(int driver_id) {
         this.driver_id = driver_id;
+    }
+
+    public Date getOrder_date() {
+        return order_date;
+    }
+
+    public void setOrder_date(Date order_date) {
+        this.order_date = order_date;
     }
 
     public String getOrder_pickup() {
@@ -123,5 +135,6 @@ public class Order {
     public void setOrder_status(OrderStatusEnum order_status) {
         this.order_status = order_status;
     }
+
     
 }
