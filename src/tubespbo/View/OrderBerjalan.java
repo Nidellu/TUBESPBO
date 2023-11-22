@@ -1,27 +1,22 @@
 package tubespbo.View;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.JTextField;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
-import tubespbo.Model.OrderStatusEnum;
 
 public class OrderBerjalan {
 
@@ -48,7 +43,7 @@ public class OrderBerjalan {
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv.setBounds(10, 100, 968, 20);
+        lineDiv.setBounds(10, 100, 450, 20);
 
         ArrayList<Order> listOrder = con.getOrderNow(id);
 
@@ -60,64 +55,78 @@ public class OrderBerjalan {
         }
 
         int height = (listOrder.size()) * 65;
+        System.out.println(listOrder.size());
 
-        if (height > 370) {
-            height = 370;
-        }
+        // if (height > 370) {
+        //     height = 370;
+        // }
 
-        JLayeredPane gamePanelContainer = new JLayeredPane();
-        gamePanelContainer.setLayout(new BoxLayout(gamePanelContainer, BoxLayout.Y_AXIS));
-        gamePanelContainer.setBounds(30, 130, 415, height);
+        
+        JPanel containerOrders = new JPanel();
+        containerOrders.setLayout(null);
+        containerOrders.setBounds(5, 120, 425, 370);
+        
+        
+
+        int orderHeight = 10;
 
         for (Order order : listOrder) {
-            JPanel gamePanel = new JPanel();
+            JPanel indivOrder = new JPanel(null);
+            indivOrder.setSize(300, 60);
+            indivOrder.setBounds(5, orderHeight, 400, 60);
+            indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
 
-            gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
             int idOrder = order.getOrder_id();
 
-            JTextField nameField = new JTextField("    Tujuan: " + order.getOrder_destination() + "\t\t");
+            JTextField nameField = new JTextField("Tujuan: " + order.getOrder_destination());
+            nameField.setBounds(10, 5, 100, 25);
+            nameField.setBackground(null);
             nameField.setBorder(null);
             nameField.setEditable(false);
-            gamePanel.add(nameField);
-
-            JTextField priceField = new JTextField(order.getOrder_date() + "\t               ");
+            indivOrder.add(nameField);
+            
+            JTextField dateField = new JTextField(order.getOrder_date() + "");
+            dateField.setBounds(150, 5, 150, 25);
+            dateField.setBorder(null);
+            dateField.setEditable(false);
+            indivOrder.add(dateField);
+            
+            JTextField priceField = new JTextField("Rp. " + order.getOrder_final_price() + "");
             priceField.setBorder(null);
+            priceField.setBounds(300, 5, 70, 25);
             priceField.setEditable(false);
-            gamePanel.add(priceField);
-
-            JTextField genreField = new JTextField("Rp. " + order.getOrder_final_price() + "\t");
-            genreField.setBorder(null);
-            genreField.setEditable(false);
-            gamePanel.add(genreField);
-
+            indivOrder.add(priceField);
+            
             JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
             status.setBorder(null);
+            status.setBounds(10, 30, 80, 25);
             status.setEditable(false);
-            gamePanel.add(status);
+            indivOrder.add(status);
 
             JButton buyButton = new JButton("Details");
+            buyButton.setBounds(300, 30, 90, 25);
             buyButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
                     new DetailOrder(id, idOrder);
                 }
             });
-            gamePanel.add(buyButton);
-
-            gamePanel.setOpaque(true);
-
-            gamePanelContainer.add(gamePanel);
+            indivOrder.setVisible(true);
+            indivOrder.add(buyButton);
+            containerOrders.add(indivOrder);
+            containerOrders.setVisible(true);
+            orderHeight += 65;
         }
 
         JLabel lineDiv2 = new JLabel("__________________________________"
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv2.setBounds(10, 500, 968, 20);
+        lineDiv2.setBounds(10, 510, 450, 20);
 
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
-        backButton.setBounds(10, 10, 85, 30);
+        backButton.setBounds(10, 10, 150, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -125,8 +134,20 @@ public class OrderBerjalan {
             }
         });
 
-        f.add(gamePanelContainer);
+        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // scrollPaneOrder.setVisible(false);
+        scrollPaneOrder.setBorder(null);
+        // scrollPaneOrder.setBackground(Color.CYAN);
+        scrollPaneOrder.setBounds(30, 120, 415, 400);
+        // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
+
+        // scrollPaneOrder.add(containerOrders);
+
+        f.getContentPane().add(scrollPaneOrder);
+
+        // f.add(containerOrders);
         f.add((intro));
+        // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);
@@ -134,11 +155,8 @@ public class OrderBerjalan {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new OrderBerjalan(5);
     }
 
 }

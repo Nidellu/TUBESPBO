@@ -1,13 +1,16 @@
 package tubespbo.Controller;
-
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
-import tubespbo.Model.*;
+import tubespbo.Model.Driver;
+import tubespbo.Model.Order;
+import tubespbo.Model.OrderStatusEnum;
+import tubespbo.Model.Passanger;
 
 public class Controller {
 
@@ -115,7 +118,7 @@ public class Controller {
     }
 
     // get list of passangers
-    public ArrayList<Passanger> getUserByID(int id) {
+    public ArrayList<Passanger> getPassangerByID(int id) {
         conn.connect();
         String query = "SELECT users.user_name, users.user_pass, passangers.passanger_phonNum "
                 + "FROM users "
@@ -138,6 +141,33 @@ public class Controller {
         }
         return (listPass);
     }
+    
+    public ArrayList<Driver> getDriverByID(int id) {
+        conn.connect();
+        String query = "SELECT users.user_name, users.user_pass, drivers.driver_phonNum, drivers.vehicle_name, drivers.vehicle_type, drivers.vehicle_plate "
+                + "FROM users "
+                + "JOIN drivers ON drivers.driver_id = users.user_id "
+                + "WHERE drivers.driver_id = '" + id + "'";
+        ArrayList<Driver> listDriver = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Driver drivers = new Driver();
+                drivers.setUser_name(rs.getString("users.user_name"));
+                drivers.setUser_pass(rs.getString("users.user_pass"));
+                drivers.setDriver_phonNum(rs.getString("drivers.driver_phonNum"));
+                drivers.setVehicle_name(rs.getString("drivers.vehicle_name"));
+                drivers.setVehicle_type(rs.getString("drivers.vehicle_type"));
+                drivers.setVehicle_plate(rs.getString("drivers.vehicle_plate"));
+
+                listDriver.add(drivers);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listDriver);
+    }
 
     // order status
     public OrderStatusEnum getEnum(String type) {
@@ -151,11 +181,11 @@ public class Controller {
             return null;
         }
     }
-    
+
     // get list of detail order
     public ArrayList<Order> getDetailOrder(int idOrder) {
         conn.connect();
-        String query = "SELECT order_destination, order_date, order_final_price, order_status, order_vehicle_name "
+        String query = "SELECT order_id, driver_id, cust_id, promo_id, order_pickup, order_destination, order_price, order_final_price, order_date, order_status, order_vehicle_name, order_vehicle_plate "
                 + "FROM orders WHERE order_id = '" + idOrder + "'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
@@ -163,12 +193,37 @@ public class Controller {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Order orders = new Order();
+                orders.setDriver_id(rs.getInt("driver_id"));
+                orders.setPromo_id(rs.getInt("promo_id"));
+                orders.setCust_id(rs.getInt("cust_id"));
+                orders.setOrder_pickup(rs.getString("order_pickup"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
+                orders.setOrder_price(rs.getDouble("order_price"));
                 orders.setOrder_final_price(rs.getDouble("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 orders.setOrder_vehicle_name(rs.getString("order_vehicle_name"));
+                orders.setOrder_vehicle_plate(rs.getString("order_vehicle_plate"));
                 listOrder.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listOrder);
+    }
+
+    public String getTimeOrder(int idOrder) {
+        conn.connect();
+        String query = "SELECT order_date "
+                + "FROM orders WHERE order_id = '" + idOrder + "'";
+        String listOrder = "";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Order orders = new Order();
+                listOrder = (rs.getString("order_date"));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,7 +253,53 @@ public class Controller {
         }
         return (listOrder);
     }
+
+    public ArrayList<Order> getOrderHistory(int id) {
+        conn.connect();
+        String query = "SELECT * "
+                + "FROM orders WHERE cust_id = '" + id + "' AND order_status <> 'NOW'";
+        ArrayList<Order> listOrder = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Order orders = new Order();
+                orders.setOrder_id(rs.getInt("order_id"));
+                orders.setOrder_destination(rs.getString("order_destination"));
+                orders.setOrder_date(rs.getDate("order_date"));
+                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_status(getEnum(rs.getString("order_status")));
+                listOrder.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listOrder);
+    }
     
+    public ArrayList<Order> getOrderCancelFinish(int id) {
+        conn.connect();
+        String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
+                + "FROM orders WHERE cust_id = '" + id + "' AND (order_status = 'FINISHED' OR order_status = 'CANCEL')";
+        ArrayList<Order> listOrder = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Order orders = new Order();
+                orders.setOrder_id(rs.getInt("order_id"));
+                orders.setOrder_destination(rs.getString("order_destination"));
+                orders.setOrder_date(rs.getDate("order_date"));
+                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_status(getEnum(rs.getString("order_status")));
+                listOrder.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listOrder);
+    }
+
     // get user by username
     public boolean getByUserName(String username) {
         conn.connect();
@@ -300,10 +401,89 @@ public class Controller {
         }
         return (walletResult);
     }
-}
+    
+  
+    // promo's logic start here
+        // adding new promo
+        public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
+            conn.connect();
+            String query = "INSERT INTO promo (promo_code, promo_exp, promo_value) VALUES (?, ?, ?)";
+            PreparedStatement stmt;
+            try {
+                stmt = conn.con.prepareStatement(query);
+                stmt.setString(1, promoCode);
+                stmt.setDate(2, (java.sql.Date) expired);
+                stmt.setFloat(3, promoValue);
+                stmt.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
 
-// promo's logic start here
-    // adding new promo
-    // public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
-    //    return false; 
-    // }
+    // show all promo 
+        public ArrayList<Promo> getPromoList() {
+            conn.connect();
+            String query = "SELECT * FROM promo ORDER BY promo_exp"; // biar nampilin dari promo yang terbaru
+            ArrayList<Promo> listpPromos = new ArrayList<>();
+            try {
+                Statement stmt = conn.con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                while (rs.next()) {
+                    Promo prm = new Promo();
+                    prm.setPromoID(rs.getInt("promo_id"));
+                    prm.setPromoCode(rs.getString("promo_code"));
+                    prm.setPromoValue(rs.getFloat("promo_value"));
+                    prm.setExpired(rs.getDate("promo_exp"));
+                    listpPromos.add(prm);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return (listpPromos);
+        }
+
+    // check if the promo code still valid or not compared to current date
+        public boolean checkPromoValidation(int id) {
+            boolean valid = true;
+
+            try {
+                conn.connect();
+                String query = "SELECT promo_exp FROM promo WHERE promo_id = '" + id + "'";
+                try (Statement stmt = conn.con.createStatement();
+                    ResultSet rs = stmt.executeQuery(query)) {
+
+                    if (rs.next()) {
+                        // Move the date retrieval inside the 'if' block
+                        LocalDate expirationDate = rs.getDate("promo_exp").toLocalDate();
+                        LocalDate currentDate = LocalDate.now();
+                        
+                        // Compare dates using LocalDate methods
+                        valid = !currentDate.isAfter(expirationDate);
+                    } else {
+                        System.out.println("Promo code not found for id: " + id);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return valid;
+        }
+    
+    // deleting promo
+    public static boolean deletePromo(int id) {
+        conn.connect();
+
+        String query = "DELETE FROM promo WHERE promo_id='" + id + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
+}

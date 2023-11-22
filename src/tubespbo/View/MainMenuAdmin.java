@@ -4,25 +4,15 @@
  */
 package tubespbo.View;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Controller.Controller;
@@ -35,7 +25,6 @@ public class MainMenuAdmin {
     }
 
     private void showDataScreen(int id) {
-
         Controller con = new Controller();
         ArrayList<User> listUser;
 
@@ -79,17 +68,17 @@ public class MainMenuAdmin {
         addPromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new AddPromo();
+                new AddPromo(id);
             }
         });
     
-    //button buat liat dafrat promo
+    //button buat liat daftar promo
         JButton seePromoBtn = new JButton("See All Promo");
         seePromoBtn.setBounds(340, 150, 200, 30);
         seePromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new SeeAndDeletePromo();
+                new SeeAndDeletePromo(id);
             }
         });
 
@@ -110,11 +99,10 @@ public class MainMenuAdmin {
         panel.add(seePromoBtn);
         panel.add(table);
         panel.add(sp);
-
         
     }
 
     public static void main(String[] args) {
-        
+        new MainMenuAdmin(1);
     }
 }

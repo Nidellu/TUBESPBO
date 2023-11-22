@@ -1,6 +1,6 @@
 package tubespbo.Model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Promo {
     private int promoID;
@@ -12,6 +12,8 @@ public class Promo {
         this.promoCode = promoCode;
         this.promoValue = promoValue;
         this.expired = expired;
+    }
+    public Promo() {
     }
     public int getPromoID() {
         return promoID;
