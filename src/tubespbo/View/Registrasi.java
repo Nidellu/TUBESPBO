@@ -30,6 +30,7 @@ public class Registrasi {
 
     private void form() {
         JFrame f = new JFrame("Form Registrasi");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");

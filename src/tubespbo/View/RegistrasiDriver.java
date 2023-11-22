@@ -29,6 +29,7 @@ public class RegistrasiDriver {
 
     private void form(String username, String password, String roles) {
         JFrame f = new JFrame("Form Registrasi Driver");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");

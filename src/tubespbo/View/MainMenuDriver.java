@@ -30,6 +30,7 @@ public class MainMenuDriver {
         ArrayList<User> listUser;
 
         JFrame f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String column[] = {"Id", "Name", "Email", "Password", "Category", "Photos"};
         Object dummy[][] = {};
