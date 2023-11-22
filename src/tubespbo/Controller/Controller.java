@@ -11,6 +11,7 @@ public class Controller {
 
     static DatabaseHandler conn = new DatabaseHandler();
 
+    // input user's data
     public boolean inputUserDataToDB(String username, String password, String kategoriUser) {
         conn.connect();
         String query = "INSERT INTO users (user_name, user_pass, user_role, user_wallet) VALUES (?, ?, ?, ?)";
@@ -29,6 +30,7 @@ public class Controller {
         }
     }
 
+    // input driver's data
     public boolean inputDriverDataToDB(int id, String phonNum, String namaKendaraan, String tipe, String plat) {
         conn.connect();
         String query = "INSERT INTO drivers (driver_id, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?)";
@@ -48,6 +50,7 @@ public class Controller {
         }
     }
 
+    // input passanger's data
     public boolean inputPassangerDataToDB(int id, String phonNum) {
         conn.connect();
         String query = "INSERT INTO passangers (passanger_id, passanger_phonNum) VALUES (?, ?)";
@@ -64,6 +67,7 @@ public class Controller {
         }
     }
 
+    //update username passanger
     public boolean updateUserNameDataPassangerToDB(int idMasuk, String username) {
         conn.connect();
         String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" + idMasuk + "';";
@@ -78,6 +82,7 @@ public class Controller {
         }
     }
 
+    //update phone number passanger
     public boolean updatePhoneNumDataPassangerToDB(int idMasuk, String telepon) {
         conn.connect();
         String query = "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" + idMasuk + "';";
@@ -92,6 +97,7 @@ public class Controller {
         }
     }
 
+    // update passanger's password
     public boolean updatePasswordDataPassangerToDB(int idMasuk, String pass) {
         conn.connect();
         String query = "UPDATE users SET user_pass = '" + pass + "' WHERE user_id = '" + idMasuk + "';";
@@ -106,6 +112,7 @@ public class Controller {
         }
     }
 
+    // get list of passangers
     public ArrayList<Passanger> getUserByID(int id) {
         conn.connect();
         String query = "SELECT users.user_name, users.user_pass, passangers.passanger_phonNum "
@@ -130,6 +137,7 @@ public class Controller {
         return (listPass);
     }
 
+    // order status
     public OrderStatusEnum getEnum(String type) {
         if (type.equalsIgnoreCase("FINISHED")) {
             return OrderStatusEnum.FINISHED;
@@ -142,6 +150,7 @@ public class Controller {
         }
     }
     
+    // get list of detail order
     public ArrayList<Order> getDetailOrder(int idOrder) {
         conn.connect();
         String query = "SELECT order_destination, order_date, order_final_price, order_status, order_vehicle_name "
@@ -189,6 +198,7 @@ public class Controller {
         return (listOrder);
     }
     
+    // get user by username
     public boolean getByUserName(String username) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
@@ -205,6 +215,7 @@ public class Controller {
         return (exists);
     }
 
+    // login
     public boolean logIn(String username, String password) {
         conn.connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "' AND user_pass = '" + password + "'";
@@ -272,6 +283,7 @@ public class Controller {
         return roles;
     }
 
+    // get user's wallet
     public double getWallet(int id) {
         conn.connect();
         String query = "SELECT user_wallet FROM users WHERE user_id = '" + id + "'";
