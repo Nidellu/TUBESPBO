@@ -126,8 +126,4 @@ public class OrderBerjalan {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new OrderBerjalan(5);
-    }
-
 }

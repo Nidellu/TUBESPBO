@@ -9,11 +9,6 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
 import tubespbo.Model.OrderStatusEnum;
@@ -33,33 +28,46 @@ public class DetailOrder {
 
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
-        Font font3 = new Font("Courier", Font.PLAIN, 18);
+        Font font3 = new Font("Courier", Font.PLAIN, 16);
+        Font font4 = new Font("Courier", Font.BOLD, 16);
+        Font fontButton = new Font("Courier", Font.BOLD, 13);
 
-        JLabel intro = new JLabel("Orderan saat Ini.");
+         ArrayList<Order> listOrder = con.getDetailOrder(idOrder);
+        
+        JLabel intro = new JLabel("Detail Pesanan #" + idOrder +".");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
-
-        Font fontButton = new Font("Courier", Font.BOLD, 13);
+        
+        String message = "";
+        if(listOrder.get(listOrder.size()-1).getOrder_status() == OrderStatusEnum.FINISHED){
+            message = "Sudah sampai tujuan.";
+        } else if(listOrder.get(0).getOrder_status() == OrderStatusEnum.CANCEL){
+            message = "Sudah di cancel.";
+        } else if(listOrder.get(0).getOrder_status() == OrderStatusEnum.NOW){
+            message = "Sedang dalam perjalanan";
+        }
+        
+        JLabel intro2 = new JLabel(message);
+        intro2.setFont(font3);
+        intro2.setBounds(30, 95, 400, 30);
 
         JLabel lineDiv = new JLabel("__________________________________"
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv.setBounds(10, 100, 968, 20);
+        lineDiv.setBounds(10, 120, 968, 20);
 
-        ArrayList<Order> listOrder = con.getDetailOrder(id);
+        JLabel email = new JLabel("" + con.getTimeOrder(idOrder));
+        email.setFont(font2);
+        email.setBounds(30, 150, 300, 30);
 
+        String driver = con.getUsername(listOrder.get(listOrder.size()-1).getDriver_id());
         
-
-        
+        JLabel driverName = new JLabel(driver);
+        driverName.setFont(font4);
+        driverName.setBounds(30, 180, 300, 30);
 
         f.setSize(800, 500);
-
-        JLabel lineDiv2 = new JLabel("__________________________________"
-                + "__________________________________________________"
-                + "__________________________________________________"
-                + "___________________________");
-        lineDiv2.setBounds(10, 500, 968, 20);
 
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
@@ -72,14 +80,19 @@ public class DetailOrder {
         });
 
         f.add((intro));
+        f.add(intro2);
 
+        f.add(email);
+        f.add(driverName);
         f.add(backButton);
         f.add(lineDiv);
-        f.add(lineDiv2);
 
-        f.setSize(1000, 600);
+        f.setSize(500, 600);
         f.setLayout(null);
         f.setVisible(true);
     }
 
+    public static void main(String[] args) {
+        new DetailOrder(5,1);
+    }
 }

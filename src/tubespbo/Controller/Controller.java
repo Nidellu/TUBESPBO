@@ -151,11 +151,11 @@ public class Controller {
             return null;
         }
     }
-    
+
     // get list of detail order
     public ArrayList<Order> getDetailOrder(int idOrder) {
         conn.connect();
-        String query = "SELECT order_destination, order_date, order_final_price, order_status, order_vehicle_name "
+        String query = "SELECT order_id, driver_id, cust_id, promo_id, order_pickup, order_destination, order_price, order_final_price, order_date, order_status, order_vehicle_name, order_vehicle_plate "
                 + "FROM orders WHERE order_id = '" + idOrder + "'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
@@ -163,12 +163,37 @@ public class Controller {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Order orders = new Order();
+                orders.setDriver_id(rs.getInt("driver_id"));
+                orders.setPromo_id(rs.getInt("promo_id"));
+                orders.setCust_id(rs.getInt("cust_id"));
+                orders.setOrder_pickup(rs.getString("order_pickup"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
+                orders.setOrder_price(rs.getDouble("order_price"));
                 orders.setOrder_final_price(rs.getDouble("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 orders.setOrder_vehicle_name(rs.getString("order_vehicle_name"));
+                orders.setOrder_vehicle_plate(rs.getString("order_vehicle_plate"));
                 listOrder.add(orders);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listOrder);
+    }
+
+    public String getTimeOrder(int idOrder) {
+        conn.connect();
+        String query = "SELECT order_date "
+                + "FROM orders WHERE order_id = '" + idOrder + "'";
+        String listOrder = "";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Order orders = new Order();
+                listOrder = (rs.getString("order_date"));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,7 +223,7 @@ public class Controller {
         }
         return (listOrder);
     }
-    
+
     // get user by username
     public boolean getByUserName(String username) {
         conn.connect();
@@ -300,10 +325,11 @@ public class Controller {
         }
         return (walletResult);
     }
+    
 }
 
 // promo's logic start here
-    // adding new promo
-    // public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
-    //    return false; 
+// adding new promo
+// public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
+//    return false; 
     // }

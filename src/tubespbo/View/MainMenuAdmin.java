@@ -25,7 +25,6 @@ public class MainMenuAdmin {
     }
 
     private void showDataScreen(int id) {
-
         Controller con = new Controller();
         ArrayList<User> listUser;
 
@@ -100,11 +99,10 @@ public class MainMenuAdmin {
         panel.add(seePromoBtn);
         panel.add(table);
         panel.add(sp);
-
         
     }
 
     public static void main(String[] args) {
-        
+        new MainMenuAdmin(1);
     }
 }
