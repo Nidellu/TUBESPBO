@@ -28,7 +28,7 @@ public class StartMenu {
         JFrame mainMenu = new JFrame("Selamat Datang Di Josen");
         mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        ImageIcon originalFotoIcon = new ImageIcon("E:\\ITHB\\Semester 3\\TUBESPBO\\Picture Source\\Logo\\gojek-icon-512x512-dyy6mlv4.png");
+        ImageIcon originalFotoIcon = new ImageIcon("Picture Source\\Logo\\gojek-icon-512x512-dyy6mlv4.png");
         Image originalFoto = originalFotoIcon.getImage();
         Image resizedFoto = originalFoto.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
         ImageIcon resizedFotoIcon = new ImageIcon(resizedFoto);
