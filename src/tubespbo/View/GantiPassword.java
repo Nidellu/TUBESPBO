@@ -4,11 +4,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Passanger;
 
@@ -21,6 +23,7 @@ public class GantiPassword {
     private void showDataScreen(int id, String passwordCheck) {
         Controller con = new Controller();
         JFrame f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ArrayList<Passanger> pass = con.getUserByID(id);
 

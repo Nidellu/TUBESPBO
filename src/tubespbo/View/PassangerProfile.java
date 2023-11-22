@@ -23,6 +23,7 @@ public class PassangerProfile {
     private void showDataScreen(int id) {
         Controller con = new Controller();
         JFrame f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ArrayList<Passanger> pass = con.getUserByID(id);
 

@@ -21,6 +21,7 @@ public class LogIn {
 
     private void showPencarianScreen() {
         JFrame f = new JFrame("Login");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");
