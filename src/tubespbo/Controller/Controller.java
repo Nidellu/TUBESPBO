@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import tubespbo.Model.*;
 
 public class Controller {
@@ -299,3 +301,9 @@ public class Controller {
         return (walletResult);
     }
 }
+
+// promo's logic start here
+    // adding new promo
+    // public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
+    //    return false; 
+    // }
