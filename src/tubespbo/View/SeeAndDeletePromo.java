@@ -64,35 +64,42 @@ public class SeeAndDeletePromo {
             height = 370;
         }
 
-        JLayeredPane gamePanelContainer = new JLayeredPane();
-        gamePanelContainer.setLayout(new BoxLayout(gamePanelContainer, BoxLayout.Y_AXIS));
-        gamePanelContainer.setBounds(30, 130, 415, height);
+        JLayeredPane promoContainer = new JLayeredPane();
+        promoContainer.setLayout(new BoxLayout(promoContainer, BoxLayout.Y_AXIS));
+        promoContainer.setBounds(30, 130, 415, height);
 
         for (Promo prm : promolList) {
-            JPanel gamePanel = new JPanel();
+            String statPromo ="";
+            JPanel promoPanel = new JPanel();
 
-            gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+            promoPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
             int idPromo = prm.getPromoID();
 
-            JTextField promoCode = new JTextField("    Kode Promo : " + prm.getPromoCode() + "\t\t");
+            JTextField promoCode = new JTextField("Kode Promo : " + prm.getPromoCode() + "\t\t");
             promoCode.setBorder(null);
             promoCode.setEditable(false);
-            gamePanel.add(promoCode);
+            promoPanel.add(promoCode);
 
-            JTextField promoVaField = new JTextField(prm.getPromoValue() + "\t               ");
+            JTextField promoVaField = new JTextField(prm.getExpired() + "\t               ");
             promoVaField.setBorder(null);
             promoVaField.setEditable(false);
-            gamePanel.add(promoVaField);
+            promoPanel.add(promoVaField);
 
-            JTextField expField = new JTextField(" Berlaku Hingga " + prm.getExpired() + "\t");
+            JTextField expField = new JTextField(" Nilai Promo " + prm.getPromoValue() + "\t");
             expField.setBorder(null);
             expField.setEditable(false);
-            gamePanel.add(expField);
+            promoPanel.add(expField);
 
-            // JTextField status = new JTextField(prm.getOrder_status().toString() + "\t\t            ");
-            // status.setBorder(null);
-            // status.setEditable(false);
-            // gamePanel.add(status);
+            // buat status
+            if (cntrl.checkPromoValidation(idPromo) == true) {
+                statPromo = "Masih Berlaku";
+            } else {
+                statPromo = "Expired";
+            }
+            JTextField status = new JTextField(statPromo + "\t\t            ");
+            status.setBorder(null);
+            status.setEditable(false);
+            promoPanel.add(status);
 
             JButton deleteBtn = new JButton("Delete");
             deleteBtn.addActionListener(new ActionListener() {
@@ -100,6 +107,7 @@ public class SeeAndDeletePromo {
                     int choice = JOptionPane.showConfirmDialog(null, "YAKIN MAU HAPUS PRMO INI?", "Confirmation", JOptionPane.YES_NO_OPTION);
                     
                     if (choice == JOptionPane.YES_OPTION) {
+                        
                         JOptionPane.showMessageDialog(null, "PROMO BERHASIL DIHAPUS!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                         
                     } else {
@@ -108,11 +116,11 @@ public class SeeAndDeletePromo {
                     // f.dispose();
                 }
             });
-            gamePanel.add(deleteBtn);
+            promoPanel.add(deleteBtn);
 
-            gamePanel.setOpaque(true);
+            promoPanel.setOpaque(true);
 
-            gamePanelContainer.add(gamePanel);
+            promoContainer.add(promoPanel);
         }
 
         JLabel lineDiv2 = new JLabel("__________________________________"
@@ -131,7 +139,7 @@ public class SeeAndDeletePromo {
             }
         });
 
-        f.add(gamePanelContainer);
+        f.add(promoContainer);
         f.add((intro));
 
         f.add(backButton);

@@ -1,6 +1,7 @@
 package tubespbo.Controller;
 
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -309,7 +310,7 @@ public class Controller {
             }
         }
 
-        // show all promo 
+    // show all promo 
         public ArrayList<Promo> getPromoList() {
             conn.connect();
             String query = "SELECT * FROM promo ORDER BY promo_exp"; // biar nampilin dari promo yang terbaru
@@ -329,6 +330,35 @@ public class Controller {
                 e.printStackTrace();
             }
             return (listpPromos);
+        }
+
+    // check if the promo code still valid or not compared to current date
+        public boolean checkPromoValidation(int id) {
+            boolean valid = true;
+
+            try {
+                conn.connect();
+                String query = "SELECT promo_exp FROM promo WHERE promo_id = '" + id + "'";
+                try (Statement stmt = conn.con.createStatement();
+                    ResultSet rs = stmt.executeQuery(query)) {
+
+                    if (rs.next()) {
+                        // Move the date retrieval inside the 'if' block
+                        LocalDate expirationDate = rs.getDate("promo_exp").toLocalDate();
+                        LocalDate currentDate = LocalDate.now();
+                        
+                        // Compare dates using LocalDate methods
+                        valid = !currentDate.isAfter(expirationDate);
+                    } else {
+                        System.out.println("Promo code not found for id: " + id);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle the exception appropriately, log it or throw a custom exception
+            }
+
+            return valid;
         }
 
 }
