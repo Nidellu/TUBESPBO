@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ public class StartMenu {
 
     private void pilihOpsi() {
         JFrame mainMenu = new JFrame("Selamat Datang Di Josen");
+        mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         ImageIcon originalFotoIcon = new ImageIcon("E:\\ITHB\\Semester 3\\TUBESPBO\\Picture Source\\Logo\\gojek-icon-512x512-dyy6mlv4.png");
         Image originalFoto = originalFotoIcon.getImage();
@@ -86,6 +88,7 @@ public class StartMenu {
 
         mainMenu.setSize(400, 600);
         mainMenu.setLayout(null);
+        mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
     }
 }
