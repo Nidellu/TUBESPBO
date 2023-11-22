@@ -96,6 +96,8 @@ public class MainMenuAdmin {
 
         JPanel panel = new JPanel(null);
         panel.add(backButton);
+        panel.add(addPromoBtn);
+        panel.add(seePromoBtn);
         panel.add(table);
         panel.add(sp);
         
