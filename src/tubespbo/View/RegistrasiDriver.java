@@ -17,10 +17,6 @@ import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
 
-/**
- *
- * @author brian
- */
 public class RegistrasiDriver {
 
     public RegistrasiDriver(String username, String password, String roles) {
