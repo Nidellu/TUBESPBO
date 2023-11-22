@@ -355,10 +355,23 @@ public class Controller {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Handle the exception appropriately, log it or throw a custom exception
             }
 
             return valid;
         }
+    
+    // deleting promo
+    public static boolean deletePromo(int id) {
+        conn.connect();
 
+        String query = "DELETE FROM promo WHERE promo_id='" + id + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
 }

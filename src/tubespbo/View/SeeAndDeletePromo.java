@@ -107,13 +107,17 @@ public class SeeAndDeletePromo {
                     int choice = JOptionPane.showConfirmDialog(null, "YAKIN MAU HAPUS PRMO INI?", "Confirmation", JOptionPane.YES_NO_OPTION);
                     
                     if (choice == JOptionPane.YES_OPTION) {
-                        
-                        JOptionPane.showMessageDialog(null, "PROMO BERHASIL DIHAPUS!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                        if (cntrl.deletePromo(idPromo) == true) {
+                            JOptionPane.showMessageDialog(null, "PROMO BERHASIL DIHAPUS!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "PROMO GAGAL DIHAPUS!", "Upss", JOptionPane.ERROR_MESSAGE);
+                        }
                         
                     } else {
                        JOptionPane.showMessageDialog(null, "PROMO BATAL DIHAPUS!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    // f.dispose();
+                    f.dispose();
+                    new SeeAndDeletePromo(idPromo);
                 }
             });
             promoPanel.add(deleteBtn);
@@ -129,7 +133,7 @@ public class SeeAndDeletePromo {
                 + "___________________________");
         lineDiv2.setBounds(10, 500, 968, 20);
 
-        JButton backButton = new JButton("Kembali");
+        JButton backButton = new JButton("Back to Main Menu");
         backButton.setFont(fontButton);
         backButton.setBounds(10, 10, 85, 30);
         backButton.addActionListener(new ActionListener() {
