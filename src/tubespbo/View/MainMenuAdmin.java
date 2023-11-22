@@ -72,7 +72,7 @@ public class MainMenuAdmin {
             }
         });
     
-    //button buat liat dafrat promo
+    //button buat liat daftar promo
         JButton seePromoBtn = new JButton("See All Promo");
         seePromoBtn.setBounds(340, 150, 200, 30);
         seePromoBtn.addActionListener(new ActionListener() {
