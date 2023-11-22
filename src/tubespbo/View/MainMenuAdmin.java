@@ -4,6 +4,10 @@
  */
 package tubespbo.View;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,9 +15,14 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Controller.Controller;
@@ -26,6 +35,7 @@ public class MainMenuAdmin {
     }
 
     private void showDataScreen(int id) {
+
         Controller con = new Controller();
         ArrayList<User> listUser;
 
@@ -53,12 +63,33 @@ public class MainMenuAdmin {
 //
 //        }
 
+    // button buat balik ke main menu
         JButton backButton = new JButton("Back to Main Menu");
-        backButton.setBounds(170, 350, 150, 30);
+        backButton.setBounds(170, 350, 160, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
 
+            }
+        });
+
+    // button buat nambah promo
+        JButton addPromoBtn = new JButton("Add New Promo");
+        addPromoBtn.setBounds(100, 150, 200, 30);
+        addPromoBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new AddPromo();
+            }
+        });
+    
+    //button buat liat dafrat promo
+        JButton seePromoBtn = new JButton("See All Promo");
+        seePromoBtn.setBounds(340, 150, 200, 30);
+        seePromoBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new SeeAndDeletePromo();
             }
         });
 
@@ -75,12 +106,15 @@ public class MainMenuAdmin {
 
         JPanel panel = new JPanel(null);
         panel.add(backButton);
+        panel.add(addPromoBtn);
+        panel.add(seePromoBtn);
         panel.add(table);
         panel.add(sp);
-        
-        f.setSize(800, 500);
-        f.add(panel);
-        f.setVisible(true);
 
+        
+    }
+
+    public static void main(String[] args) {
+        
     }
 }

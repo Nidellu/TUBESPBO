@@ -1,12 +1,12 @@
 package tubespbo.View;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
+import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,81 +19,9 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
 import tubespbo.Model.OrderStatusEnum;
-
-class ButtonRenderer extends JButton implements TableCellRenderer {
-
-    public ButtonRenderer() {
-        setOpaque(true);
-    }
-
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
-        if (isSelected) {
-            setForeground(table.getSelectionForeground());
-            setBackground(table.getSelectionBackground());
-        } else {
-            setForeground(table.getForeground());
-            setBackground(UIManager.getColor("Button.background"));
-        }
-        setText((value == null) ? "" : value.toString());
-        return this;
-    }
-}
-
-class ButtonEditor extends DefaultCellEditor {
-
-    protected JButton button;
-    private String label;
-    private boolean isPushed;
-
-    public ButtonEditor(JCheckBox checkBox, int id) {
-        super(checkBox);
-        button = new JButton();
-        button.setOpaque(true);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DetailOrder(id);
-            }
-        });
-    }
-
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value,
-            boolean isSelected, int row, int column) {
-        if (isSelected) {
-            button.setForeground(table.getSelectionForeground());
-            button.setBackground(table.getSelectionBackground());
-        } else {
-            button.setForeground(table.getForeground());
-            button.setBackground(table.getBackground());
-        }
-        label = (value == null) ? "" : value.toString();
-        button.setText(label);
-        isPushed = true;
-        return button;
-    }
-
-    @Override
-    public Object getCellEditorValue() {
-        if (isPushed) {
-            JOptionPane.showMessageDialog(button, label + ": Ouch!");
-        }
-        isPushed = false;
-        return label;
-    }
-
-    @Override
-    public boolean stopCellEditing() {
-        isPushed = false;
-        return super.stopCellEditing();
-    }
-}
 
 public class OrderBerjalan {
 
@@ -131,54 +59,55 @@ public class OrderBerjalan {
             f.add(ingpo);
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("Coba1");
-        tableModel.addColumn("Coba2");
-        tableModel.addColumn("Coba3");
-        tableModel.addColumn("Coba4");
-        tableModel.addColumn("Coba5");
+        int height = (listOrder.size()) * 65;
 
-        JTable table = new JTable(tableModel);
-
-        for (int i = 0; i < listOrder.size(); i++) {
-            int idOrder = listOrder.get(i).getOrder_id();
-            
-            JOptionPane.showMessageDialog(f, idOrder, "", JOptionPane.WARNING_MESSAGE);
-
-
-            String tujuan = "Tujuan Kota:" + listOrder.get(i).getOrder_destination();
-            double harga = listOrder.get(i).getOrder_final_price();
-            OrderStatusEnum enumOrder = listOrder.get(i).getOrder_status();
-            String hasilEnum = enumOrder.toString();
-            String kendaraan = listOrder.get(i).getOrder_vehicle_name();
-
-            Object[] dataRow = {tujuan, "Kendaraan: " + kendaraan, "Rp. " + harga, hasilEnum, "Details"};
-            tableModel.insertRow(i, dataRow);
-            table.getColumn("Coba5").setCellRenderer(new ButtonRenderer());
-            table.getColumn("Coba5").setCellEditor(new ButtonEditor(new JCheckBox(),idOrder));
+        if (height > 370) {
+            height = 370;
         }
 
-        table.setFont(font2);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        JLayeredPane gamePanelContainer = new JLayeredPane();
+        gamePanelContainer.setLayout(new BoxLayout(gamePanelContainer, BoxLayout.Y_AXIS));
+        gamePanelContainer.setBounds(30, 130, 415, height);
 
-        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        for (Order order : listOrder) {
+            JPanel gamePanel = new JPanel();
 
-        table.setBackground(new Color(238, 238, 238));
+            gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+            int idOrder = order.getOrder_id();
 
-        
+            JTextField nameField = new JTextField("    Tujuan: " + order.getOrder_destination() + "\t\t");
+            nameField.setBorder(null);
+            nameField.setEditable(false);
+            gamePanel.add(nameField);
 
-        table.setBounds(15, 140, 910, 350);
-        table.setRowHeight(30);
-        table.setShowGrid(false);
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+            JTextField priceField = new JTextField(order.getOrder_date() + "\t               ");
+            priceField.setBorder(null);
+            priceField.setEditable(false);
+            gamePanel.add(priceField);
 
-        f.setSize(800, 500);
-        f.add(new JScrollPane(table));
-        f.add(table);
+            JTextField genreField = new JTextField("Rp. " + order.getOrder_final_price() + "\t");
+            genreField.setBorder(null);
+            genreField.setEditable(false);
+            gamePanel.add(genreField);
+
+            JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
+            status.setBorder(null);
+            status.setEditable(false);
+            gamePanel.add(status);
+
+            JButton buyButton = new JButton("Details");
+            buyButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    f.dispose();
+                    new DetailOrder(id, idOrder);
+                }
+            });
+            gamePanel.add(buyButton);
+
+            gamePanel.setOpaque(true);
+
+            gamePanelContainer.add(gamePanel);
+        }
 
         JLabel lineDiv2 = new JLabel("__________________________________"
                 + "__________________________________________________"
@@ -196,13 +125,14 @@ public class OrderBerjalan {
             }
         });
 
+        f.add(gamePanelContainer);
         f.add((intro));
 
         f.add(backButton);
         f.add(lineDiv);
         f.add(lineDiv2);
 
-        f.setSize(1000, 600);
+        f.setSize(500, 600);
         f.setLayout(null);
         f.setVisible(true);
     }

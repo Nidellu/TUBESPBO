@@ -90,6 +90,7 @@ public class RegistrasiDriver {
                         if (succeedDriver) {
                             JOptionPane.showMessageDialog(f, "Data berhasil disimpan, Silahkan Login");
                             new LogIn();
+                            f.dispose();
                         } else {
                             JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                         }

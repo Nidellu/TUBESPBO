@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import tubespbo.Model.*;
 
 public class Controller {
@@ -177,7 +179,7 @@ public class Controller {
     public ArrayList<Order> getOrderNow(int id) {
         conn.connect();
         String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
-                + "FROM orders WHERE cust_id = '" + id + "'";
+                + "FROM orders WHERE cust_id = '" + id + "' AND order_status = 'NOW'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();
@@ -189,7 +191,6 @@ public class Controller {
                 orders.setOrder_date(rs.getDate("order_date"));
                 orders.setOrder_final_price(rs.getDouble("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
-                orders.setOrder_vehicle_name(rs.getString("order_vehicle_name"));
                 listOrder.add(orders);
             }
         } catch (SQLException e) {
@@ -300,3 +301,9 @@ public class Controller {
         return (walletResult);
     }
 }
+
+// promo's logic start here
+    // adding new promo
+    // public boolean addNewPromo (String promoCode, float promoValue, Date expired) {
+    //    return false; 
+    // }

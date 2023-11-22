@@ -22,11 +22,11 @@ import tubespbo.Model.OrderStatusEnum;
 
 public class DetailOrder {
 
-    public DetailOrder(int id) {
-        showDataScreen(id);
+    public DetailOrder(int id, int idOrder) {
+        showDataScreen(id, idOrder);
     }
 
-    private void showDataScreen(int id) {
+    private void showDataScreen(int id, int idOrder) {
         Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
