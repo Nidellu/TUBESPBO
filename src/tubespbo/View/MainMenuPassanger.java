@@ -66,7 +66,6 @@ public class MainMenuPassanger {
             public void actionPerformed(ActionEvent e) {
                 new MenuWalletPassanger(id);
                 f.dispose();
-//                
             }
         });
 
