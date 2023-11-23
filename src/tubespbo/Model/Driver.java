@@ -14,6 +14,7 @@ public class Driver extends User {
     private String vehicle_name;
     private String vehicle_type;
     private String vehicle_plate;
+    private Enum statusDriver;
 
     public Driver(int driver_id, String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate, int user_id, String user_name, String user_pass, String user_role, float user_wallet) {
         super(user_id, user_name, user_pass, user_role, user_wallet);
@@ -24,7 +25,8 @@ public class Driver extends User {
         this.vehicle_plate = vehicle_plate;
     }
 
-    public Driver(String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate) {
+    public Driver(int driver_id, String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate) {
+        this.driver_id = driver_id;
         this.driver_phonNum = driver_phonNum;
         this.vehicle_name = vehicle_name;
         this.vehicle_type = vehicle_type;
