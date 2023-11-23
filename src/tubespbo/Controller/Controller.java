@@ -692,6 +692,23 @@ public class Controller {
         }
         return Id;
     }
+
+    public boolean findPromo (String inpCode) {
+        float val = 0;
+        conn.connect();
+        String query = "SELECT * FROM promo WHERE promo_code = '" + inpCode + "'";
+        boolean found = false;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                found = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return found;
+    }
 //promo ends here
 
 
