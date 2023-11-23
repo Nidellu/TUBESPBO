@@ -120,4 +120,7 @@ public class MainMenuPassanger {
         f.setVisible(true);
     }
 
+    public static void main(String[] args) {
+        new MainMenuPassanger(5);
+    }
 }

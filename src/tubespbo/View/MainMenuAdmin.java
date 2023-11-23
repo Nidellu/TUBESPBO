@@ -80,7 +80,7 @@ public class MainMenuAdmin {
         checkIncome.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                
+                new CekPendapatan();
             }
         });
         
@@ -121,8 +121,8 @@ public class MainMenuAdmin {
     }
 
     
-//     public static void main(String[] args) {
-//         new MainMenuAdmin();
-//     }
+     public static void main(String[] args) {
+         new MainMenuAdmin();
+     }
 
 }

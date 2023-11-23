@@ -112,6 +112,7 @@ public class DetailOrder {
                         if (choice == JOptionPane.YES_OPTION) {
                             if (con.updateStatusOrder(idOrder, "CANCEL")) {
                                 JOptionPane.showMessageDialog(null, "Berhasil dicancel", "Yahhh", JOptionPane.INFORMATION_MESSAGE);
+                                f.dispose();
                                 new CekOrder(id);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Gagal di cancel", "Upss", JOptionPane.ERROR_MESSAGE);
