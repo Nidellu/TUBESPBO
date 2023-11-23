@@ -74,7 +74,8 @@ public class MainMenuPassanger {
         pesanRide.setBounds(70, 220, 350, 30);
         pesanRide.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                f.dispose();
+                new OrderRide(id);
             }
         });
 
@@ -110,6 +111,7 @@ public class MainMenuPassanger {
         f.add(cekOrder);
         f.add(logOut);
 
+        f.setLocationRelativeTo(null);
         f.setSize(500, 600);
         f.setLayout(null);
         f.setLocationRelativeTo(null);

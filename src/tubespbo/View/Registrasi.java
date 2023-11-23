@@ -113,6 +113,8 @@ public class Registrasi {
         f.add(textPassword);
         f.add(labelCategory);
         f.add(boxRoles);
+        
+        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
