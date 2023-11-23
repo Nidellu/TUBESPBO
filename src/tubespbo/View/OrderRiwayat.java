@@ -55,7 +55,6 @@ public class OrderRiwayat {
             f.add(ingpo);
         }
 
-
         JPanel containerOrders = new JPanel();
         containerOrders.setLayout(new BoxLayout(containerOrders, BoxLayout.Y_AXIS));
         containerOrders.setBounds(5, 120, 425, 370);

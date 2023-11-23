@@ -54,7 +54,6 @@ public class OrderBerjalan {
         }
 
         int height = (listOrder.size()) * 65;
-        System.out.println(listOrder.size());
 
         // if (height > 370) {
         //     height = 370;
