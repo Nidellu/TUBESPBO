@@ -65,6 +65,7 @@ public class MainMenuPassanger {
         topUp.setBounds(340, 150, 100, 30);
         topUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                new MenuTopUp(id);
                 f.dispose();
             }
         });

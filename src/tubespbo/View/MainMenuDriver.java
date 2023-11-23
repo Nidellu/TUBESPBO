@@ -154,11 +154,11 @@ public class MainMenuDriver {
 
         f.setSize(500, 600);
         f.setLayout(null);
+
+
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
-
     }
 
-    public static void main(String[] args) {
-        new MainMenuDriver(14);
-    }
+ 
 }
