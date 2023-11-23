@@ -108,5 +108,9 @@ public class PassangerProfile {
         f.setLayout(null);
         f.setVisible(true);
     }
+    
+    public static void main(String[] args) {
+        new PassangerProfile(5);
+    }
 
 }

@@ -34,16 +34,21 @@ public class LogIn {
         intro2.setBounds(10, 30, 250, 30);
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
+      
+        JLabel useraname = new JLabel("Username ");
+        useraname.setFont(fontLabel);
+        useraname.setBounds(20, 100, 100, 30);
 
-        JLabel email = new JLabel("Username ");
-        email.setBounds(10, 100, 100, 30);
         JTextField inputName = new JTextField();
-        inputName.setBounds(120, 100, 200, 30);
+        inputName.setBounds(160, 100, 200, 30);
 
         JLabel password = new JLabel("Password ");
-        password.setBounds(10, 130, 100, 30);
+        password.setFont(fontLabel);
+
+        password.setBounds(20, 130, 100, 30);
+
         JPasswordField inputPassword = new JPasswordField();
-        inputPassword.setBounds(120, 130, 200, 30);
+        inputPassword.setBounds(160, 130, 200, 30);
         
         Font fontButton = new Font("Courier", Font.BOLD,12);
 
@@ -59,7 +64,7 @@ public class LogIn {
                     int id = con.getIDUser(inputName.getText());
                     String role = con.getRolesUser(id);
                     if (role.equalsIgnoreCase("Admin")) {
-                        new MainMenuAdmin(id);
+                        new MainMenuAdmin();
                     } else if (role.equalsIgnoreCase("Passanger")) {
                         new MainMenuPassanger(id);
                     } else if (role.equalsIgnoreCase("Driver")) {
@@ -83,16 +88,18 @@ public class LogIn {
         f.add(intro);
         f.add(intro2);
 
-        f.add(email);
+        f.add(useraname);
         f.add(inputName);
         f.add(password);
         f.add(inputPassword);
         f.add(backButton);
         f.add(buttonCari);
 
+        f.setLocationRelativeTo(null);
         f.setLayout(null);
         f.setSize(400, 400);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    
+
 }
