@@ -80,13 +80,9 @@ public class PassangerProfile {
         });
 
         JButton backButton = new JButton("Kembali");
-
         backButton.setFont(fontButton);
-
-        backButton.setBounds(
-                10, 10, 85, 30);
+        backButton.setBounds(10, 10, 85, 30);
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new MainMenuPassanger(id);

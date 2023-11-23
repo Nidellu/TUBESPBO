@@ -11,14 +11,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
@@ -45,7 +40,7 @@ public class MainMenuDriver {
         intro.setFont(font);
         intro2.setFont(font2);
         intro.setBounds(10, 10, 400, 30);
-        intro2.setBounds(10, 30, 300, 30);
+        intro2.setBounds(10, 30, 470, 30);
 
         Font fontButton = new Font("Courier", Font.BOLD, 12);
 
@@ -70,7 +65,8 @@ public class MainMenuDriver {
 
         JLabel wallet = new JLabel("JOPAY: Rp. " + Double.toString(walletDisplay));
         wallet.setFont(font2);
-        wallet.setBounds(50, 150, 400, 30);
+        wallet.setBounds(50, 150, 800, 30);
+        wallet.setBackground(null);
 
         JButton topUp = new JButton("Top Up");
         topUp.setFont(fontButton);
@@ -81,7 +77,7 @@ public class MainMenuDriver {
 //                
             }
         });
-        
+      
         JButton inbox = new JButton("Inbox");
         inbox.setFont(fontButton);
         inbox.setBounds(70, 230, 140, 30);
@@ -91,13 +87,23 @@ public class MainMenuDriver {
             }
         });
 
-        JButton historyOrder = new JButton("Riwayat Pesanan");
+        
+        JButton historyOrder = new JButton("Lihat Pesanan");
         historyOrder.setFont(fontButton);
         historyOrder.setBounds(250, 230, 170, 30);
         historyOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                // new historyOrder(id);
+                new CekOrder(id);
+            }
+        });
+        JButton tarikDanaButton = new JButton("Tarik Dana");
+        tarikDanaButton.setFont(fontButton);
+        tarikDanaButton.setBounds(70, 320, 350, 30);
+        tarikDanaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new TarikDana(id);
             }
         });
 
@@ -148,6 +154,7 @@ public class MainMenuDriver {
 
         f.add(inbox);
         f.add(historyOrder);
+        f.add(tarikDanaButton);
         f.add(switchStatus);
         f.add(withdrawal);
         f.add(logOut);
@@ -155,10 +162,13 @@ public class MainMenuDriver {
         f.setSize(500, 600);
         f.setLayout(null);
 
-
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
+
+     public static void main(String[] args) {
+         new MainMenuDriver(6);
+     }
 
  
 }

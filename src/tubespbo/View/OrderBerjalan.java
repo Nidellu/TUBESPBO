@@ -137,5 +137,8 @@ public class OrderBerjalan {
         f.getContentPane().setLayout(null);
         f.setVisible(true);
     }
-
+    
+    public static void main(String[] args) {
+        new OrderBerjalan(6);
+    }
 }
