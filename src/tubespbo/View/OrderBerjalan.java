@@ -109,7 +109,7 @@ public class OrderBerjalan {
             detailsButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
-                    new DetailOrder(id, idOrder);
+                    new DetailOrder(id, idOrder, 1);
                 }
             });
             indivOrder.add(detailsButton);
@@ -127,7 +127,6 @@ public class OrderBerjalan {
         });
         
         f.add((intro));
-        // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);
