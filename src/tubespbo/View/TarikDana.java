@@ -91,7 +91,7 @@ public class TarikDana {
         tarikButton.addActionListener(e -> {
             String nominal = jumlahTarikField.getText();
             try {
-                double nominalTarik = Double.parseDouble(nominal);
+                float nominalTarik = Float.parseFloat(nominal);
                 if (nominalTarik < 10000) {
                     JOptionPane.showMessageDialog(f, "Minimal penarikan adalah Rp 10000", "WARNING",
                             JOptionPane.WARNING_MESSAGE);
@@ -133,8 +133,5 @@ public class TarikDana {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new TarikDana(6);
-    }
 
 }
