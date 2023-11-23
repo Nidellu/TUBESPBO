@@ -18,7 +18,7 @@ public class MenuTopUp {
 
     public MenuTopUp(int id) {
         Controller con = new Controller();
-        User currUser = con.getPassangerByID(id).get(0);
+        User currUser = con.getUserByID(id);
         System.out.println();
         Font headerFont = new Font("ARIAL", Font.BOLD, 24);
 
@@ -47,7 +47,11 @@ public class MenuTopUp {
         JButton backButton = new JButton("Kembali");
         backButton.setBounds(30, 370, 100, 25);
         backButton.addActionListener(e -> {
-            new MainMenuPassanger(id);
+            if (currUser.getUser_role().equalsIgnoreCase("DRIVER")) {
+                new MainMenuDriver(id);
+            } else if (currUser.getUser_role().equalsIgnoreCase("PASSANGER")) {
+                new MainMenuPassanger(id);
+            }
             f.dispose();
         });
         f.add(backButton);
@@ -103,7 +107,11 @@ public class MenuTopUp {
                             con.updateJoPay(id, currSaldo + saldoTambahan);
                             JOptionPane.showMessageDialog(f, "Top Up berhasil dilakukan!", "WARNING",
                                     JOptionPane.DEFAULT_OPTION);
-                            new MainMenuPassanger(id);
+                            if (currUser.getUser_role().equalsIgnoreCase("DRIVER")) {
+                                new MainMenuDriver(id);
+                            } else if (currUser.getUser_role().equalsIgnoreCase("PASSANGER")) {
+                                new MainMenuPassanger(id);
+                            }
                             f.dispose();
                         } else {
                             JOptionPane.showMessageDialog(f, "Top Up saldo telah dibatalkan", "",

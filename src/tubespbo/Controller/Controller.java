@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import tubespbo.Model.Order;
 import tubespbo.Model.OrderStatusEnum;
 import tubespbo.Model.Passanger;
 import tubespbo.Model.Promo;
+import tubespbo.Model.User;
 
 public class Controller {
 
@@ -715,6 +715,28 @@ public class Controller {
             e.printStackTrace();
         }
         return val;
+    }
+
+    public User getUserByID(int id) {
+        float val = 0;
+        conn.connect();
+        String query = "SELECT * FROM users WHERE user_id = " + id;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            User user = new User();
+            while (rs.next()) {
+                user.setUser_id(rs.getInt("user_id"));
+                user.setUser_name(rs.getString("user_name"));
+                user.setUser_pass(rs.getString("user_pass"));
+                user.setUser_role(rs.getString("user_role"));
+                user.setUser_wallet(rs.getFloat("user_wallet"));
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // find driver who's available
