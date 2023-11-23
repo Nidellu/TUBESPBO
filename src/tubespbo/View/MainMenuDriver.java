@@ -11,14 +11,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
@@ -70,7 +65,8 @@ public class MainMenuDriver {
 
         JLabel wallet = new JLabel("JOPAY: Rp. " + Double.toString(walletDisplay));
         wallet.setFont(font2);
-        wallet.setBounds(50, 150, 400, 30);
+        wallet.setBounds(50, 150, 800, 30);
+        wallet.setBackground(null);
 
         JButton topUp = new JButton("Top Up");
         topUp.setFont(fontButton);
@@ -88,6 +84,15 @@ public class MainMenuDriver {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 // new historyOrder(id);
+            }
+        });
+        JButton tarikDanaButton = new JButton("Tarik Dana");
+        tarikDanaButton.setFont(fontButton);
+        tarikDanaButton.setBounds(70, 320, 350, 30);
+        tarikDanaButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new TarikDana(id);
             }
         });
 
@@ -130,6 +135,7 @@ public class MainMenuDriver {
 
         f.add(inbox);
         f.add(historyOrder);
+        f.add(tarikDanaButton);
         f.add(logOut);
 
         f.setSize(500, 600);
@@ -183,15 +189,15 @@ public class MainMenuDriver {
         // f.add(panel);
         // f.setVisible(true);
 
-        f.setSize(800, 500);
+        f.setSize(500, 500);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
 
 
-    public static void main(String[] args) {
-        new MainMenuDriver(11);
-    }
+    // public static void main(String[] args) {
+    //     new MainMenuDriver(11);
+    // }
 
 }
