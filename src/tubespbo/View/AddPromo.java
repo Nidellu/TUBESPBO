@@ -104,8 +104,6 @@ public class AddPromo {
                     } else {
                         JOptionPane.showMessageDialog(null, "Promo Lebih Dari 10 Huruf!", "Huff", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    f.dispose();
-                    new SeeAndDeletePromo();
                 }
             }
 
@@ -146,7 +144,4 @@ public class AddPromo {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new AddPromo();
-    }
 }

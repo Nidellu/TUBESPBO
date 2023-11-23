@@ -86,7 +86,8 @@ public class MenuWalletPassanger {
                     double saldoTambahan = Double.parseDouble(inputField);
                     double currSaldo = con.getWallet(id);
                     if (saldoTambahan < 2000) {
-                        JOptionPane.showMessageDialog(f, "Minimal Top Up saldo adalah 2000", "WARNING", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(f, "Minimal Top Up saldo adalah 2000", "WARNING",
+                                JOptionPane.ERROR_MESSAGE);
                     } else {
                         int result = JOptionPane.showOptionDialog(
                                 f,
@@ -100,8 +101,14 @@ public class MenuWalletPassanger {
 
                         if (result == JOptionPane.YES_OPTION) {
                             con.updateJoPay(id, currSaldo + saldoTambahan);
+                            JOptionPane.showMessageDialog(f, "Top Up berhasil dilakukan!", "WARNING",
+                                    JOptionPane.DEFAULT_OPTION);
                             new MainMenuPassanger(id);
                             f.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(f, "Top Up saldo telah dibatalkan", "",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
                         }
                     }
                 } catch (NumberFormatException e1) {
