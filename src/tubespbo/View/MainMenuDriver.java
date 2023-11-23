@@ -63,7 +63,12 @@ public class MainMenuDriver {
         border.setBorder(BorderFactory.createLineBorder(Color.black));
         border.setBounds(30, 135, 425, 60);
 
-        JLabel wallet = new JLabel("JOPAY: Rp. " + Double.toString(walletDisplay));
+        String strSaldo = String.valueOf(con.getWallet(id));
+        if (con.getWallet(id) > 9999999) {
+            strSaldo = "9999999+";
+        }
+
+        JLabel wallet = new JLabel("JOPAY: Rp. " + strSaldo);
         wallet.setFont(font2);
         wallet.setBounds(50, 150, 800, 30);
         wallet.setBackground(null);

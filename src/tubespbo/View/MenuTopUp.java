@@ -27,7 +27,7 @@ public class MenuTopUp {
         Font font3 = new Font("Courier", Font.PLAIN, 16);
         Font font4 = new Font("Courier", Font.BOLD, 14);
         Font fontBack = new Font("Courier", Font.BOLD, 12);
-        
+
         JFrame f = new JFrame();
         f.setLayout(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,12 +36,12 @@ public class MenuTopUp {
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
         f.add(intro);
-        
+
         JLabel intro2 = new JLabel("Kalau dompet tipis jangan nangis yah!");
         intro2.setFont(font2);
         intro2.setBounds(30, 90, 300, 30);
         f.add(intro2);
-        
+
         JLabel lineDiv = new JLabel("__________________________________"
                 + "__________________________________________________"
                 + "__________________________________________________"
@@ -59,8 +59,13 @@ public class MenuTopUp {
         wallet.setBounds(30, 150, 800, 30);
         wallet.setBackground(null);
         f.add(wallet);
-        
-        JLabel saldo = new JLabel("Rp.  "  + con.getWallet(id));
+
+        String strSaldo = String.valueOf(con.getWallet(id));
+        if (con.getWallet(id) > 9999999) {
+            strSaldo = "9999999+";
+        }
+
+        JLabel saldo = new JLabel("Rp.  " + strSaldo);
         saldo.setHorizontalAlignment(SwingConstants.RIGHT);
         saldo.setFont(font);
         saldo.setBounds(250, 150, 200, 30);
