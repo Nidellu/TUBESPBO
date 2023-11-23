@@ -1,17 +1,20 @@
 package tubespbo.Controller;
 
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.sql.Date;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import tubespbo.Model.*;
+import tubespbo.Model.Driver;
+import tubespbo.Model.Order;
+import tubespbo.Model.OrderStatusEnum;
+import tubespbo.Model.Passanger;
+import tubespbo.Model.Promo;
 
 public class Controller {
 
@@ -73,7 +76,7 @@ public class Controller {
         }
     }
 
-    //update username passanger
+    // update username passanger
     public boolean updateUserNameDataPassangerToDB(int idMasuk, String username) {
         conn.connect();
         String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" + idMasuk + "';";
@@ -88,10 +91,11 @@ public class Controller {
         }
     }
 
-    //update phone number passanger
+    // update phone number passanger
     public boolean updatePhoneNumDataPassangerToDB(int idMasuk, String telepon) {
         conn.connect();
-        String query = "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" + idMasuk + "';";
+        String query = "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" + idMasuk
+                + "';";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
@@ -121,7 +125,7 @@ public class Controller {
     // get list of passangers
     public ArrayList<Passanger> getPassangerByID(int id) {
         conn.connect();
-        String query = "SELECT users.user_name, users.user_pass, passangers.passanger_phonNum "
+        String query = "SELECT * "
                 + "FROM users "
                 + "JOIN passangers ON passangers.passanger_id = users.user_id "
                 + "WHERE passangers.passanger_id = '" + id + "'";
@@ -131,9 +135,11 @@ public class Controller {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Passanger pass = new Passanger();
+                pass.setUser_id(rs.getInt("user_id"));
                 pass.setUser_name(rs.getString("users.user_name"));
                 pass.setUser_pass(rs.getString("users.user_pass"));
                 pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
+                pass.setUser_wallet(rs.getDouble("user_wallet"));
 
                 listPass.add(pass);
             }
@@ -454,7 +460,7 @@ public class Controller {
         }
     }
 
-    // show all promo 
+    // show all promo
     public ArrayList<Promo> getPromoList() {
         conn.connect();
         String query = "SELECT * FROM promo ORDER BY promo_exp"; // biar nampilin dari promo yang terbaru
@@ -518,6 +524,20 @@ public class Controller {
         }
     }
 
+
+    public boolean updateJoPay(int id, double saldo) {
+        conn.connect();
+
+        String query = "UPDATE users SET user_wallet = " + saldo + "WHERE user_id = " + id + ";";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
 // order ride start here
     private static Map<Character, Integer> letterToNumber = new HashMap<>();
 
@@ -537,11 +557,14 @@ public class Controller {
 
         // Menghitung jarak dan harga
         int distance = Math.abs(destinationNumber - sourceNumber);
-        int cost = distance * 10;
+        int cost = distance * 1000;
 
         return cost;
     }
 
-    // user create an order
-// order ride end
+    // kalau jenis kendaraan nya mobil, harganya di kali 2
+    public static int calculateFinalCost(int baseCost, String selectedVehicle) {
+        return selectedVehicle.equals("Mobil") ? baseCost * 2 : baseCost;
+    }
+
 }
