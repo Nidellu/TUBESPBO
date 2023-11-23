@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import tubespbo.Controller.Controller;
 
@@ -81,6 +80,7 @@ public class MainMenuAdmin {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new CekPendapatan();
+
             }
         });
         
@@ -114,15 +114,10 @@ public class MainMenuAdmin {
         f.add(addPromoBtn);
         f.add(seePromoBtn);
         
-        f.setLocationRelativeTo(null);
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
-    
-     public static void main(String[] args) {
-         new MainMenuAdmin();
-     }
 
 }

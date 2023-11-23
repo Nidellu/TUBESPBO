@@ -1,13 +1,13 @@
 package tubespbo.View;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
-import tubespbo.Model.Promo;
 
 public class ListVerifikasiDriver {
 
@@ -155,6 +154,7 @@ public class ListVerifikasiDriver {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

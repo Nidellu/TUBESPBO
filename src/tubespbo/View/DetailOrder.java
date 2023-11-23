@@ -162,6 +162,8 @@ public class DetailOrder {
                         if (choice == JOptionPane.YES_OPTION) {
                             if (con.updateStatusOrder(idOrder, "FINISHED")) {
                                 JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                                // kembalikan status driver menjadi AVAILABLE
+                                con.changeToAvailable(id);
                                 f.dispose();
                                 new CekOrder(id);
                             } else {
