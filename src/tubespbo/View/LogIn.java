@@ -90,6 +90,7 @@ public class LogIn {
         f.add(backButton);
         f.add(buttonCari);
 
+        f.setLocationRelativeTo(null);
         f.setLayout(null);
         f.setSize(400, 400);
         f.setLocationRelativeTo(null);

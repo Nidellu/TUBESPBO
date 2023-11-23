@@ -30,8 +30,9 @@ public class OrderRiwayat {
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
-        // JLabel intro = new JLabel("Orderan Selesai.");
+
         JLabel intro = new JLabel("Riwayat Orderan.");
+
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -42,10 +43,10 @@ public class OrderRiwayat {
                 + "__________________________________________________"
                 + "___________________________");
 
-        lineDiv.setBounds(10, 100, 968, 20);
-
-        ArrayList<Order> listOrder = con.getOrderCancelFinish(id);
         lineDiv.setBounds(10, 100, 450, 20);
+
+
+        ArrayList<Order> listOrder = con.getOrderNow(id);
 
         if (listOrder.isEmpty()) {
             JLabel ingpo = new JLabel("Yah... Order masih kosong nih :'(");
@@ -54,17 +55,6 @@ public class OrderRiwayat {
             f.add(ingpo);
         }
 
-        int height = (listOrder.size()) * 65;
-
-        if (height > 370) {
-            height = 370;
-        }
-
-        System.out.println(listOrder.size());
-
-        // if (height > 370) {
-        // height = 370;
-        // }
 
         JPanel containerOrders = new JPanel();
         containerOrders.setLayout(new BoxLayout(containerOrders, BoxLayout.Y_AXIS));
@@ -114,6 +104,11 @@ public class OrderRiwayat {
                     new DetailOrder(id, idOrder);
                 }
             });
+
+            indivOrder.setVisible(true);
+            indivOrder.add(buyButton);
+            containerOrders.add(indivOrder);
+
             containerOrders.add(buyButton);
 
             containerOrders.setOpaque(true);
@@ -130,8 +125,6 @@ public class OrderRiwayat {
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv2.setBounds(10, 500, 968, 20);
-
         lineDiv2.setBounds(10, 510, 450, 20);
 
         JButton backButton = new JButton("Kembali");
@@ -144,6 +137,8 @@ public class OrderRiwayat {
             }
         });
 
+
+        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // f.add(containerOrders);
         f.add((intro));
 
@@ -171,10 +166,6 @@ public class OrderRiwayat {
         f.setLayout(null);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new OrderRiwayat(5);
     }
 
 }
