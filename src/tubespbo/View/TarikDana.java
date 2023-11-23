@@ -98,9 +98,14 @@ public class TarikDana {
                             "Ya");
 
                     if (result == JOptionPane.YES_OPTION) {
-                        con.updateJoPay(id, con.getWallet(id) - nominalTarik);
-                        JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "WARNING",
-                                JOptionPane.DEFAULT_OPTION);
+                        if (con.updateJoPay(id, con.getWallet(id) - nominalTarik)) {
+                            JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "",
+                                    JOptionPane.DEFAULT_OPTION);
+                        } else {
+                            JOptionPane.showMessageDialog(f, "Penarikan gagal dilakukan!", "WARNING",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+
                         new MainMenuDriver(id);
                         f.dispose();
                     } else {
@@ -122,7 +127,7 @@ public class TarikDana {
     }
 
     // public static void main(String[] args) {
-    //     new TarikDana(9);
+    // new TarikDana(9);
     // }
 
 }
