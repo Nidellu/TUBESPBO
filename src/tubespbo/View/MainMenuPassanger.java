@@ -59,16 +59,17 @@ public class MainMenuPassanger {
         wallet.setFont(font2);
         wallet.setBounds(50, 150, 400, 30);
 
+        // button buat top up
         JButton topUp = new JButton("Top Up");
         topUp.setFont(fontButton);
         topUp.setBounds(340, 150, 100, 30);
         topUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                f.dispose();
-//                
+                f.dispose();               
             }
         });
 
+        // button buat order ride
         JButton pesanRide = new JButton("Pesan JoRide");
         pesanRide.setFont(fontButton);
         pesanRide.setBounds(70, 220, 350, 30);
@@ -84,8 +85,8 @@ public class MainMenuPassanger {
         cekOrder.setBounds(70, 270, 350, 30);
         cekOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                f.dispose();
                 new CekOrder(id);
+                f.dispose();
             }
         });
 

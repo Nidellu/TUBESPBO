@@ -498,11 +498,16 @@ public class Controller {
 
         // Menghitung jarak dan harga
         int distance = Math.abs(destinationNumber - sourceNumber);
-        int cost = distance * 10;
+        int cost = distance * 1000;
 
         return cost;
     }
-    
+
+    // kalau jenis kendaraan nya mobil, harganya di kali 2
+    public static int calculateFinalCost(int baseCost, String selectedVehicle) {
+        return selectedVehicle.equals("Mobil") ? baseCost * 2 : baseCost;
+    }
+
     // user create an order
     
 

@@ -205,16 +205,16 @@ public class OrderRiwayat {
 
             JButton buyButton = new JButton("Details");
             buyButton.setBounds(300, 30, 90, 25);
-            buyButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    f.dispose();
-                    new DetailOrder(id, idOrder);
-                }
-            });
+            // buyButton.addActionListener(new ActionListener() {
+            //     public void actionPerformed(ActionEvent e) {
+            //         f.dispose();
+            //         new DetailOrder(id, idOrder);
+            //     }
+            // });
 
-            indivOrder.setVisible(true);
-            indivOrder.add(buyButton);
-            containerOrders.add(indivOrder);
+            // indivOrder.setVisible(true);
+            // indivOrder.add(buyButton);
+            // containerOrders.add(indivOrder);
 
             containerOrders.add(buyButton);
 
@@ -249,8 +249,8 @@ public class OrderRiwayat {
         // f.add(containerOrders);
         f.add((intro));
 
-        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        //         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // scrollPaneOrder.setVisible(false);
         scrollPaneOrder.setBorder(null);
         // scrollPaneOrder.setBackground(Color.CYAN);

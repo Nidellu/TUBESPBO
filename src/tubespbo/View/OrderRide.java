@@ -24,8 +24,12 @@ public class OrderRide {
     }
 
     private Map<String, Integer> vehicleCosts;
+    private JLabel labelAsal, labelTujuan, labelPilihVehicle, labelResult;
+    private JTextField textAsal, textTujuan;
+    private JComboBox<String> boxPilihVehicle;
+    private Controller con = new Controller();
+
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -49,56 +53,29 @@ public class OrderRide {
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
         // lokasi jemput
-        JLabel labelAsal = new JLabel("Lokasi jemput ");
+        labelAsal = new JLabel("Lokasi jemput ");
         labelAsal.setFont(fontLabel);
         labelAsal.setBounds(30, 130, 150, 30);
-        JTextField textAsal = new JTextField();
+        textAsal = new JTextField();
         textAsal.setFont(fontLabel);
         textAsal.setBounds(260, 133, 200, 30);
-        textAsal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calculateCost();
-            }
-        });
 
         // lokasi tujuan
-        JLabel labelTujuan = new JLabel("Tujuan ");
+        labelTujuan = new JLabel("Tujuan ");
         labelTujuan.setFont(fontLabel);
         labelTujuan.setBounds(30, 170, 150, 30);
-        JTextField textTujuan = new JTextField();
+        textTujuan = new JTextField();
         textTujuan.setFont(fontLabel);
         textTujuan.setBounds(260, 173, 200, 30);
-        textTujuan.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calculateCost();
-            }
-        });
         
-        // buat menampilkan tarif
-
-
         // jenis kendaraan
-        JLabel labelPilihVehicle = new JLabel("Pilih Kendaraan ");
-        String listKendaraan[] = {"Mobil", "Motor"};
-        // JComboBox boxPilihVehicle = new JComboBox(listKendaraan);
-        // boxPilihVehicle.setSelectedItem(null);
-        // labelPilihVehicle.setFont(fontLabel);
-        // labelPilihVehicle.setBounds(30, 210, 200, 30);
-        // boxPilihVehicle.setBounds(260, 213, 200, 30);
         labelPilihVehicle = new JLabel("Pilih Kendaraan ");
-        String[] listCategory = {"Mobil", "Motor"};
-        vehicleCosts = new HashMap<>();
-        vehicleCosts.put("Mobil", 10);
-        vehicleCosts.put("Motor", 20);
-        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(listCategory);
-        JComboBox boxPilihVehicle = new JComboBox<>(comboBoxModel);
+        String listKendaraan[] = {"Mobil", "Motor"};
+        boxPilihVehicle = new JComboBox(listKendaraan);
         boxPilihVehicle.setSelectedItem(null);
         labelPilihVehicle.setFont(fontLabel);
-        labelPilihVehicle.setBounds(30, 110, 200, 30);
-        boxPilihVehicle.setBounds(260, 113, 200, 30);
-
+        labelPilihVehicle.setBounds(30, 210, 200, 30);
+        boxPilihVehicle.setBounds(260, 213, 200, 30);
 
         // input kode promo
         JLabel labelKodePromo = new JLabel("Masukan Kode Promo");
@@ -129,8 +106,8 @@ public class OrderRide {
                     JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int userId = id;
-                    String asal = textAsal.getText();
-                    String tujuan = textTujuan.getText();
+                    char source = textAsal.getText().toUpperCase().charAt(0);
+                    char destination = textTujuan.getText().toUpperCase().charAt(0);
                     String promo = kodePromoField.getText();
                     String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
                     f.dispose();
@@ -155,24 +132,37 @@ public class OrderRide {
         f.add(backButton); // add back button
         f.add(orderButton); // add order button
         f.add(lineDiv);
-
-
+        
         f.setSize(500, 600);
         f.setLayout(null);
+
+        // Add action listeners
+        boxPilihVehicle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calculateCost();
+            }
+        });
+        // Label to display the result
+        labelResult = new JLabel();
+        labelResult.setFont(fontLabel);
+        labelResult.setBounds(260, 250, 300, 30);
+        f.add(labelResult);
         f.setVisible(true);
     }
-    private JLabel labelAsal, labelTujuan, labelPilihVehicle, labelResult;
+
     private void calculateCost() {
         char source = textAsal.getText().toUpperCase().charAt(0);
         char destination = textTujuan.getText().toUpperCase().charAt(0);
-        int cost = con.calculateCost(source, destination);
+
+        int baseCost = con.calculateCost(source, destination);
         String selectedVehicle = (String) boxPilihVehicle.getSelectedItem();
 
-        if (cost != -1) {
-            labelResult.setText(selectedVehicle + " --- Rp. " + cost);
+        if (baseCost != -1) {
+            int finalCost = Controller.calculateFinalCost(baseCost, selectedVehicle);
+            labelResult.setText("Rp. " + finalCost);
         } else {
             labelResult.setText("Biaya tidak dapat dihitung.");
         }
     }
-
 }
