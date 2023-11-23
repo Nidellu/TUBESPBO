@@ -20,6 +20,7 @@ import tubespbo.Model.Promo;
 
 public class AddPromo {
 
+
     public AddPromo() {
         addHere();
     }
@@ -103,6 +104,8 @@ public class AddPromo {
                     } else {
                         JOptionPane.showMessageDialog(null, "Promo Lebih Dari 10 Huruf!", "Huff", JOptionPane.INFORMATION_MESSAGE);
                     }
+                    f.dispose();
+                    new SeeAndDeletePromo();
                 }
             }
 
