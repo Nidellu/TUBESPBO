@@ -59,13 +59,6 @@ public class OrderRiwayat {
             f.add(ingpo);
         }
 
-        int height = (listOrder.size()) * 65;
-        System.out.println(listOrder.size());
-
-        // if (height > 370) {
-        //     height = 370;
-        // }
-
         
         JPanel containerOrders = new JPanel();
         containerOrders.setLayout(null);
@@ -162,5 +155,9 @@ public class OrderRiwayat {
         f.setLayout(null);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new OrderRiwayat(5);
     }
 }

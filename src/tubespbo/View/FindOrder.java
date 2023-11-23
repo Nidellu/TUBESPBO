@@ -7,29 +7,30 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
 
-public class CekOrder {
+public class FindOrder {
 
-    public CekOrder(int id) {
-        showDataScreen(id);
+    public FindOrder() {
+        showDataScreen();
     }
 
-    private void showDataScreen(int id) {
+    private void showDataScreen() {
         Controller con = new Controller();
         JFrame f = new JFrame();
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 16);
         
-        JLabel intro = new JLabel("Pesanan.");
+        JLabel intro = new JLabel("Cari Order.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
-        JLabel intro2 = new JLabel("Yang kamu order ada disini kok");
+        JLabel intro2 = new JLabel("Cari semua orderan user");
         intro2.setFont(font2);
         intro2.setBounds(30, 95, 300, 30);
 
@@ -42,23 +43,23 @@ public class CekOrder {
                 + "__________________________________________");
         lineDiv.setBounds(10, 120, 500, 20);
 
-        JButton berjalan = new JButton("Dalam Proses");
-        berjalan.setFont(fontButton);
-        berjalan.setBounds(60, 280, 350, 30);
-        berjalan.addActionListener(new ActionListener() {
+        JLabel idOrder = new JLabel("Masukkan ID Order : ");
+        idOrder.setBounds(30, 160, 200, 30);
+        JTextField inputOrder = new JTextField();
+        inputOrder.setBounds(255, 160, 200, 30);
+        JButton buttonCari = new JButton("Cari");
+        buttonCari.setFont(fontButton);
+        buttonCari.setBounds(40, 515, 400, 30);
+        buttonCari.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new OrderBerjalan(id);
-            }
-        });
-
-        JButton riwayat = new JButton("Riwayat");
-        riwayat.setFont(fontButton);
-        riwayat.setBounds(60, 330, 350, 30);
-        riwayat.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new OrderRiwayat(id);
+                String thisID = inputOrder.getText();
+                int getID = Integer.parseInt(thisID);
+                boolean found = con.getOrder(getID);
+                if (found) {
+                    new DetailOrder(1, getID);
+                } else {
+                    JOptionPane.showMessageDialog(f, "Order tidak ditemukan", "Huff", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
 
@@ -68,7 +69,7 @@ public class CekOrder {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuPassanger(id);
+                new MainMenuAdmin();
             }
         });
 
@@ -78,8 +79,9 @@ public class CekOrder {
         f.add((intro2));
         f.add(lineDiv);
 
-        f.add(berjalan);
-        f.add(riwayat);
+        f.add(idOrder);
+        f.add(inputOrder);
+        f.add(buttonCari);
 
         f.setSize(500, 600);
         f.setLayout(null);
