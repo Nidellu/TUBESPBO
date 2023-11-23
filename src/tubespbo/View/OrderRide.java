@@ -168,12 +168,24 @@ public class OrderRide {
                     JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int userId = id;
-                    char source = textAsal.getText().toUpperCase().charAt(0);
-                    char destination = textTujuan.getText().toUpperCase().charAt(0);
+                    String source = textAsal.getText().toUpperCase();
+                    String destination = textTujuan.getText().toUpperCase();
                     String promo = kodePromoField.getText();
                     String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
-                    Driver drv = con.getDriverAvailable();
-                    f.dispose();
+                    int idPromo = con.getPromoIdByCode(promo);
+                    Driver drv = con.getDriverAvailable(jenisKendaraan);
+                    if (drv == null) {
+                        JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        boolean status = con.createUserOrder(id, idPromo, jenisKendaraan, promoDigunakan, null, null, drv);
+                        if (status == true) {
+                            JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                        }
+                        f.dispose();
+                        new OrderBerjalan(id);
+                    }
                 }
             }
 

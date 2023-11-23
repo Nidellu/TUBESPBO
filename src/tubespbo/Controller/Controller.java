@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -621,7 +623,25 @@ public class Controller {
         }
     }
 
+    // get promo ID
+    public int getPromoIdByCode(String inpCode) {
+        int Id = 0;
+        conn.connect();
+        String query = "SELECT promo_id FROM promo WHERE promo_code = '" + inpCode + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Id = (rs.getInt("promo_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Id;
+    }
+//promo ends here
 
+// update JoPay
     public boolean updateJoPay(int id, double saldo) {
         conn.connect();
 
@@ -682,13 +702,13 @@ public class Controller {
     }
 
     // find driver who's available
-    public Driver getDriverAvailable() {
+    public Driver getDriverAvailable(String jenisKendaraan) {
         Driver dr = new Driver();
         conn.connect();
         String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n" + 
                 "FROM drivers d \r\n" + 
                 "JOIN users u ON u.user_id = d.driver_id\r\n" + 
-                "WHERE u.user_id = d.driver_id AND  d.driver_status = \"AVAILABLE\" LIMIT 1;";
+                "WHERE u.user_id = d.driver_id AND d.vehicle_type = \"Motor\" AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -698,7 +718,6 @@ public class Controller {
                 String dPhone = rs.getString("d.driver_phonNum");
                 String dVtype = rs.getString("d.vehicle_type");
                 String dPlate = rs.getString("d.vehicle_plate");
-                // String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate
                 dr = new Driver(dId, dName, dPhone, dVtype, dPlate);
             }
         } catch (SQLException e) {
@@ -708,24 +727,61 @@ public class Controller {
     }
 
     // user order
-    public boolean createUserOrder (int custID, Driver dr) {
-        // int order_id;
-        // private int cust_id;
-        // private int promo_id;
-        // private int driver_id;
-        // private Date order_date;
-        // private String order_pickup;
-        // private String order_destination;
-        // private double order_price;
-        // private double order_final_price;
-        // private String order_vehicle_name;
-        // private String order_vehicle_plate;
-        // private OrderStatusEnum order_status;
+    public boolean createUserOrder (int custID, int promoID, String asal, String tujuan, Float harga, Float hargaAkhir, Driver dr) {
+    
         conn.connect();
-        boolean valid = false;
+        String query = "INSERT INTO orders (cust_id, promo_id, driver_id, order_date, order_pickup, order_destination, order_price, order_final_price, order_vehicle_name, order_vehicle_plate, order_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt;
+        try {
+            java.sql.Date currentDate = getCurrentDate();
+            stmt = conn.con.prepareStatement(query);
+            stmt.setInt(1, custID);
+            stmt.setInt(2, promoID);
+            stmt.setInt(3, dr.getDriver_id());
+            stmt.setDate(4, currentDate);
+            stmt.setString(5, asal);
+            stmt.setString(6, tujuan);
+            stmt.setFloat(7, harga);
+            stmt.setFloat(8, hargaAkhir);
+            stmt.setString(9, dr.getVehicle_name());
+            stmt.setString(10, dr.getVehicle_plate());
+            stmt.setString(11, "NOW");
 
-        return valid;
+            changeDriverStat(dr.getDriver_id());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    // get current Date
+    private java.sql.Date getCurrentDate() {
+        java.util.Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(today);
+        return java.sql.Date.valueOf(formattedDate);
+    }
+
+    // change driver's status if they're taking an order
+    private boolean changeDriverStat (int drvID) {
+        conn.connect();
+        String query = "UPDATE drivers\r\n" + //
+                "SET driver_status = 'BOOKED'\r\n" + //
+                "WHERE driver_id = '" + drvID + "';"; 
+        PreparedStatement stmt;
+                
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 // order ride end
 
 }
