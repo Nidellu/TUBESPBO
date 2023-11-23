@@ -68,7 +68,13 @@ public class CekOrder {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuPassanger(id);
+                String role = con.getRolesUser(id);
+                if(role.equalsIgnoreCase("Passanger")){
+                    new MainMenuPassanger(id);
+                } else if (role.equalsIgnoreCase("Driver")){
+                    new MainMenuDriver(id);
+                }
+                
             }
         });
 
