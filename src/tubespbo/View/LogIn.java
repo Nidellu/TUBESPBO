@@ -36,11 +36,13 @@ public class LogIn {
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
         JLabel email = new JLabel("Username ");
+        email.setFont(fontLabel);
         email.setBounds(10, 100, 100, 30);
         JTextField inputName = new JTextField();
         inputName.setBounds(120, 100, 200, 30);
 
         JLabel password = new JLabel("Password ");
+        password.setFont(fontLabel);
         password.setBounds(10, 130, 100, 30);
         JPasswordField inputPassword = new JPasswordField();
         inputPassword.setBounds(120, 130, 200, 30);

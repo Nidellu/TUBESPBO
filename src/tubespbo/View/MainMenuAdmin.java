@@ -97,6 +97,38 @@ public class MainMenuAdmin {
             }
         });
 
+
+        // JTable table = new JTable(model) {
+        //     public Class getColumnClass(int column) {
+        //         return (column == 0) ? Icon.class : Object.class;
+        //     }
+        // };
+        // table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+        // table.setBounds(50, 100, 700, 200);
+        // JScrollPane sp = new JScrollPane(table);
+        // table.setRowHeight(50);
+
+    // button buat check income
+        JButton checkIncome = new JButton("Check Income");
+        checkIncome.setBounds(60, 355, 200, 30);
+        checkIncome.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new CheckIncomeAdmin(id);
+            }
+        });
+
+        // adding element into frame
+        JPanel panel = new JPanel(null);
+        f.setLayout(null);
+        f.setSize(500, 600);
+        f.add(backButton);  // add back button
+        f.add(addPromoBtn); // add promo button
+        f.add(seePromoBtn); // add see promo button
+        // f.add(table);
+        // f.add(sp);
+
         f.add(intro);
         f.add(intro2);
         f.add(lineDiv);
@@ -112,7 +144,7 @@ public class MainMenuAdmin {
         f.setVisible(true);
     }
 
-    // public static void main(String[] args) {
-    //     new MainMenuAdmin(1);
-    // }
+    public static void main(String[] args) {
+        new MainMenuAdmin(1);
+    }
 }
