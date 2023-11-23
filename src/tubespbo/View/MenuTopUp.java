@@ -14,9 +14,9 @@ import javax.swing.border.LineBorder;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
 
-public class MenuWalletPassanger {
+public class MenuTopUp {
 
-    public MenuWalletPassanger(int id) {
+    public MenuTopUp(int id) {
         Controller con = new Controller();
         User currUser = con.getPassangerByID(id).get(0);
         System.out.println();
