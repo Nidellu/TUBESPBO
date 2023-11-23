@@ -140,6 +140,20 @@ public class Controller {
             return false;
         }
     }
+    
+    public boolean updateStatusOrder(int idOrder, String state) {
+        conn.connect();
+        String query = "UPDATE orders SET order_status = '" + state + "' WHERE order_id = '" + idOrder + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // get list of passangers
     public ArrayList<Passanger> getPassangerByID(int id) {
@@ -377,7 +391,7 @@ public class Controller {
     public ArrayList<Order> getOrderNow(int id) {
         conn.connect();
         String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
-                + "FROM orders WHERE cust_id = '" + id + "' AND order_status = 'NOW'";
+                + "FROM orders WHERE (cust_id = '" + id + "' OR driver_id = '" + id + "') AND order_status = 'NOW'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();
@@ -400,7 +414,7 @@ public class Controller {
     public ArrayList<Order> getOrderHistory(int id) {
         conn.connect();
         String query = "SELECT * "
-                + "FROM orders WHERE cust_id = '" + id + "' AND order_status <> 'NOW'";
+                + "FROM orders WHERE (cust_id = '" + id + "' OR driver_id = '" + id + "') AND order_status <> 'NOW'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();

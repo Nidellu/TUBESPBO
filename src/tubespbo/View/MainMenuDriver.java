@@ -40,7 +40,7 @@ public class MainMenuDriver {
         intro.setFont(font);
         intro2.setFont(font2);
         intro.setBounds(10, 10, 400, 30);
-        intro2.setBounds(10, 30, 300, 30);
+        intro2.setBounds(10, 30, 470, 30);
 
         Font fontButton = new Font("Courier", Font.BOLD, 12);
 
@@ -77,7 +77,7 @@ public class MainMenuDriver {
 //                
             }
         });
-        
+      
         JButton inbox = new JButton("Inbox");
         inbox.setFont(fontButton);
         inbox.setBounds(70, 230, 140, 30);
@@ -87,13 +87,14 @@ public class MainMenuDriver {
             }
         });
 
-        JButton historyOrder = new JButton("Riwayat Pesanan");
+        
+        JButton historyOrder = new JButton("Lihat Pesanan");
         historyOrder.setFont(fontButton);
         historyOrder.setBounds(250, 230, 170, 30);
         historyOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                // new historyOrder(id);
+                new CekOrder(id);
             }
         });
         JButton tarikDanaButton = new JButton("Tarik Dana");
