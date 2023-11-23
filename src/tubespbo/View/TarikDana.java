@@ -16,8 +16,12 @@ import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 
 public class TarikDana {
-
+    
     public TarikDana(int id) {
+        new Withdraw(id);
+    }
+  
+    private Withdraw(int id) {
         Controller con = new Controller();
         Driver currDriver = con.getDriverByID(id).get(0);
 
@@ -110,9 +114,14 @@ public class TarikDana {
                             "Ya");
 
                     if (result == JOptionPane.YES_OPTION) {
-                        con.updateJoPay(id, con.getWallet(id) - nominalTarik);
-                        JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "WARNING",
-                                JOptionPane.DEFAULT_OPTION);
+                        if (con.updateJoPay(id, con.getWallet(id) - nominalTarik)) {
+                            JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "",
+                                    JOptionPane.DEFAULT_OPTION);
+                        } else {
+                            JOptionPane.showMessageDialog(f, "Penarikan gagal dilakukan!", "WARNING",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+
                         new MainMenuDriver(id);
                         f.dispose();
                     } else {
@@ -132,6 +141,5 @@ public class TarikDana {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
 
 }

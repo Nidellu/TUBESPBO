@@ -73,8 +73,8 @@ public class MainMenuDriver {
         topUp.setBounds(340, 150, 100, 30);
         topUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                new MenuTopUp(id);
                 f.dispose();
-//                
             }
         });
       
@@ -129,8 +129,8 @@ public class MainMenuDriver {
         backButton.setBounds(170, 350, 150, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 f.dispose();
-        
             }
         });
         
@@ -156,7 +156,7 @@ public class MainMenuDriver {
         f.add(historyOrder);
         f.add(tarikDanaButton);
         f.add(switchStatus);
-        f.add(withdrawal);
+        // f.add(withdrawal);
         f.add(logOut);
 
         f.setSize(500, 600);
