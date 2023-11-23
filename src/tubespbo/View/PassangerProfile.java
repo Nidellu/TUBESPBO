@@ -102,11 +102,12 @@ public class PassangerProfile {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
     
-    public static void main(String[] args) {
-        new PassangerProfile(5);
-    }
+    // public static void main(String[] args) {
+    //     new PassangerProfile(5);
+    // }
 
 }
