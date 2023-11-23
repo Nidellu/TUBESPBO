@@ -176,6 +176,45 @@ public class Controller {
         return (listDriver);
     }
 
+    public ArrayList<Driver> getWaitingDriver(int id) {
+        conn.connect();
+        String query = "SELECT driver_username, driver_password, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate "
+                + "FROM waitinglist ";
+        ArrayList<Driver> listDriver = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Driver drivers = new Driver();
+                drivers.setUser_name(rs.getString("driver_username"));
+                drivers.setUser_pass(rs.getString("driver_password"));
+                drivers.setDriver_phonNum(rs.getString("driver_phonNum"));
+                drivers.setVehicle_name(rs.getString("vehicle_name"));
+                drivers.setVehicle_type(rs.getString("vehicle_type"));
+                drivers.setVehicle_plate(rs.getString("vehicle_plate"));
+
+                listDriver.add(drivers);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listDriver);
+    }
+
+    public boolean deleteWaitingDriver(String username) {
+        conn.connect();
+        String query = "DELETE FROM waitinglist WHERE driver_username = '" + username + "'";
+        boolean exists = false;
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            exists = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (exists);
+    }
+
     // order status
     public OrderStatusEnum getEnum(String type) {
         if (type.equalsIgnoreCase("FINISHED")) {
@@ -500,7 +539,7 @@ public class Controller {
         }
     }
 // order ride start here
- private static Map<Character, Integer> letterToNumber = new HashMap<>();
+    private static Map<Character, Integer> letterToNumber = new HashMap<>();
 
     // Menetapkan urutan huruf dan angka yang sesuai buat menentukan lokasi
     static {
@@ -527,10 +566,5 @@ public class Controller {
     public static int calculateFinalCost(int baseCost, String selectedVehicle) {
         return selectedVehicle.equals("Mobil") ? baseCost * 2 : baseCost;
     }
-
-    // user create an order
-    
-
-// order ride end
 
 }

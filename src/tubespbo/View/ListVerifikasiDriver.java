@@ -18,28 +18,29 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import tubespbo.Controller.Controller;
+import tubespbo.Model.Driver;
 import tubespbo.Model.Promo;
 
-public class SeeAndDeletePromo {
+public class ListVerifikasiDriver {
 
-    public SeeAndDeletePromo() {
+    public ListVerifikasiDriver() {
         showResult();
     }
 
     private void showResult() {
-        Controller cntrl = new Controller();
+        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // list of promo yang di get pakai controller
-        ArrayList<Promo> promolList = cntrl.getPromoList();
+        ArrayList<Driver> waitingList = con.getWaitingDriver(0);
 
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
         Font font4 = new Font("Courier", Font.BOLD, 14);
 
-        JLabel intro = new JLabel("Daftar List Promo.");
+        JLabel intro = new JLabel("Daftar List Driver.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -52,18 +53,16 @@ public class SeeAndDeletePromo {
 
         lineDiv.setBounds(10, 100, 460, 20);
 
-        if (promolList.isEmpty()) {
-            JLabel ingpo = new JLabel("Yah... promo masih kosong nih :'(");
+        if (waitingList.isEmpty()) {
+            JLabel ingpo = new JLabel("Yah... belum ada yang daftar :'(");
             ingpo.setFont(font3);
             ingpo.setBounds(110, 300, 400, 30);
             f.add(ingpo);
         }
 
-        
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 130, 445, 420);
         f.getContentPane().add(scrollPane);
-
 
         JPanel containerOrder = new JPanel();
         scrollPane.setViewportView(containerOrder);
@@ -74,59 +73,65 @@ public class SeeAndDeletePromo {
         promoContainer.setLayout(new GridLayout(0, 1, 0, 1));
         promoContainer.setBackground(Color.gray);
 
-        for (Promo prm : promolList) {
-            String statPromo ="";
+        for (Driver wait : waitingList) {
             JPanel promoPanel = new JPanel();
             promoPanel.setFont(font2);
-            promoPanel.setPreferredSize(new Dimension(300,60));
+            promoPanel.setPreferredSize(new Dimension(300, 60));
             promoContainer.add(promoPanel);
             promoPanel.setLayout(null);
 
             promoPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
-            int idPromo = prm.getPromoID();
 
-            JLabel promoCode = new JLabel("Kode Promo : " + prm.getPromoCode());
-            promoCode.setBounds(10, 5, 200, 25);
-            promoCode.setBorder(null); 
-            promoPanel.add(promoCode);
+            JLabel username = new JLabel("Username: " + wait.getUser_name());
+            username.setFont(font4);
+            username.setBounds(10, 5, 200, 25);
+            username.setBorder(null);
+            promoPanel.add(username);
 
-            JLabel promoVaField = new JLabel(prm.getExpired() + "");
-            promoVaField.setBounds(343, 5, 70, 20);
-            promoVaField.setBorder(null);
-            promoPanel.add(promoVaField);
+            JLabel phonNum = new JLabel(wait.getDriver_phonNum());
+            phonNum.setBounds(343, 5, 70, 20);
+            phonNum.setBorder(null);
+            promoPanel.add(phonNum);
 
-            JLabel expField = new JLabel(" Nilai Promo " + prm.getPromoValue());
-            expField.setBounds(10, 30, 100, 25);
-            expField.setBorder(null);
-            promoPanel.add(expField);
+            JLabel vehicle = new JLabel("Kendaraan: " + wait.getVehicle_name());
+            vehicle.setBounds(10, 30, 155, 25);
+            vehicle.setBorder(null);
+            promoPanel.add(vehicle);
 
-            // buat status
-            if (cntrl.checkPromoValidation(idPromo) == true) {
-                statPromo = "Masih Berlaku";
-            } else {
-                statPromo = "Expired";
-            }
-            JLabel status = new JLabel(statPromo);
-            status.setFont(font4);
-            status.setBounds(200, 27, 150, 25);
-            status.setBorder(null);
-            promoPanel.add(status);
+            JLabel plate = new JLabel(wait.getVehicle_plate());
+            plate.setBounds(170, 30, 150, 25);
+            plate.setBorder(null);
+            promoPanel.add(plate);
 
-            JButton deleteBtn = new JButton("Delete");
+            JLabel type = new JLabel(wait.getVehicle_type());
+            type.setBounds(270, 30, 80, 25);
+            type.setBorder(null);
+            promoPanel.add(type);
+
+            JButton deleteBtn = new JButton("Veriffikasi");
             deleteBtn.setBounds(330, 28, 90, 25);
             deleteBtn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    int choice = JOptionPane.showConfirmDialog(null, "Yakin mau dihapus?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-                    
+                    int choice = JOptionPane.showConfirmDialog(null, "Verifikasi?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (choice == JOptionPane.YES_OPTION) {
-                        if (cntrl.deletePromo(idPromo) == true) {
-                            JOptionPane.showMessageDialog(null, "Promo berhasil dihapus!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                        boolean succeed = con.inputUserDataToDB(wait.getUser_name(), wait.getUser_pass(), "Driver");
+                        if (succeed) {
+                            int id = con.getIDUser(wait.getUser_name());
+                            boolean succeedDriver = con.inputDriverDataToDB(id, wait.getDriver_phonNum(), wait.getVehicle_name(), wait.getVehicle_type(), wait.getVehicle_plate());
+                            System.out.println(wait.getUser_name());
+                            boolean succeedDelete = con.deleteWaitingDriver(wait.getUser_name());
+                            if (succeedDriver && succeedDelete) {
+                                JOptionPane.showMessageDialog(f, "Data berhasil disimpan, Silahkan Login");
+                                new LogIn();
+                                f.dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
+                            }
                         } else {
-                            JOptionPane.showMessageDialog(null, "Promo gagal dihapus!", "Upss", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                         }
-                        
                     } else {
-                       JOptionPane.showMessageDialog(null, "Promo batal dihapus!", "", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Batal di verifikasi.", "", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             });
@@ -152,8 +157,8 @@ public class SeeAndDeletePromo {
         f.setLayout(null);
         f.setVisible(true);
     }
-    
+
     public static void main(String[] args) {
-        new SeeAndDeletePromo();
+        new ListVerifikasiDriver();
     }
 }
