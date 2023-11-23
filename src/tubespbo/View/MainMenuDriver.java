@@ -11,14 +11,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
@@ -70,7 +65,8 @@ public class MainMenuDriver {
 
         JLabel wallet = new JLabel("JOPAY: Rp. " + Double.toString(walletDisplay));
         wallet.setFont(font2);
-        wallet.setBounds(50, 150, 400, 30);
+        wallet.setBounds(50, 150, 800, 30);
+        wallet.setBackground(null);
 
         JButton topUp = new JButton("Top Up");
         topUp.setFont(fontButton);
@@ -81,35 +77,63 @@ public class MainMenuDriver {
 //                
             }
         });
+      
+        JButton inbox = new JButton("Inbox");
+        inbox.setFont(fontButton);
+        inbox.setBounds(70, 230, 140, 30);
+        inbox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //
+            }
+        });
+
+        
         JButton historyOrder = new JButton("Lihat Pesanan");
         historyOrder.setFont(fontButton);
-        historyOrder.setBounds(70, 270, 350, 30);
+        historyOrder.setBounds(250, 230, 170, 30);
         historyOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new CekOrder(id);
             }
         });
-
-//         JButton takeOrder = new JButton("Take/Cancel Order");
-//         takeOrder.setFont(fontButton);
-//         takeOrder.setBounds(70, 220, 350, 30);
-//         takeOrder.addActionListener(new ActionListener() {
-//             public void actionPerformed(ActionEvent e) {
-// //                
-//             }
-//         });
-
-        JButton inbox = new JButton("Inbox");
-        inbox.setFont(fontButton);
-        inbox.setBounds(70, 220, 350, 30);
-        inbox.addActionListener(new ActionListener() {
+        JButton tarikDanaButton = new JButton("Tarik Dana");
+        tarikDanaButton.setFont(fontButton);
+        tarikDanaButton.setBounds(70, 320, 350, 30);
+        tarikDanaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                f.dispose();
+                new TarikDana(id);
             }
         });
 
+        JButton switchStatus = new JButton("On-Off ");
+        switchStatus.setFont(fontButton);
+        switchStatus.setBounds(70, 320, 350, 30);
+        switchStatus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //
+            }
+        });
 
+        JButton withdrawal = new JButton("Withdrawal");
+        withdrawal.setFont(fontButton);
+        withdrawal.setBounds(70, 370, 350, 30);
+        withdrawal.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+        //                
+                    }
+                });
+        
+        JButton backButton = new JButton("Back to Main Menu");
+        backButton.setBounds(170, 350, 150, 30);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+        
+            }
+        });
+        
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
@@ -130,18 +154,23 @@ public class MainMenuDriver {
 
         f.add(inbox);
         f.add(historyOrder);
+        f.add(tarikDanaButton);
+        f.add(switchStatus);
+        f.add(withdrawal);
         f.add(logOut);
 
         f.setSize(500, 600);
         f.setLayout(null);
+
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
 
 
-    public static void main(String[] args) {
-        new MainMenuDriver(11);
-    }
+    // public static void main(String[] args) {
+    //     new MainMenuDriver(11);
+    // }
 
+ 
 }

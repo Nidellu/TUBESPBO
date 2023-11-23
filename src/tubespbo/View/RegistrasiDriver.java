@@ -82,10 +82,10 @@ public class RegistrasiDriver {
                     boolean succeed = con.inputUserDataToDB(username, password, roles);
                     if (succeed) {
                         int id = con.getIDUser(username);
-                        boolean succeedDriver = con.inputDriverDataToDB(id, telepon, namaKendaraan, jenis, plat);
+                        boolean succeedDriver = con.inputDriverDataToWaitingList(username, password, telepon, namaKendaraan, jenis, plat);
                         if (succeedDriver) {
-                            JOptionPane.showMessageDialog(f, "Data berhasil disimpan, Silahkan Login");
-                            new LogIn();
+                            JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
+                            new StartMenu();
                             f.dispose();
                         } else {
                             JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
