@@ -34,16 +34,19 @@ public class LogIn {
         intro2.setBounds(10, 30, 250, 30);
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
-
+      
         JLabel useraname = new JLabel("Username ");
         useraname.setFont(fontLabel);
         useraname.setBounds(20, 100, 100, 30);
+
         JTextField inputName = new JTextField();
         inputName.setBounds(160, 100, 200, 30);
 
         JLabel password = new JLabel("Password ");
         password.setFont(fontLabel);
+
         password.setBounds(20, 130, 100, 30);
+
         JPasswordField inputPassword = new JPasswordField();
         inputPassword.setBounds(160, 130, 200, 30);
         
@@ -95,6 +98,7 @@ public class LogIn {
         f.setLocationRelativeTo(null);
         f.setLayout(null);
         f.setSize(400, 400);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

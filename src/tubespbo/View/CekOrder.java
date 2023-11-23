@@ -58,7 +58,7 @@ public class CekOrder {
         riwayat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new OrderRiwayat(id);
+                // new OrderRiwayat(id);
             }
         });
 
@@ -83,6 +83,7 @@ public class CekOrder {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

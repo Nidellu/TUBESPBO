@@ -113,6 +113,7 @@ public class MainMenuPassanger {
         f.setLocationRelativeTo(null);
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

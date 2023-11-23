@@ -74,28 +74,34 @@ public class DetailOrder {
             driverInfo.setFont(font4);
             driverInfo.setBounds(30, 190, 300, 30);
 
+            // get drive's name
             JLabel driverName = new JLabel(driver);
             driverName.setFont(font4);
             driverName.setBounds(30, 220, 300, 30);
 
             ArrayList<Driver> driverCont = con.getDriverByID(listOrder.get(listOrder.size() - 1).getDriver_id());
 
+            // get driver's phone number
             JLabel driverPhon = new JLabel(driverCont.get(driverCont.size() - 1).getDriver_phonNum());
             driverPhon.setFont(font2);
             driverPhon.setBounds(370, 220, 300, 30);
 
+            // get driver vehicle type
             JLabel driverVType = new JLabel(driverCont.get(driverCont.size() - 1).getVehicle_type());
             driverVType.setFont(font2);
             driverVType.setBounds(30, 245, 300, 30);
 
+            // get driver's plate
             JLabel driverVPlate = new JLabel(driverCont.get(driverCont.size() - 1).getVehicle_plate());
             driverVPlate.setFont(font2);
             driverVPlate.setBounds(390, 255, 300, 30);
 
+            // get driver vehicle's name
             JLabel driverVName = new JLabel(driverCont.get(driverCont.size() - 1).getVehicle_name());
             driverVName.setFont(font2);
             driverVName.setBounds(30, 265, 300, 30);
 
+            // adding driver's data to frame
             f.add(driverInfo);
             f.add(driverName);
             f.add(driverPhon);
@@ -103,6 +109,7 @@ public class DetailOrder {
             f.add(driverVName);
             f.add(driverVPlate);
         } else if (find.equalsIgnoreCase("Driver")) {
+
             String passName = con.getUsername(listOrder.get(listOrder.size() - 1).getCust_id());
 
             JLabel passInfo = new JLabel("Info Passanger:");
