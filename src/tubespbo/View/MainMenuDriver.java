@@ -111,17 +111,19 @@ public class MainMenuDriver {
         });
 
         //button for swithcing status
-        JButton switchStatus = new JButton("On-Off ");
+        JButton switchStatus = new JButton(con.getSwitchStatusText(id));
         switchStatus.setFont(fontButton);
         switchStatus.setBounds(70, 360, 350, 30);
         switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean success = con.driverOnOffStat(id);
                 if (success == true) {
-                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);               
+                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);  
                 } else {
                     JOptionPane.showMessageDialog(null, "Status Gagal Diubah!", "Upss", JOptionPane.ERROR_MESSAGE);               
                 }
+                f.dispose();
+                    new MainMenuDriver(id);     
             }
         });
 

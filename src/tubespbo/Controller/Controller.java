@@ -841,48 +841,58 @@ public class Controller {
 
 // order ride end
 
-// switch on off stat driver
-    public boolean driverOnOffStat(int driverID) {
+// start switch on off status driver
+    private String getDriverStat(int driverID) {
+        String stat = "";
         conn.connect();
-        String stats = "SELECT driver_status FROM drivers WHERE driver_id = '" + driverID + "';";
+        String statsQuery = "SELECT driver_status FROM drivers WHERE driver_id = '" + driverID + "';";
         try {
-            PreparedStatement stmt = conn.con.prepareStatement(stats);
-            stmt.executeUpdate();
-            if (stats.equals("AVAILABLE")) {
-
-                String query = "UPDATE drivers\r\n" + //
-                        "SET driver_status = 'OFFLINE'\r\n" + //
-                        "WHERE driver_id = '" + driverID + "';"; 
-                PreparedStatement statement;
-                        
-                try {
-                    statement = conn.con.prepareStatement(query);
-                    statement.executeUpdate();
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            } else if (stats.equals("OFFLINE")){
-                 String query = "UPDATE drivers\r\n" + //
-                        "SET driver_status = 'AVAILABLE'\r\n" + //
-                        "WHERE driver_id = '" + driverID + "';"; 
-                PreparedStatement statement;
-                        
-                try {
-                    statement = conn.con.prepareStatement(query);
-                    statement.executeUpdate();
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            } else {
-                return false;
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(statsQuery);
+            while (rs.next()) {
+                stat = rs.getString("driver_status");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        }
+        return stat;
+    }
+
+    
+    public String getSwitchStatusText(int driverID) {
+        String currentStatus = getDriverStat(driverID);
+        if ("OFFLINE".equalsIgnoreCase(currentStatus)) {
+            return "Now Offline";
+        } else if ("AVAILABLE".equalsIgnoreCase(currentStatus)) {
+            return "Now Available";
+        } else {
+            return "Unknown Status";
         }
     }
+
+    public boolean driverOnOffStat(int driverID) {
+        conn.connect();
+        String stats = getDriverStat(driverID);
+
+        if ("AVAILABLE".equalsIgnoreCase(stats)) {
+            updateDriverStatus(driverID, "OFFLINE");
+            return true;
+        } else if ("OFFLINE".equalsIgnoreCase(stats)) {
+            updateDriverStatus(driverID, "AVAILABLE");
+            return true;
+        } else {
+            return false; 
+        }
+    }
+
+    private void updateDriverStatus(int driverID, String newStatus) {
+        String query = "UPDATE drivers SET driver_status = '" +  newStatus + "' WHERE driver_id = '" + driverID + "';";
+        try {
+            PreparedStatement statement = conn.con.prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+// end on off status driver
 }
