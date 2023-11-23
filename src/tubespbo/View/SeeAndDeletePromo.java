@@ -23,11 +23,11 @@ import tubespbo.Model.Promo;
 
 public class SeeAndDeletePromo {
 
-    public SeeAndDeletePromo(int id) {
-        showResult(id);
+    public SeeAndDeletePromo() {
+        showResult();
     }
 
-    private void showResult(int id) {
+    private void showResult() {
         Controller cntrl = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +39,7 @@ public class SeeAndDeletePromo {
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
 
-        JLabel intro = new JLabel("DAFTAR PROMO");
+        JLabel intro = new JLabel("Daftar List Promo.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -75,17 +75,17 @@ public class SeeAndDeletePromo {
             promoPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
             int idPromo = prm.getPromoID();
 
-            JTextField promoCode = new JTextField("Kode Promo : " + prm.getPromoCode() + "\t\t");
-            promoCode.setBorder(null);
+            JTextField promoCode = new JTextField("Kode Promo : " + prm.getPromoCode() + "\t\t                 ");
+            promoCode.setBorder(null); 
             promoCode.setEditable(false);
             promoPanel.add(promoCode);
 
-            JTextField promoVaField = new JTextField(prm.getExpired() + "\t               ");
+            JTextField promoVaField = new JTextField(prm.getExpired() + "");
             promoVaField.setBorder(null);
             promoVaField.setEditable(false);
             promoPanel.add(promoVaField);
 
-            JTextField expField = new JTextField(" Nilai Promo " + prm.getPromoValue() + "\t");
+            JTextField expField = new JTextField(" Nilai Promo " + prm.getPromoValue() + "                         ");
             expField.setBorder(null);
             expField.setEditable(false);
             promoPanel.add(expField);
@@ -96,7 +96,7 @@ public class SeeAndDeletePromo {
             } else {
                 statPromo = "Expired";
             }
-            JTextField status = new JTextField(statPromo + "\t\t            ");
+            JTextField status = new JTextField(statPromo + "                 ");
             status.setBorder(null);
             status.setEditable(false);
             promoPanel.add(status);
@@ -117,7 +117,7 @@ public class SeeAndDeletePromo {
                        JOptionPane.showMessageDialog(null, "PROMO BATAL DIHAPUS!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                     }
                     f.dispose();
-                    new SeeAndDeletePromo(idPromo);
+                    new SeeAndDeletePromo();
                 }
             });
             promoPanel.add(deleteBtn);
@@ -139,7 +139,7 @@ public class SeeAndDeletePromo {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new CekOrder(id);
+                new MainMenuAdmin();
             }
         });
 
@@ -153,5 +153,9 @@ public class SeeAndDeletePromo {
         f.setSize(500, 600);
         f.setLayout(null);
         f.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new SeeAndDeletePromo();
     }
 }
