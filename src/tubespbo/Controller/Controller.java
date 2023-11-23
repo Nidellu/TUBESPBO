@@ -7,8 +7,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import tubespbo.Model.*;
@@ -478,4 +476,34 @@ public class Controller {
             return (false);
         }
     }
+
+// order ride start here
+ private static Map<Character, Integer> letterToNumber = new HashMap<>();
+
+    // Menetapkan urutan huruf dan angka yang sesuai buat menentukan lokasi
+    static {
+        char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        for (int i = 0; i < letters.length; i++) {
+            letterToNumber.put(letters[i], i + 1);
+        }
+    }
+
+    // hitung tarif berdasarkan lokasi
+    public int calculateCost(char source, char destination) {
+        // Mendapatkan nilai urutan untuk setiap huruf
+        int sourceNumber = letterToNumber.get(source);
+        int destinationNumber = letterToNumber.get(destination);
+
+        // Menghitung jarak dan harga
+        int distance = Math.abs(destinationNumber - sourceNumber);
+        int cost = distance * 10;
+
+        return cost;
+    }
+    
+    // user create an order
+    
+
+// order ride end
+
 }

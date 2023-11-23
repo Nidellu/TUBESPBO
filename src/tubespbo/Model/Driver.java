@@ -24,8 +24,7 @@ public class Driver extends User {
         this.vehicle_plate = vehicle_plate;
     }
 
-    public Driver(int driver_id, String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate) {
-        this.driver_id = driver_id;
+    public Driver(String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate) {
         this.driver_phonNum = driver_phonNum;
         this.vehicle_name = vehicle_name;
         this.vehicle_type = vehicle_type;
