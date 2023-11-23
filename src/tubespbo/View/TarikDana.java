@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
@@ -18,10 +17,10 @@ import tubespbo.Model.Driver;
 public class TarikDana {
     
     public TarikDana(int id) {
-        new Withdraw(id);
+        Withdraw(id);
     }
   
-    private Withdraw(int id) {
+    private void Withdraw(int id) {
         Controller con = new Controller();
         Driver currDriver = con.getDriverByID(id).get(0);
 

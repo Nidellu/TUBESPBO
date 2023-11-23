@@ -47,7 +47,11 @@ public class MenuTopUp {
         JButton backButton = new JButton("Kembali");
         backButton.setBounds(30, 370, 100, 25);
         backButton.addActionListener(e -> {
-            new MainMenuPassanger(id);
+            if (currUser.getUser_role().equalsIgnoreCase("DRIVER")) {
+                new MainMenuDriver(id);
+            } else if (currUser.getUser_role().equalsIgnoreCase("PASSANGER")) {
+                new MainMenuPassanger(id);
+            }
             f.dispose();
         });
         f.add(backButton);
