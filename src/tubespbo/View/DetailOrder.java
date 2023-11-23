@@ -17,11 +17,11 @@ import tubespbo.Model.Passanger;
 
 public class DetailOrder {
 
-    public DetailOrder(int id, int idOrder) {
-        showDataScreen(id, idOrder);
+    public DetailOrder(int id, int idOrder, int menu) {
+        showDataScreen(id, idOrder, menu);
     }
 
-    private void showDataScreen(int id, int idOrder) {
+    private void showDataScreen(int id, int idOrder, int menu) {
         Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -165,7 +165,7 @@ public class DetailOrder {
             f.add(driverVType);
             f.add(driverVName);
             f.add(driverVPlate);
-            
+
             String passName = con.getUsername(listOrder.get(listOrder.size() - 1).getCust_id());
 
             JLabel passInfo = new JLabel("Info Passanger:");
@@ -176,7 +176,7 @@ public class DetailOrder {
             passNameCont.setFont(font4);
             passNameCont.setBounds(30, 318, 300, 30);
 
-            ArrayList<Passanger> passCont = con.getPassangerByID(listOrder.get(listOrder.size()-1).getCust_id());
+            ArrayList<Passanger> passCont = con.getPassangerByID(listOrder.get(listOrder.size() - 1).getCust_id());
 
             JLabel passPhon = new JLabel(passCont.get(passCont.size() - 1).getPhone_number());
             passPhon.setFont(font2);
@@ -229,11 +229,15 @@ public class DetailOrder {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                if (id == 1) {
-                    new MainMenuAdmin();
-                } else {
+
+                if (menu == 1) {
                     new OrderBerjalan(id);
+                } else if (menu == 2) {
+                    new OrderRiwayat(id);
+                } else {
+                    new MainMenuAdmin();
                 }
+
             }
         });
 
