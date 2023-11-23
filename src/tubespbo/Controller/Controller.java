@@ -822,5 +822,46 @@ public class Controller {
 
 // order ride end
 
-// hitung harga order
+// switch on off stat driver
+    public boolean driverOnOffStat(int driverID) {
+        conn.connect();
+        String stats = "SELECT driver_status FROM drivers WHERE driver_id = '" + driverID + "';";
+        try {
+            PreparedStatement stmt = conn.con.prepareStatement(stats);
+            stmt.executeUpdate();
+            if (stats.equals("AVAILABLE")) {
+
+                String query = "UPDATE drivers\r\n" + //
+                        "SET driver_status = 'OFFLINE'\r\n" + //
+                        "WHERE driver_id = '" + driverID + "';"; 
+                PreparedStatement statement;
+                        
+                try {
+                    statement = conn.con.prepareStatement(query);
+                    statement.executeUpdate();
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
+                 String query = "UPDATE drivers\r\n" + //
+                        "SET driver_status = 'AVAILABLE'\r\n" + //
+                        "WHERE driver_id = '" + driverID + "';"; 
+                PreparedStatement statement;
+                        
+                try {
+                    statement = conn.con.prepareStatement(query);
+                    statement.executeUpdate();
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -87,7 +87,7 @@ public class MainMenuDriver {
             }
         });
 
-        
+        // button buat liat history
         JButton historyOrder = new JButton("Lihat Pesanan");
         historyOrder.setFont(fontButton);
         historyOrder.setBounds(250, 230, 170, 30);
@@ -97,6 +97,8 @@ public class MainMenuDriver {
                 new CekOrder(id);
             }
         });
+
+        //button buat tarik dana
         JButton tarikDanaButton = new JButton("Tarik Dana");
         tarikDanaButton.setFont(fontButton);
         tarikDanaButton.setBounds(70, 320, 350, 30);
@@ -107,9 +109,10 @@ public class MainMenuDriver {
             }
         });
 
+        //button for swithcing status
         JButton switchStatus = new JButton("On-Off ");
         switchStatus.setFont(fontButton);
-        switchStatus.setBounds(70, 320, 350, 30);
+        switchStatus.setBounds(70, 360, 350, 30);
         switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //
@@ -125,6 +128,7 @@ public class MainMenuDriver {
                     }
                 });
         
+        // back button
         JButton backButton = new JButton("Back to Main Menu");
         backButton.setBounds(170, 350, 150, 30);
         backButton.addActionListener(new ActionListener() {
@@ -134,6 +138,7 @@ public class MainMenuDriver {
             }
         });
         
+        // logout button
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
