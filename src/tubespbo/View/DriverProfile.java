@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 
@@ -126,6 +125,7 @@ public class DriverProfile {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

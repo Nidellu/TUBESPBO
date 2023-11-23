@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
@@ -135,6 +134,7 @@ public class OrderBerjalan {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(500, 600);
         f.getContentPane().setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
     
