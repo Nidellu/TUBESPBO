@@ -746,7 +746,7 @@ public class Controller {
         String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n" + 
                 "FROM drivers d \r\n" + 
                 "JOIN users u ON u.user_id = d.driver_id\r\n" + 
-                "WHERE u.user_id = d.driver_id AND d.vehicle_type = \"Motor\" AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
+                "WHERE u.user_id = d.driver_id AND d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
