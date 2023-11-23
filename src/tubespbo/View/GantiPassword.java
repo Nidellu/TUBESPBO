@@ -45,7 +45,7 @@ public class GantiPassword {
         password.setBounds(30, 130, 200, 30);
         JPasswordField inputPassword = new JPasswordField();
         inputPassword.setBounds(260, 130, 200, 30);
-        
+
         JLabel passwordBaru = new JLabel("Password Baru");
         passwordBaru.setFont(fontLabel);
         passwordBaru.setBounds(30, 170, 200, 30);
@@ -77,7 +77,12 @@ public class GantiPassword {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuPassanger(id);
+                String role = con.getRolesUser(id);
+                if (role.equalsIgnoreCase("Passanger")) {
+                    new PassangerProfile(id);
+                } else if (role.equalsIgnoreCase("Driver")) {
+                    new DriverProfile(id);
+                }
             }
         });
 

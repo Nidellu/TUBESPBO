@@ -38,15 +38,15 @@ public class StartMenu {
         JLabel hello = new JLabel("Selamat Datang di Josen!");
         Font font = new Font("Courier", Font.BOLD,20);
         hello.setFont(font);
-        hello.setBounds(73, 140, 250, 80);
+        hello.setBounds(53, 140, 300, 80);
         
         JLabel intro = new JLabel("Mau kemana sayang? ");
         JLabel intro2 = new JLabel("Sini abang Josen yang anter");
         Font font2 = new Font("Courier", Font.PLAIN,14);
         intro.setFont(font2);
         intro2.setFont(font2);
-        intro.setBounds(120, 200, 250, 30);
-        intro2.setBounds(97, 220, 250, 30);
+        intro.setBounds(110, 200, 250, 30);
+        intro2.setBounds(75, 220, 250, 30);
         
         Font fontButton = new Font("Courier", Font.BOLD,12);
         

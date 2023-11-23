@@ -81,9 +81,19 @@ public class MainMenuDriver {
 //                
             }
         });
+        
+        JButton inbox = new JButton("Inbox");
+        inbox.setFont(fontButton);
+        inbox.setBounds(70, 230, 140, 30);
+        inbox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //
+            }
+        });
+
         JButton historyOrder = new JButton("Riwayat Pesanan");
         historyOrder.setFont(fontButton);
-        historyOrder.setBounds(70, 270, 350, 30);
+        historyOrder.setBounds(250, 230, 170, 30);
         historyOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -91,25 +101,33 @@ public class MainMenuDriver {
             }
         });
 
-//         JButton takeOrder = new JButton("Take/Cancel Order");
-//         takeOrder.setFont(fontButton);
-//         takeOrder.setBounds(70, 220, 350, 30);
-//         takeOrder.addActionListener(new ActionListener() {
-//             public void actionPerformed(ActionEvent e) {
-// //                
-//             }
-//         });
-
-        JButton inbox = new JButton("Inbox");
-        inbox.setFont(fontButton);
-        inbox.setBounds(70, 220, 350, 30);
-        inbox.addActionListener(new ActionListener() {
+        JButton switchStatus = new JButton("On-Off ");
+        switchStatus.setFont(fontButton);
+        switchStatus.setBounds(70, 320, 350, 30);
+        switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                //
             }
         });
 
-
+        JButton withdrawal = new JButton("Withdrawal");
+        withdrawal.setFont(fontButton);
+        withdrawal.setBounds(70, 370, 350, 30);
+        withdrawal.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+        //                
+                    }
+                });
+        
+        JButton backButton = new JButton("Back to Main Menu");
+        backButton.setBounds(170, 350, 150, 30);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+        
+            }
+        });
+        
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
@@ -130,68 +148,17 @@ public class MainMenuDriver {
 
         f.add(inbox);
         f.add(historyOrder);
+        f.add(switchStatus);
+        f.add(withdrawal);
         f.add(logOut);
 
         f.setSize(500, 600);
         f.setLayout(null);
-        f.setVisible(true);
-//
-//        for (int i = 0; i < listUser.size(); i++) {
-//            int id = listUser.get(i).getId();
-//            String name = listUser.get(i).getName();
-//            String email = listUser.get(i).getEmail();
-//            String password = listUser.get(i).getPassword();
-//            int idCategory = listUser.get(i).getIdCategory();
-//            String categoryString = con.getStringCategory(idCategory);
-//            String photo = listUser.get(i).getPhoto();
-//
-//            ImageIcon originalFotoIcon = new ImageIcon(photo);
-//
-//            Object[] data = {id, name, email, password, categoryString, originalFotoIcon};
-//
-//            model.addRow(data);
-//
-//        }
 
-        JButton backButton = new JButton("Back to Main Menu");
-        backButton.setBounds(170, 350, 150, 30);
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
 
-            }
-        });
-
-        // JTable table = new JTable(model) {
-        //     public Class getColumnClass(int column) {
-        //         return (column == 0) ? Icon.class : Object.class;
-        //     }
-        // };
-        // table.setPreferredScrollableViewportSize(table.getPreferredSize());
-
-        // table.setBounds(50, 100, 700, 200);
-        // JScrollPane sp = new JScrollPane(table);
-        // table.setRowHeight(50);
-
-        // JPanel panel = new JPanel(null);
-        // panel.add(backButton);
-        // panel.add(table);
-        // panel.add(sp);
-        
-
-        // f.setSize(800, 500);
-        // f.add(panel);
-        // f.setVisible(true);
-
-        f.setSize(800, 500);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
-
-
-    public static void main(String[] args) {
-        new MainMenuDriver(11);
-    }
-
+ 
 }
