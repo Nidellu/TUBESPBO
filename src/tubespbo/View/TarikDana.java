@@ -62,8 +62,11 @@ public class TarikDana {
         wallet.setBounds(30, 150, 800, 30);
         wallet.setBackground(null);
         f.add(wallet);
-        
-        JLabel saldo = new JLabel("Rp.  "  + con.getWallet(id));
+        String strSaldo = String.valueOf(con.getWallet(id));
+        if (con.getWallet(id) > 9999999) {
+            strSaldo = "9999999+";
+        }
+        JLabel saldo = new JLabel("Rp.  "  + strSaldo);
         saldo.setHorizontalAlignment(SwingConstants.RIGHT);
         saldo.setFont(font);
         saldo.setBounds(250, 150, 200, 30);
