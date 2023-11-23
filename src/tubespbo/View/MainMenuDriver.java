@@ -156,7 +156,6 @@ public class MainMenuDriver {
         f.add(historyOrder);
         f.add(tarikDanaButton);
         f.add(switchStatus);
-        // f.add(withdrawal);
         f.add(logOut);
 
         f.setSize(500, 600);
