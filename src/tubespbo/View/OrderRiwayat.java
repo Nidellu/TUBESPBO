@@ -1,22 +1,28 @@
 package tubespbo.View;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 
+import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
 
-public class OrderRiwayat {
+public class OrderRiwayat{
 
     public OrderRiwayat(int id) {
         showDataScreen(id);
@@ -25,11 +31,11 @@ public class OrderRiwayat {
     private void showDataScreen(int id) {
         Controller con = new Controller();
         JFrame f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
+        Font font4 = new Font("Courier", Font.BOLD, 14);
 
         JLabel intro = new JLabel("Riwayat Orderan.");
 
@@ -43,198 +49,74 @@ public class OrderRiwayat {
                 + "__________________________________________________"
                 + "___________________________");
 
-        lineDiv.setBounds(10, 100, 450, 20);
+        lineDiv.setBounds(10, 100, 460, 20);
 
-
-        ArrayList<Order> listOrder = con.getOrderNow(id);
-
+        ArrayList<Order> listOrder = con.getOrderHistory(id);
+        
         if (listOrder.isEmpty()) {
             JLabel ingpo = new JLabel("Yah... Order masih kosong nih :'(");
             ingpo.setFont(font3);
-            ingpo.setBounds(360, 280, 400, 30);
+            ingpo.setBounds(110, 300, 400, 30);
             f.add(ingpo);
         }
 
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(20, 130, 445, 420);
+        f.getContentPane().add(scrollPane);
 
-        JPanel containerOrders = new JPanel();
-        containerOrders.setLayout(new BoxLayout(containerOrders, BoxLayout.Y_AXIS));
-        containerOrders.setBounds(5, 120, 425, 370);
+        JPanel containerOrder = new JPanel();
+        scrollPane.setViewportView(containerOrder);
+        containerOrder.setLayout(new BorderLayout(0, 0));
 
-
-//         int orderHeight = 10;
-
-
-//         for (Order order : listOrder) {
-//             JPanel indivOrder = new JPanel(null);
-//             indivOrder.setSize(300, 60);
-//             indivOrder.setBounds(5, orderHeight, 400, 60);
-//             indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        JPanel orderListCont = new JPanel();
+        containerOrder.add(orderListCont, BorderLayout.NORTH);
+        orderListCont.setLayout(new GridLayout(0, 1, 0, 1));
+        orderListCont.setBackground(Color.gray);
 
         for (Order order : listOrder) {
-            // JPanel indivOrder = new JPanel(null);
-            // indivOrder.setSize(300, 60);
-            // indivOrder.setBounds(5, orderHeight, 400, 60);
-            // indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-
-
-//             int idOrder = order.getOrder_id();
-
-
-//             JTextField nameField = new JTextField("Tujuan: " + order.getOrder_destination());
-//             nameField.setBounds(10, 5, 100, 25);
-//             nameField.setBackground(null);
-//             nameField.setBorder(null);
-//             nameField.setEditable(false);
-//             indivOrder.add(nameField);
+            JPanel indivOrder = new JPanel(null);
+            indivOrder.setFont(font2);
+            indivOrder.setPreferredSize(new Dimension(300,60));
+            orderListCont.add(indivOrder);
+            indivOrder.setLayout(null);
             
-//             JTextField dateField = new JTextField(order.getOrder_date() + "");
-//             dateField.setBounds(150, 5, 150, 25);
-//             dateField.setBorder(null);
-//             dateField.setEditable(false);
-//             indivOrder.add(dateField);
-            
-//             JTextField priceField = new JTextField("Rp. " + order.getOrder_final_price() + "");
-//             priceField.setBorder(null);
-//             priceField.setBounds(300, 5, 70, 25);
-//             priceField.setEditable(false);
-//             indivOrder.add(priceField);
-            
-//             JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
-//             status.setBorder(null);
-//             status.setBounds(10, 30, 80, 25);
-//             status.setEditable(false);
-//             indivOrder.add(status);
+            indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-//             JButton buyButton = new JButton("Details");
-//             buyButton.setBounds(300, 30, 90, 25);
-//             buyButton.addActionListener(new ActionListener() {
-//                 public void actionPerformed(ActionEvent e) {
-//                     f.dispose();
-//                     new DetailOrder(id, idOrder);
-//                 }
-//             });
-//             gamePanel.add(buyButton);
+            int idOrder = order.getOrder_id();
 
-//             gamePanel.setOpaque(true);
-
-//             gamePanelContainer.add(gamePanel);
-//             indivOrder.setVisible(true);
-//             indivOrder.add(buyButton);
-//             containerOrders.add(indivOrder);
-//             containerOrders.setVisible(true);
-//             orderHeight += 65;
-//         }
-
-//         JLabel lineDiv2 = new JLabel("__________________________________"
-//                 + "__________________________________________________"
-//                 + "__________________________________________________"
-//                 + "___________________________");
-//         lineDiv2.setBounds(10, 500, 968, 20);
-
-//         lineDiv2.setBounds(10, 510, 450, 20);
-
-
-//         JButton backButton = new JButton("Kembali");
-//         backButton.setFont(fontButton);
-//         backButton.setBounds(10, 10, 150, 30);
-//         backButton.addActionListener(new ActionListener() {
-//             public void actionPerformed(ActionEvent e) {
-//                 f.dispose();
-//                 new CekOrder(id);
-//             }
-//         });
-
-//         f.add(gamePanelContainer);
-//         f.add((intro));
-
-//         JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-//         // scrollPaneOrder.setVisible(false);
-//         scrollPaneOrder.setBorder(null);
-//         // scrollPaneOrder.setBackground(Color.CYAN);
-//         scrollPaneOrder.setBounds(30, 120, 415, 400);
-//         // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
-
-//         // scrollPaneOrder.add(containerOrders);
-
-//         f.getContentPane().add(scrollPaneOrder);
-
-//         // f.add(containerOrders);
-//         f.add((intro));
-//         // f.add(scrollPaneOrder);
-
-//         f.add(backButton);
-//         f.add(lineDiv);
-//         f.add(lineDiv2);
-
-//         f.setSize(500, 600);
-//         f.setLayout(null);
-//         f.setLocationRelativeTo(null);
-//         f.setVisible(true);
-//     }
-
-//     // public static void main(String[] args) {
-//     //     new OrderRiwayat(5);
-//     // }
-//     }
-// }
-
-            JTextField nameField = new JTextField("Tujuan: " + order.getOrder_destination());
+            JLabel nameField = new JLabel("Tujuan: " + order.getOrder_destination());
             nameField.setBounds(10, 5, 100, 25);
-            nameField.setBackground(null);
             nameField.setBorder(null);
-            nameField.setEditable(false);
-            containerOrders.add(nameField);
-
-            JTextField dateField = new JTextField(order.getOrder_date() + "");
-            dateField.setLayout(null);
-            dateField.setBounds(150, 5, 150, 25);
+            indivOrder.add(nameField);
+            
+            JLabel dateField = new JLabel(order.getOrder_date() + "");
+            dateField.setBounds(353, 5, 70, 20);
             dateField.setBorder(null);
-            dateField.setEditable(false);
-            containerOrders.add(dateField);
-
-            JTextField priceField = new JTextField("\t\t\t\tRp. " + order.getOrder_final_price() + "");
+            indivOrder.add(dateField);
+            
+            JLabel priceField = new JLabel("Rp. " + order.getOrder_final_price() + "");
             priceField.setBorder(null);
-            priceField.setBounds(300, 5, 70, 25);
-            priceField.setEditable(false);
-            containerOrders.add(priceField);
-
-            JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
+            priceField.setBounds(10, 30, 70, 25);
+            indivOrder.add(priceField);
+            
+            JLabel status = new JLabel( order.getOrder_status().toString() + "");
+            status.setFont(font4);
             status.setBorder(null);
-            status.setBounds(10, 30, 80, 25);
-            status.setEditable(false);
-            containerOrders.add(status);
+            status.setBounds(150, 3, 150, 25);
+            indivOrder.add(status);
 
-            JButton buyButton = new JButton("Details");
-            buyButton.setBounds(300, 30, 90, 25);
-            buyButton.addActionListener(new ActionListener() {
+            JButton detailsButton = new JButton("Details");
+            detailsButton.setBounds(340, 28, 90, 25);
+            detailsButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
                     new DetailOrder(id, idOrder);
                 }
             });
-
-            indivOrder.setVisible(true);
-            indivOrder.add(buyButton);
-            containerOrders.add(indivOrder);
-
-            containerOrders.add(buyButton);
-
-            containerOrders.setOpaque(true);
-
-            containerOrders.setVisible(true);
-            // containerOrders.add(buyButton);
-            // containerOrders.add(indivOrder);
-            containerOrders.setVisible(true);
-            // orderHeight += 0;
-            System.out.println("Hello");
+            indivOrder.add(detailsButton);
+            
         }
-
-        JLabel lineDiv2 = new JLabel("__________________________________"
-                + "__________________________________________________"
-                + "__________________________________________________"
-                + "___________________________");
-        lineDiv2.setBounds(10, 510, 450, 20);
-
+        
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
         backButton.setBounds(10, 10, 150, 30);
@@ -244,36 +126,22 @@ public class OrderRiwayat {
                 new CekOrder(id);
             }
         });
-
-
-        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        // f.add(containerOrders);
-        f.add((intro));
-
-        JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        // scrollPaneOrder.setVisible(false);
-        scrollPaneOrder.setBorder(null);
-        // scrollPaneOrder.setBackground(Color.CYAN);
-        scrollPaneOrder.setBounds(30, 120, 415, 400);
-        // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
-
-        // scrollPaneOrder.add(containerOrders);
-
-        f.getContentPane().add(scrollPaneOrder);
-
-        // f.add(containerOrders);
+        
         f.add((intro));
         // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);
-        f.add(lineDiv2);
-
+        
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(500, 600);
-        f.setLayout(null);
-        f.setLocationRelativeTo(null);
+        f.getContentPane().setLayout(null);
         f.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new OrderRiwayat(5);
+    
     }
 
 }

@@ -19,11 +19,11 @@ import tubespbo.Controller.Controller;
 import tubespbo.Model.Promo;
 
 public class AddPromo {
-    public AddPromo(int id) {
-        addHere(id);
+    public AddPromo() {
+        addHere();
     } 
 
-    private void addHere(int id) {
+    private void addHere() {
         Controller cntrl = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +91,7 @@ public class AddPromo {
                         JOptionPane.showMessageDialog(null, "GAGAL MENAMBAHKAN PROMO!", "Upss", JOptionPane.ERROR_MESSAGE);
                     }
                     f.dispose();
-                    new SeeAndDeletePromo(id);
+                    new SeeAndDeletePromo();
                 }
             }
 
@@ -109,7 +109,7 @@ public class AddPromo {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuAdmin(id);
+                new MainMenuAdmin();
             }
         });
 

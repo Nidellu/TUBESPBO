@@ -23,11 +23,11 @@ import tubespbo.Model.Promo;
 
 public class SeeAndDeletePromo {
 
-    public SeeAndDeletePromo(int id) {
-        showResult(id);
+    public SeeAndDeletePromo() {
+        showResult();
     }
 
-    private void showResult(int id) {
+    private void showResult() {
         Controller cntrl = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,7 +117,7 @@ public class SeeAndDeletePromo {
                        JOptionPane.showMessageDialog(null, "PROMO BATAL DIHAPUS!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                     }
                     f.dispose();
-                    new SeeAndDeletePromo(idPromo);
+                    new SeeAndDeletePromo();
                 }
             });
             promoPanel.add(deleteBtn);
@@ -139,7 +139,7 @@ public class SeeAndDeletePromo {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new CekOrder(id);
+                new MainMenuAdmin();
             }
         });
 

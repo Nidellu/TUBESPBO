@@ -61,7 +61,7 @@ public class LogIn {
                     int id = con.getIDUser(inputName.getText());
                     String role = con.getRolesUser(id);
                     if (role.equalsIgnoreCase("Admin")) {
-                        new MainMenuAdmin(id);
+                        new MainMenuAdmin();
                     } else if (role.equalsIgnoreCase("Passanger")) {
                         new MainMenuPassanger(id);
                     } else if (role.equalsIgnoreCase("Driver")) {
