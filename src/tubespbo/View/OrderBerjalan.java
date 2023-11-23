@@ -58,6 +58,7 @@ public class OrderBerjalan {
             ingpo.setBounds(110, 300, 400, 30);
             f.add(ingpo);
         }
+        
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 130, 445, 420);
         f.getContentPane().add(scrollPane);
@@ -137,7 +138,4 @@ public class OrderBerjalan {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new OrderBerjalan(5);
-    }
 }
