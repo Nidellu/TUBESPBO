@@ -56,7 +56,8 @@ public class FindOrder {
                 int getID = Integer.parseInt(thisID);
                 boolean found = con.getOrder(getID);
                 if (found) {
-                    new DetailOrder(1, getID);
+                    f.dispose();
+                    new DetailOrder(1, getID, 0);
                 } else {
                     JOptionPane.showMessageDialog(f, "Order tidak ditemukan", "Huff", JOptionPane.WARNING_MESSAGE);
                 }
@@ -87,5 +88,7 @@ public class FindOrder {
         f.setLayout(null);
         f.setVisible(true);
     }
-
+    public static void main(String[] args) {
+        new FindOrder();
+    }
 }

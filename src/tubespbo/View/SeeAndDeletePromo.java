@@ -17,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.Order;
-import tubespbo.Model.Passanger;
 import tubespbo.Model.Promo;
 
 public class SeeAndDeletePromo {
@@ -121,9 +119,7 @@ public class SeeAndDeletePromo {
                 }
             });
             promoPanel.add(deleteBtn);
-
             promoPanel.setOpaque(true);
-
             promoContainer.add(promoPanel);
         }
 
