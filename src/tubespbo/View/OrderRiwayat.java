@@ -1,8 +1,7 @@
 package tubespbo.View;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -16,9 +15,7 @@ import java.awt.GridLayout;
 
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Order;
 
@@ -112,7 +109,7 @@ public class OrderRiwayat{
             detailsButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
-                    new DetailOrder(id, idOrder);
+                    new DetailOrder(id, idOrder, 2);
                 }
             });
             indivOrder.add(detailsButton);
@@ -130,7 +127,6 @@ public class OrderRiwayat{
         });
         
         f.add((intro));
-        // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);

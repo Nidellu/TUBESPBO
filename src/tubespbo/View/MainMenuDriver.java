@@ -183,12 +183,11 @@ public class MainMenuDriver {
         // f.add(panel);
         // f.setVisible(true);
 
-    }
-
         f.setSize(800, 500);
-        f.add(panel);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
+    }
+
 
 
     public static void main(String[] args) {
