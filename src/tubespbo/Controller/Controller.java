@@ -327,6 +327,45 @@ public class Controller {
         return (exists);
     }
 
+    //salary driver
+    public double salaryDriver (int idDriver) {
+        conn.connect();
+        String query = "SELECT SUM(order_final_price) FROM orders WHERE driver_id = '" + idDriver + "' ";
+        double total = 0;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                total = (rs.getDouble("SUM(order_final_price)"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (total);
+    }
+
+    public int getOrderCountDriver (int idDriver) {
+        conn.connect();
+        String query = "SELECT COUNT(driver_id) FROM orders WHERE driver_id = '" + idDriver + "'";
+        int result = 0;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                result = (rs.getInt("COUNT(driver_id)"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (result);
+    }
+
+    public double totalSalary (int idDriver) {
+        double total = 0;
+        total = salaryDriver(idDriver) - (getOrderCountDriver(idDriver) * 2000);
+        return total;
+    }
+
     // order status
     public OrderStatusEnum getEnum(String type) {
         if (type.equalsIgnoreCase("FINISHED")) {
