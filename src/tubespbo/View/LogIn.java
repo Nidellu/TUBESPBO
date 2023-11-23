@@ -92,6 +92,7 @@ public class LogIn {
 
         f.setLayout(null);
         f.setSize(400, 400);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
     
