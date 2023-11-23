@@ -28,9 +28,12 @@ public class OrderRide {
     }
 
     private Map<String, Integer> vehicleCosts;
-    private JLabel labelAsal, labelTujuan, labelPilihVehicle, labelResult;
+    private JLabel labelAsal, labelTujuan, labelPilihVehicle, labelResult, totalHarga;
     private JTextField textAsal, textTujuan;
     private JComboBox<String> boxPilihVehicle;
+    private float hargaAwalValue = 0.0f;
+    private float promoVal = 0.0f;
+    private float totalHargaValue = 0.0f;
     private Controller con = new Controller();
 
     private void showDataScreen(int id) {
@@ -88,21 +91,18 @@ public class OrderRide {
                 calculateCost();
             }
         });
-        // Label to display the result
-        labelResult = new JLabel();
-        labelResult.setFont(fontLabel);
-        labelResult.setBounds(260, 250, 300, 30);
+       
 
         // input kode promo
         JLabel labelKodePromo = new JLabel("Masukan Kode Promo");
         labelKodePromo.setFont(fontLabel);
-        labelKodePromo.setBounds(30, 280, 200, 30);
+        labelKodePromo.setBounds(30, 250, 200, 30);
         JTextField kodePromoField = new JTextField();
-        kodePromoField.setBounds(260, 280, 200, 30);
+        kodePromoField.setBounds(260, 250, 200, 30);
         
         JButton usePromo = new JButton("✔");
         usePromo.setFont(new Font("Arial", Font.PLAIN, 20));
-        usePromo.setBounds(464, 280, 40, 30);
+        usePromo.setBounds(464, 250, 40, 30);
         // detail informasi promo yang digunakan
         usePromo.addActionListener(new ActionListener() {
             
@@ -123,20 +123,27 @@ public class OrderRide {
                     }
 
                     float discVal = disc * costs;
+                    promoVal = discVal;
                     DecimalFormat rupiahFormat = new DecimalFormat("Rp #,###.##");
                     String formattedDiscVal = rupiahFormat.format(discVal);
-
+                    
                     JOptionPane.showMessageDialog(null, "Yeay Kamu Dapat Potongan Harga Sebesar " + formattedDiscVal, "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
 
-        // detail harga
-        JLabel hargaAwal;
-        JLabel promoVal = new JLabel();
-        JLabel totalHarga = new JLabel("Tarif Total ");
+        // recap harga
+            // Label to display the result -- harga awal
+        labelResult = new JLabel();
+        labelResult.setFont(fontLabel);
+        labelResult.setBounds(260, 280, 300, 30);
+        float promoValue = getPromoVal();
+        String promoDigunakan = "Promo Digunakan \t" + formatCost(promoValue);
+        JLabel promoValLabel = new JLabel(promoDigunakan);
+        promoValLabel.setBounds(260, 310, 300, 30);
+        totalHarga = new JLabel();
+        totalHarga.setBounds(260, 340, 300, 30);
 
-        
         //back button
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
@@ -164,6 +171,7 @@ public class OrderRide {
                     char destination = textTujuan.getText().toUpperCase().charAt(0);
                     String promo = kodePromoField.getText();
                     String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
+                    
                     f.dispose();
                 }
             }
@@ -190,12 +198,14 @@ public class OrderRide {
         f.add(kodePromoField);
         f.add(usePromo);
         f.add(orderButton);
+        f.add(labelResult);
+        f.add(promoValLabel);
+        f.add(totalHarga);
         
         f.setSize(500, 600);
         f.setLayout(null);
 
         
-        f.add(labelResult);
         f.setVisible(true);
     }
 
@@ -208,9 +218,21 @@ public class OrderRide {
 
         if (baseCost != -1) {
             int finalCost = con.calculateFinalCost(baseCost, selectedVehicle);
+            totalHargaValue = finalCost - promoVal;
             labelResult.setText("Rp. " + finalCost);
         } else {
             labelResult.setText("Biaya tidak dapat dihitung.");
         }
+        totalHarga.setText("Tarif Total \t" + formatCost(totalHargaValue));
+    }
+
+    // format cost
+    private String formatCost(float cost) {
+        DecimalFormat rupiahFormat = new DecimalFormat("Rp #,###.##");
+        return rupiahFormat.format(cost);
+    }
+
+     public float getPromoVal() {
+        return promoVal;
     }
 }
