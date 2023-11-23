@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +34,7 @@ public class Controller {
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, kategoriUser);
-            stmt.setDouble(4, 0);
+            stmt.setFloat(4, 0);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -172,7 +175,7 @@ public class Controller {
                 pass.setUser_name(rs.getString("users.user_name"));
                 pass.setUser_pass(rs.getString("users.user_pass"));
                 pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
-                pass.setUser_wallet(rs.getDouble("user_wallet"));
+                pass.setUser_wallet(rs.getFloat("user_wallet"));
 
                 listPass.add(pass);
             }
@@ -356,8 +359,8 @@ public class Controller {
                 orders.setOrder_pickup(rs.getString("order_pickup"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_price(rs.getDouble("order_price"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_price(rs.getFloat("order_price"));
+                orders.setOrder_final_price(rs.getFloat("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 orders.setOrder_vehicle_name(rs.getString("order_vehicle_name"));
                 orders.setOrder_vehicle_plate(rs.getString("order_vehicle_plate"));
@@ -401,7 +404,7 @@ public class Controller {
                 orders.setOrder_id(rs.getInt("order_id"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_final_price(rs.getFloat("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 listOrder.add(orders);
             }
@@ -424,7 +427,7 @@ public class Controller {
                 orders.setOrder_id(rs.getInt("order_id"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_final_price(rs.getFloat("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 listOrder.add(orders);
             }
@@ -536,15 +539,15 @@ public class Controller {
     }
 
     // get user's wallet
-    public double getWallet(int id) {
+    public float getWallet(int id) {
         conn.connect();
         String query = "SELECT user_wallet FROM users WHERE user_id = '" + id + "'";
-        double walletResult = 0;
+        float walletResult = 0;
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                walletResult = (rs.getDouble("user_wallet"));
+                walletResult = (rs.getFloat("user_wallet"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -635,8 +638,28 @@ public class Controller {
         }
     }
 
+    // get promo ID
+    public int getPromoIdByCode(String inpCode) {
+        int Id = 0;
+        conn.connect();
+        String query = "SELECT promo_id FROM promo WHERE promo_code = '" + inpCode + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Id = (rs.getInt("promo_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Id;
+    }
+//promo ends here
 
+
+// update JoPay
     public boolean updateJoPay(int id, double saldo) {
+
         conn.connect();
 
         String query = "UPDATE users SET user_wallet = " + saldo + "WHERE user_id = " + id + ";";
@@ -717,7 +740,86 @@ public class Controller {
         }
     }
 
+    // find driver who's available
+    public Driver getDriverAvailable(String jenisKendaraan) {
+        Driver dr = new Driver();
+        conn.connect();
+        String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n" + 
+                "FROM drivers d \r\n" + 
+                "JOIN users u ON u.user_id = d.driver_id\r\n" + 
+                "WHERE u.user_id = d.driver_id AND d.vehicle_type = \"Motor\" AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int dId = rs.getInt("d.driver_id");
+                String dName = rs.getString("u.user_name");
+                String dPhone = rs.getString("d.driver_phonNum");
+                String dVtype = rs.getString("d.vehicle_type");
+                String dPlate = rs.getString("d.vehicle_plate");
+                dr = new Driver(dId, dName, dPhone, dVtype, dPlate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dr;
+    }
+
+    // user order
+    public boolean createUserOrder (int custID, int promoID, String asal, String tujuan, Float harga, Float hargaAkhir, Driver dr) {
     
+        conn.connect();
+        String query = "INSERT INTO orders (cust_id, promo_id, driver_id, order_date, order_pickup, order_destination, order_price, order_final_price, order_vehicle_name, order_vehicle_plate, order_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt;
+        try {
+            java.sql.Date currentDate = getCurrentDate();
+            stmt = conn.con.prepareStatement(query);
+            stmt.setInt(1, custID);
+            stmt.setInt(2, promoID);
+            stmt.setInt(3, dr.getDriver_id());
+            stmt.setDate(4, currentDate);
+            stmt.setString(5, asal);
+            stmt.setString(6, tujuan);
+            stmt.setFloat(7, harga);
+            stmt.setFloat(8, hargaAkhir);
+            stmt.setString(9, dr.getVehicle_name());
+            stmt.setString(10, dr.getVehicle_plate());
+            stmt.setString(11, "NOW");
+
+            changeDriverStat(dr.getDriver_id());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // get current Date
+    private java.sql.Date getCurrentDate() {
+        java.util.Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(today);
+        return java.sql.Date.valueOf(formattedDate);
+    }
+
+    // change driver's status if they're taking an order
+    private boolean changeDriverStat (int drvID) {
+        conn.connect();
+        String query = "UPDATE drivers\r\n" + //
+                "SET driver_status = 'BOOKED'\r\n" + //
+                "WHERE driver_id = '" + drvID + "';"; 
+        PreparedStatement stmt;
+                
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 // order ride end
 

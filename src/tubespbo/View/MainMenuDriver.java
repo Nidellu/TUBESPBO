@@ -166,11 +166,9 @@ public class MainMenuDriver {
         f.setVisible(true);
     }
 
-
-
-    // public static void main(String[] args) {
-    //     new MainMenuDriver(11);
-    // }
+     public static void main(String[] args) {
+         new MainMenuDriver(6);
+     }
 
  
 }

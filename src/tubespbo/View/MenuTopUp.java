@@ -83,8 +83,8 @@ public class MenuTopUp {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    double saldoTambahan = Double.parseDouble(inputField);
-                    double currSaldo = con.getWallet(id);
+                    float saldoTambahan = Float.parseFloat(inputField);
+                    float currSaldo = con.getWallet(id);
                     if (saldoTambahan < 2000) {
                         JOptionPane.showMessageDialog(f, "Minimal Top Up saldo adalah 2000", "WARNING",
                                 JOptionPane.ERROR_MESSAGE);

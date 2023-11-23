@@ -16,13 +16,13 @@ public class Order {
     private Date order_date;
     private String order_pickup;
     private String order_destination;
-    private double order_price;
-    private double order_final_price;
+    private float order_price;
+    private float order_final_price;
     private String order_vehicle_name;
     private String order_vehicle_plate;
     private OrderStatusEnum order_status;
 
-    public Order(int cust_id, int promo_id, int driver_id, Date order_date, String order_pickup, String order_destination, double order_price, double order_final_price, String order_vehicle_name, String order_vehicle_plate, OrderStatusEnum order_status) {
+    public Order(int cust_id, int promo_id, int driver_id, Date order_date, String order_pickup, String order_destination, float order_price, float order_final_price, String order_vehicle_name, String order_vehicle_plate, OrderStatusEnum order_status) {
         this.cust_id = cust_id;
         this.promo_id = promo_id;
         this.driver_id = driver_id;
@@ -95,19 +95,19 @@ public class Order {
         this.order_destination = order_destination;
     }
 
-    public double getOrder_price() {
+    public float getOrder_price() {
         return order_price;
     }
 
-    public void setOrder_price(double order_price) {
+    public void setOrder_price(float order_price) {
         this.order_price = order_price;
     }
 
-    public double getOrder_final_price() {
+    public float getOrder_final_price() {
         return order_final_price;
     }
 
-    public void setOrder_final_price(double order_final_price) {
+    public void setOrder_final_price(float order_final_price) {
         this.order_final_price = order_final_price;
     }
 

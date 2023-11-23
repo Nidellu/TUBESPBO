@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
+import tubespbo.Model.Driver;
 import tubespbo.Model.Passanger;
 
 public class OrderRide {
@@ -34,6 +35,7 @@ public class OrderRide {
     private float hargaAwalValue = 0.0f;
     private float promoVal = 0.0f;
     private float totalHargaValue = 0.0f;
+    private float finalCost = 0.0f;
     private Controller con = new Controller();
 
     private void showDataScreen(int id) {
@@ -100,6 +102,7 @@ public class OrderRide {
         JTextField kodePromoField = new JTextField();
         kodePromoField.setBounds(260, 250, 200, 30);
         
+        // button buat konfirmasi klo mau pakai promo
         JButton usePromo = new JButton("✔");
         usePromo.setFont(new Font("Arial", Font.PLAIN, 20));
         usePromo.setBounds(464, 250, 40, 30);
@@ -156,6 +159,8 @@ public class OrderRide {
             }
         });
 
+        // check user's wallet -- if user's wallet < harga akhir --> order button disable
+
         // order button
         JButton orderButton = new JButton("Pesan Sekarang");
         orderButton.setFont(fontButton);
@@ -167,12 +172,25 @@ public class OrderRide {
                     JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int userId = id;
-                    char source = textAsal.getText().toUpperCase().charAt(0);
-                    char destination = textTujuan.getText().toUpperCase().charAt(0);
+                    String source = textAsal.getText().toUpperCase();
+                    String destination = textTujuan.getText().toUpperCase();
                     String promo = kodePromoField.getText();
                     String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
+                    int idPromo = con.getPromoIdByCode(promo);
                     
-                    f.dispose();
+                    Driver drv = con.getDriverAvailable(jenisKendaraan);
+                    if (drv == null) {
+                        JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        boolean status = con.createUserOrder(userId, idPromo, source, destination, finalCost, totalHargaValue, drv);
+                        if (status == true) {
+                            JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
+                            f.dispose();
+                            new OrderBerjalan(id);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 }
             }
 
@@ -185,22 +203,22 @@ public class OrderRide {
 
         f.add((intro));
         f.add((intro2));
-        f.add(labelAsal);
+        f.add(labelAsal); // add asal
         f.add(textAsal);
-        f.add(labelTujuan);
+        f.add(labelTujuan); // add tujuan
         f.add(textTujuan);
-        f.add(labelPilihVehicle);
+        f.add(labelPilihVehicle); // add choose vehicle
         f.add(boxPilihVehicle);
         f.add(backButton); // add back button
         f.add(orderButton); // add order button
         f.add(lineDiv);
-        f.add(labelKodePromo);
+        f.add(labelKodePromo); // add promo
         f.add(kodePromoField);
-        f.add(usePromo);
-        f.add(orderButton);
-        f.add(labelResult);
-        f.add(promoValLabel);
-        f.add(totalHarga);
+        f.add(usePromo); // use promo
+        f.add(orderButton); // add order button
+        f.add(labelResult); // add harga
+        f.add(promoValLabel); // add show promo uses
+        f.add(totalHarga); // add harga final
         
         f.setSize(500, 600);
         f.setLayout(null);
@@ -217,7 +235,7 @@ public class OrderRide {
         String selectedVehicle = (String) boxPilihVehicle.getSelectedItem();
 
         if (baseCost != -1) {
-            int finalCost = con.calculateFinalCost(baseCost, selectedVehicle);
+            finalCost = con.calculateFinalCost(baseCost, selectedVehicle);
             totalHargaValue = finalCost - promoVal;
             labelResult.setText("Rp. " + finalCost);
         } else {
