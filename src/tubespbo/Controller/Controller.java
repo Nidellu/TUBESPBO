@@ -585,8 +585,51 @@ public class Controller {
         return val;
     }
 
-    
+    // find driver who's available
+    public Driver getDriverAvailable() {
+        Driver dr = new Driver();
+        conn.connect();
+        String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n" + 
+                "FROM drivers d \r\n" + 
+                "JOIN users u ON u.user_id = d.driver_id\r\n" + 
+                "WHERE u.user_id = d.driver_id AND  d.driver_status = \"AVAILABLE\" LIMIT 1;";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int dId = rs.getInt("d.driver_id");
+                String dName = rs.getString("u.user_name");
+                String dPhone = rs.getString("d.driver_phonNum");
+                String dVtype = rs.getString("d.vehicle_type");
+                String dPlate = rs.getString("d.vehicle_plate");
+                // String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate
+                dr = new Driver(dId, dName, dPhone, dVtype, dPlate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dr;
+    }
 
+    // user order
+    public boolean createUserOrder (int custID, Driver dr) {
+        // int order_id;
+        // private int cust_id;
+        // private int promo_id;
+        // private int driver_id;
+        // private Date order_date;
+        // private String order_pickup;
+        // private String order_destination;
+        // private double order_price;
+        // private double order_final_price;
+        // private String order_vehicle_name;
+        // private String order_vehicle_plate;
+        // private OrderStatusEnum order_status;
+        conn.connect();
+        boolean valid = false;
+
+        return valid;
+    }
 // order ride end
 
 }

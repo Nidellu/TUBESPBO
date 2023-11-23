@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
+import tubespbo.Model.Driver;
 import tubespbo.Model.Passanger;
 
 public class OrderRide {
@@ -171,7 +172,7 @@ public class OrderRide {
                     char destination = textTujuan.getText().toUpperCase().charAt(0);
                     String promo = kodePromoField.getText();
                     String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
-                    
+                    Driver drv = con.getDriverAvailable();
                     f.dispose();
                 }
             }
