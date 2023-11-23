@@ -81,9 +81,19 @@ public class MainMenuDriver {
 //                
             }
         });
+        
+        JButton inbox = new JButton("Inbox");
+        inbox.setFont(fontButton);
+        inbox.setBounds(70, 230, 140, 30);
+        inbox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //
+            }
+        });
+
         JButton historyOrder = new JButton("Riwayat Pesanan");
         historyOrder.setFont(fontButton);
-        historyOrder.setBounds(70, 270, 350, 30);
+        historyOrder.setBounds(250, 230, 170, 30);
         historyOrder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -91,25 +101,33 @@ public class MainMenuDriver {
             }
         });
 
-//         JButton takeOrder = new JButton("Take/Cancel Order");
-//         takeOrder.setFont(fontButton);
-//         takeOrder.setBounds(70, 220, 350, 30);
-//         takeOrder.addActionListener(new ActionListener() {
-//             public void actionPerformed(ActionEvent e) {
-// //                
-//             }
-//         });
-
-        JButton inbox = new JButton("Inbox");
-        inbox.setFont(fontButton);
-        inbox.setBounds(70, 220, 350, 30);
-        inbox.addActionListener(new ActionListener() {
+        JButton switchStatus = new JButton("On-Off ");
+        switchStatus.setFont(fontButton);
+        switchStatus.setBounds(70, 320, 350, 30);
+        switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                
+                //
             }
         });
 
-
+        JButton withdrawal = new JButton("Withdrawal");
+        withdrawal.setFont(fontButton);
+        withdrawal.setBounds(70, 370, 350, 30);
+        withdrawal.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+        //                
+                    }
+                });
+        
+        JButton backButton = new JButton("Back to Main Menu");
+        backButton.setBounds(170, 350, 150, 30);
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+        
+            }
+        });
+        
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
@@ -130,18 +148,17 @@ public class MainMenuDriver {
 
         f.add(inbox);
         f.add(historyOrder);
+        f.add(switchStatus);
+        f.add(withdrawal);
         f.add(logOut);
 
         f.setSize(500, 600);
         f.setLayout(null);
+
+
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
-
-
-    public static void main(String[] args) {
-        new MainMenuDriver(11);
-    }
-
+ 
 }
