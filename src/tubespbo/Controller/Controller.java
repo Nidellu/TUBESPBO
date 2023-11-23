@@ -107,6 +107,24 @@ public class Controller {
         }
     }
 
+    public int getOrderCount() {
+        conn.connect();
+        String query = "SELECT COUNT(order_id) FROM orders";
+        int result = 0;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                result = (rs.getInt("COUNT(order_id)"));
+            }
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
     // update passanger's password
     public boolean updatePasswordDataPassangerToDB(int idMasuk, String pass) {
         conn.connect();
