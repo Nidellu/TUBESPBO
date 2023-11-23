@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
@@ -63,7 +64,12 @@ public class MainMenuDriver {
         border.setBorder(BorderFactory.createLineBorder(Color.black));
         border.setBounds(30, 135, 425, 60);
 
-        JLabel wallet = new JLabel("JOPAY: Rp. " + Double.toString(walletDisplay));
+        String strSaldo = String.valueOf(con.getWallet(id));
+        if (con.getWallet(id) > 9999999) {
+            strSaldo = "9999999+";
+        }
+
+        JLabel wallet = new JLabel("JOPAY: Rp. " + strSaldo);
         wallet.setFont(font2);
         wallet.setBounds(50, 150, 800, 30);
         wallet.setBackground(null);
@@ -73,8 +79,8 @@ public class MainMenuDriver {
         topUp.setBounds(340, 150, 100, 30);
         topUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                new MenuTopUp(id);
                 f.dispose();
-//                
             }
         });
       
@@ -87,7 +93,7 @@ public class MainMenuDriver {
             }
         });
 
-        
+        // button buat liat history
         JButton historyOrder = new JButton("Lihat Pesanan");
         historyOrder.setFont(fontButton);
         historyOrder.setBounds(250, 230, 170, 30);
@@ -97,6 +103,8 @@ public class MainMenuDriver {
                 new CekOrder(id);
             }
         });
+
+        //button buat tarik dana
         JButton tarikDanaButton = new JButton("Tarik Dana");
         tarikDanaButton.setFont(fontButton);
         tarikDanaButton.setBounds(70, 320, 350, 30);
@@ -107,12 +115,20 @@ public class MainMenuDriver {
             }
         });
 
-        JButton switchStatus = new JButton("On-Off ");
+        //button for swithcing status
+        JButton switchStatus = new JButton(con.getSwitchStatusText(id));
         switchStatus.setFont(fontButton);
-        switchStatus.setBounds(70, 320, 350, 30);
+        switchStatus.setBounds(70, 360, 350, 30);
         switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //
+                boolean success = con.driverOnOffStat(id);
+                if (success == true) {
+                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);  
+                } else {
+                    JOptionPane.showMessageDialog(null, "Status Gagal Diubah!", "Upss", JOptionPane.ERROR_MESSAGE);               
+                }
+                f.dispose();
+                    new MainMenuDriver(id);     
             }
         });
 
@@ -125,15 +141,17 @@ public class MainMenuDriver {
                     }
                 });
         
+        // back button
         JButton backButton = new JButton("Back to Main Menu");
         backButton.setBounds(170, 350, 150, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 f.dispose();
-        
             }
         });
         
+        // logout button
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
@@ -156,7 +174,6 @@ public class MainMenuDriver {
         f.add(historyOrder);
         f.add(tarikDanaButton);
         f.add(switchStatus);
-        f.add(withdrawal);
         f.add(logOut);
 
         f.setSize(500, 600);
@@ -166,9 +183,9 @@ public class MainMenuDriver {
         f.setVisible(true);
     }
 
-     public static void main(String[] args) {
-         new MainMenuDriver(6);
-     }
+    //  public static void main(String[] args) {
+    //      new MainMenuDriver(6);
+    //  }
 
  
 }

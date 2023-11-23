@@ -10,14 +10,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 
 public class TarikDana {
-
+    
     public TarikDana(int id) {
+        Withdraw(id);
+    }
+  
+    private void Withdraw(int id) {
         Controller con = new Controller();
         Driver currDriver = con.getDriverByID(id).get(0);
 
@@ -59,8 +62,11 @@ public class TarikDana {
         wallet.setBounds(30, 150, 800, 30);
         wallet.setBackground(null);
         f.add(wallet);
-        
-        JLabel saldo = new JLabel("Rp.  "  + con.getWallet(id));
+        String strSaldo = String.valueOf(con.getWallet(id));
+        if (con.getWallet(id) > 9999999) {
+            strSaldo = "9999999+";
+        }
+        JLabel saldo = new JLabel("Rp.  "  + strSaldo);
         saldo.setHorizontalAlignment(SwingConstants.RIGHT);
         saldo.setFont(font);
         saldo.setBounds(250, 150, 200, 30);
@@ -110,9 +116,14 @@ public class TarikDana {
                             "Ya");
 
                     if (result == JOptionPane.YES_OPTION) {
-                        con.updateJoPay(id, con.getWallet(id) - nominalTarik);
-                        JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "WARNING",
-                                JOptionPane.DEFAULT_OPTION);
+                        if (con.updateJoPay(id, con.getWallet(id) - nominalTarik)) {
+                            JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "",
+                                    JOptionPane.DEFAULT_OPTION);
+                        } else {
+                            JOptionPane.showMessageDialog(f, "Penarikan gagal dilakukan!", "WARNING",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+
                         new MainMenuDriver(id);
                         f.dispose();
                     } else {
@@ -132,6 +143,5 @@ public class TarikDana {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
 
 }

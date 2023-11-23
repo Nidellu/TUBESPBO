@@ -86,9 +86,10 @@ public class FindOrder {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    public static void main(String[] args) {
-        new FindOrder();
-    }
+    // public static void main(String[] args) {
+    //     new FindOrder();
+    // }
 }
