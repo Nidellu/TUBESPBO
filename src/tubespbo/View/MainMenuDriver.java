@@ -89,7 +89,8 @@ public class MainMenuDriver {
         inbox.setBounds(70, 230, 140, 30);
         inbox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //
+                f.dispose();
+                new InboxDriver(id);
             }
         });
 
@@ -183,9 +184,9 @@ public class MainMenuDriver {
         f.setVisible(true);
     }
 
-    //  public static void main(String[] args) {
-    //      new MainMenuDriver(6);
-    //  }
+      public static void main(String[] args) {
+          new MainMenuDriver(6);
+      }
 
  
 }
