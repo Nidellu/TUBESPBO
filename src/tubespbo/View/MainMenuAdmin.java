@@ -101,16 +101,6 @@ public class MainMenuAdmin {
             }
         });
 
-
-        // adding element into frame
-        JPanel panel = new JPanel(null);
-        f.setLayout(null);
-        f.setSize(500, 600);
-        f.add(addPromoBtn); // add promo button
-        f.add(seePromoBtn); // add see promo button
-        // f.add(table);
-        // f.add(sp);
-
         f.add(intro);
         f.add(intro2);
         f.add(lineDiv);
