@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,7 +52,8 @@ public class MainMenuAdmin {
                 new StartMenu();
             }
         });
-        
+       
+    // button buat verif driver yang bari regis
         JButton verifDriver = new JButton("Verifikasi Driver");
         verifDriver.setFont(fontButton);
         verifDriver.setBounds(60, 195, 350, 30);
@@ -62,6 +64,7 @@ public class MainMenuAdmin {
             }
         });
         
+    // button buat cari order
         JButton findOrder = new JButton("Find Order");
         findOrder.setBounds(60, 235, 350, 30);
         findOrder.addActionListener(new ActionListener() {
@@ -71,6 +74,7 @@ public class MainMenuAdmin {
             }
         });
         
+    //button buat check income
         JButton checkIncome = new JButton("Cek Pendapatan");
         checkIncome.setFont(fontButton);
         checkIncome.setBounds(60, 275, 350, 30);
@@ -100,7 +104,7 @@ public class MainMenuAdmin {
                 new SeeAndDeletePromo();
             }
         });
-
+      
         f.add(intro);
         f.add(intro2);
         f.add(lineDiv);
@@ -116,5 +120,10 @@ public class MainMenuAdmin {
         f.setLayout(null);
         f.setVisible(true);
     }
+
+    
+//     public static void main(String[] args) {
+//         new MainMenuAdmin();
+//     }
 
 }
