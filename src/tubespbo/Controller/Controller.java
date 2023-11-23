@@ -31,7 +31,7 @@ public class Controller {
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, kategoriUser);
-            stmt.setDouble(4, 0);
+            stmt.setFloat(4, 0);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -172,7 +172,7 @@ public class Controller {
                 pass.setUser_name(rs.getString("users.user_name"));
                 pass.setUser_pass(rs.getString("users.user_pass"));
                 pass.setPhone_number(rs.getString("passangers.passanger_phonNum"));
-                pass.setUser_wallet(rs.getDouble("user_wallet"));
+                pass.setUser_wallet(rs.getFloat("user_wallet"));
 
                 listPass.add(pass);
             }
@@ -356,8 +356,8 @@ public class Controller {
                 orders.setOrder_pickup(rs.getString("order_pickup"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_price(rs.getDouble("order_price"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_price(rs.getFloat("order_price"));
+                orders.setOrder_final_price(rs.getFloat("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 orders.setOrder_vehicle_name(rs.getString("order_vehicle_name"));
                 orders.setOrder_vehicle_plate(rs.getString("order_vehicle_plate"));
@@ -401,7 +401,7 @@ public class Controller {
                 orders.setOrder_id(rs.getInt("order_id"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_final_price(rs.getFloat("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 listOrder.add(orders);
             }
@@ -424,7 +424,7 @@ public class Controller {
                 orders.setOrder_id(rs.getInt("order_id"));
                 orders.setOrder_destination(rs.getString("order_destination"));
                 orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
+                orders.setOrder_final_price(rs.getFloat("order_final_price"));
                 orders.setOrder_status(getEnum(rs.getString("order_status")));
                 listOrder.add(orders);
             }
@@ -536,15 +536,15 @@ public class Controller {
     }
 
     // get user's wallet
-    public double getWallet(int id) {
+    public float getWallet(int id) {
         conn.connect();
         String query = "SELECT user_wallet FROM users WHERE user_id = '" + id + "'";
-        double walletResult = 0;
+        float walletResult = 0;
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                walletResult = (rs.getDouble("user_wallet"));
+                walletResult = (rs.getFloat("user_wallet"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -636,7 +636,7 @@ public class Controller {
     }
 
 
-    public boolean updateJoPay(int id, double saldo) {
+    public boolean updateJoPay(int id, float saldo) {
         conn.connect();
 
         String query = "UPDATE users SET user_wallet = " + saldo + "WHERE user_id = " + id + ";";

@@ -13,9 +13,9 @@ public class User {
     private String user_name;
     private String user_pass;
     private String user_role;
-    private double user_wallet;
+    private float user_wallet;
 
-    public User(int user_id, String user_name, String user_pass, String user_role, double user_wallet) {
+    public User(int user_id, String user_name, String user_pass, String user_role, float user_wallet) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_pass = user_pass;
@@ -60,11 +60,11 @@ public class User {
         this.user_role = user_role;
     }
 
-    public double getUser_wallet() {
+    public float getUser_wallet() {
         return user_wallet;
     }
 
-    public void setUser_wallet(double user_wallet) {
+    public void setUser_wallet(float user_wallet) {
         this.user_wallet = user_wallet;
     }
 
