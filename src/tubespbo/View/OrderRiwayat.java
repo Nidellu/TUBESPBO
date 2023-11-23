@@ -104,6 +104,29 @@ public class OrderRiwayat{
             status.setBounds(150, 3, 150, 25);
             indivOrder.add(status);
 
+            JButton buyButton = new JButton("Details");
+            buyButton.setBounds(300, 30, 90, 25);
+            // buyButton.addActionListener(new ActionListener() {
+            //     public void actionPerformed(ActionEvent e) {
+            //         f.dispose();
+            //         new DetailOrder(id, idOrder);
+            //     }
+            // });
+
+            // indivOrder.setVisible(true);
+            // indivOrder.add(buyButton);
+            // containerOrders.add(indivOrder);
+
+            // containerOrders.add(buyButton);
+
+            // containerOrders.setOpaque(true);
+
+            // containerOrders.setVisible(true);
+            // // containerOrders.add(buyButton);
+            // // containerOrders.add(indivOrder);
+            // containerOrders.setVisible(true);
+            // orderHeight += 0;
+            System.out.println("Hello");
             JButton detailsButton = new JButton("Details");
             detailsButton.setBounds(340, 28, 90, 25);
             detailsButton.addActionListener(new ActionListener() {
@@ -113,7 +136,6 @@ public class OrderRiwayat{
                 }
             });
             indivOrder.add(detailsButton);
-            
         }
         
         JButton backButton = new JButton("Kembali");
@@ -127,6 +149,22 @@ public class OrderRiwayat{
         });
         
         f.add((intro));
+
+        // JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        //         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // scrollPaneOrder.setVisible(false);
+        // scrollPaneOrder.setBorder(null);
+        // // scrollPaneOrder.setBackground(Color.CYAN);
+        // scrollPaneOrder.setBounds(30, 120, 415, 400);
+        // // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
+
+        // // scrollPaneOrder.add(containerOrders);
+
+        // f.getContentPane().add(scrollPaneOrder);
+
+        // f.add(containerOrders);
+        f.add((intro));
+        // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);
