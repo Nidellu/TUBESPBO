@@ -820,6 +820,25 @@ public class Controller {
         }
     }
 
+    // kembalikan status driver menjadi available setelah menyelesaikan order
+    public boolean changeToAvailable (int drvID) {
+        conn.connect();
+        String query = "UPDATE drivers\r\n" + //
+                "SET driver_status = 'AVAILABLE'\r\n" + //
+                "WHERE driver_id = '" + drvID + "';"; 
+        PreparedStatement stmt;
+                
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+
 // order ride end
 
 // switch on off stat driver
@@ -844,7 +863,7 @@ public class Controller {
                     e.printStackTrace();
                     return false;
                 }
-            } else {
+            } else if (stats.equals("OFFLINE")){
                  String query = "UPDATE drivers\r\n" + //
                         "SET driver_status = 'AVAILABLE'\r\n" + //
                         "WHERE driver_id = '" + driverID + "';"; 
@@ -858,6 +877,8 @@ public class Controller {
                     e.printStackTrace();
                     return false;
                 }
+            } else {
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
@@ -115,7 +116,12 @@ public class MainMenuDriver {
         switchStatus.setBounds(70, 360, 350, 30);
         switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //
+                boolean success = con.driverOnOffStat(id);
+                if (success == true) {
+                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);               
+                } else {
+                    JOptionPane.showMessageDialog(null, "Status Gagal Diubah!", "Upss", JOptionPane.ERROR_MESSAGE);               
+                }
             }
         });
 
