@@ -58,10 +58,10 @@ public class OrderBerjalan {
             ingpo.setBounds(110, 300, 400, 30);
             f.add(ingpo);
         }
-
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 130, 445, 420);
         f.getContentPane().add(scrollPane);
+
 
         JPanel containerOrder = new JPanel();
         scrollPane.setViewportView(containerOrder);

@@ -7,19 +7,13 @@ package tubespbo.View;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.User;
 
 public class MainMenuAdmin {
 
@@ -29,7 +23,6 @@ public class MainMenuAdmin {
 
     private void showDataScreen() {
         Controller con = new Controller();
-        ArrayList<User> listUser;
 
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,25 +54,36 @@ public class MainMenuAdmin {
         
         JButton verifDriver = new JButton("Verifikasi Driver");
         verifDriver.setFont(fontButton);
-        verifDriver.setBounds(60, 215, 350, 30);
+        verifDriver.setBounds(60, 195, 350, 30);
         verifDriver.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                
+            }
+        });
+        
+        JButton findOrder = new JButton("Find Order");
+        findOrder.setBounds(60, 235, 350, 30);
+        findOrder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new FindOrder();
             }
         });
         
         JButton checkIncome = new JButton("Cek Pendapatan");
         checkIncome.setFont(fontButton);
-        checkIncome.setBounds(60, 255, 350, 30);
+        checkIncome.setBounds(60, 275, 350, 30);
         checkIncome.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                
             }
         });
         
     // button buat nambah promo
-        JButton addPromoBtn = new JButton("Add New Promo");
-        addPromoBtn.setBounds(60, 295, 350, 30);
+        JButton addPromoBtn = new JButton("Tambah Promo");
+        addPromoBtn.setBounds(60, 315, 350, 30);
         addPromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -88,8 +92,8 @@ public class MainMenuAdmin {
         });
     
     //button buat liat daftar promo
-        JButton seePromoBtn = new JButton("See All Promo");
-        seePromoBtn.setBounds(60, 335, 350, 30);
+        JButton seePromoBtn = new JButton("Lihat Semua Promo");
+        seePromoBtn.setBounds(60, 355, 350, 30);
         seePromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -112,6 +116,7 @@ public class MainMenuAdmin {
         f.add(lineDiv);
         f.add(logOut);
         f.add(verifDriver);
+        f.add(findOrder);
         f.add(checkIncome);
         f.add(addPromoBtn);
         f.add(seePromoBtn);
@@ -121,7 +126,7 @@ public class MainMenuAdmin {
         f.setLayout(null);
         f.setVisible(true);
     }
-
+    
     public static void main(String[] args) {
         new MainMenuAdmin();
     }

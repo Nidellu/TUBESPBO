@@ -60,6 +60,7 @@ public class OrderRiwayat{
             f.add(ingpo);
         }
 
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 130, 445, 420);
         f.getContentPane().add(scrollPane);
@@ -67,6 +68,7 @@ public class OrderRiwayat{
         JPanel containerOrder = new JPanel();
         scrollPane.setViewportView(containerOrder);
         containerOrder.setLayout(new BorderLayout(0, 0));
+
 
         JPanel orderListCont = new JPanel();
         containerOrder.add(orderListCont, BorderLayout.NORTH);
