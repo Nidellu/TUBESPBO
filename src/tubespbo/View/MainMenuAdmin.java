@@ -82,17 +82,17 @@ public class MainMenuAdmin {
         addPromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new AddPromo();
+                new AddPromo(id);
             }
         });
     
-    //button buat liat dafrat promo
+    //button buat liat daftar promo
         JButton seePromoBtn = new JButton("See All Promo");
         seePromoBtn.setBounds(60, 335, 350, 30);
         seePromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new SeeAndDeletePromo();
+                new SeeAndDeletePromo(id);
             }
         });
 

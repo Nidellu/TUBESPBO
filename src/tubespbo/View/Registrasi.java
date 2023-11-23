@@ -18,10 +18,6 @@ import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
 
-/**
- *
- * @author brian
- */
 public class Registrasi {
 
     public Registrasi() {
