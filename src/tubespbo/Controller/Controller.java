@@ -176,6 +176,27 @@ public class Controller {
         return (listDriver);
     }
 
+    public boolean inputDriverDataToWaitingList (String username, String password, String phonNum, String namaKendaraan, String tipe, String plat) {
+        conn.connect();
+        String query = "INSERT INTO waitinglist (driver_username, driver_password, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.setString(1, username);            
+            stmt.setString(2, password);
+            stmt.setString(3, phonNum);
+            stmt.setString(4, namaKendaraan);
+            stmt.setString(5, tipe);
+            stmt.setString(6, plat);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public ArrayList<Driver> getWaitingDriver(int id) {
         conn.connect();
         String query = "SELECT driver_username, driver_password, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate "
@@ -199,6 +220,62 @@ public class Controller {
             e.printStackTrace();
         }
         return (listDriver);
+    }
+
+    public boolean updateUsernameDataDriverToDB(int idMasuk, String username) {
+        conn.connect();
+        String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" + idMasuk + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updatePhoneNumDataDriverToDB (int idMasuk, String telepon) {
+        conn.connect();
+        String query = "UPDATE drivers SET driver_phonNum = '" + telepon + "' WHERE driver_id = '" + idMasuk + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateVehicleNameDataDriverToDB (int idMasuk, String vehicleName) {
+        conn.connect();
+        String query = "UPDATE drivers SET vehicle_name = '" + vehicleName + "' WHERE driver_id = '" + idMasuk + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateVehiclePlateDataDriverToDB (int idMasuk, String vehiclePlate) {
+        conn.connect();
+        String query = "UPDATE drivers SET vehicle_plate = '" + vehiclePlate + "' WHERE driver_id = '" + idMasuk + "';";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean deleteWaitingDriver(String username) {
@@ -227,6 +304,7 @@ public class Controller {
             return null;
         }
     }
+
 
     // get list of detail order
     public ArrayList<Order> getDetailOrder(int idOrder) {
