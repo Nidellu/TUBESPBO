@@ -80,6 +80,7 @@ public class MainMenuDriver {
         
         f.setSize(800, 500);
         f.add(panel);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
 
     }
