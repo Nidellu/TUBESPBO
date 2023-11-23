@@ -22,8 +22,7 @@ public class Order {
     private String order_vehicle_plate;
     private OrderStatusEnum order_status;
 
-    public Order(int order_id, int cust_id, int promo_id, int driver_id, Date order_date, String order_pickup, String order_destination, double order_price, double order_final_price, String order_vehicle_name, String order_vehicle_plate, OrderStatusEnum order_status) {
-        this.order_id = order_id;
+    public Order(int cust_id, int promo_id, int driver_id, Date order_date, String order_pickup, String order_destination, double order_price, double order_final_price, String order_vehicle_name, String order_vehicle_plate, OrderStatusEnum order_status) {
         this.cust_id = cust_id;
         this.promo_id = promo_id;
         this.driver_id = driver_id;
