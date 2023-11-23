@@ -653,6 +653,23 @@ public class Controller {
         }
         return Id;
     }
+
+    public boolean findPromo (String inpCode) {
+        float val = 0;
+        conn.connect();
+        String query = "SELECT * FROM promo WHERE promo_code = '" + inpCode + "'";
+        boolean found = false;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                found = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return found;
+    }
 //promo ends here
 
 
@@ -698,23 +715,6 @@ public class Controller {
     // kalau jenis kendaraan nya mobil, harganya di kali 2
     public int calculateFinalCost(int baseCost, String selectedVehicle) {
         return selectedVehicle.equals("Mobil") ? baseCost * 2 : baseCost;
-    }
-    
-    public boolean findPromo (String inpCode) {
-        float val = 0;
-        conn.connect();
-        String query = "SELECT * FROM promo WHERE promo_code = '" + inpCode + "'";
-        boolean found = false;
-        try {
-            Statement stmt = conn.con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                found = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return found;
     }
 
     // get promo value
