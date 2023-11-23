@@ -52,7 +52,7 @@ public class DriverProfile {
         labelNama.setBounds(30, 160, 100, 30);
         textNama.setBounds(260, 160, 200, 30);
 
-        JLabel labelTelepon = new JLabel("Nomor  Telepon ");
+        JLabel labelTelepon = new JLabel("Nomor Telepon ");
         JTextField textTelepon = new JTextField(driver.get(driver.size() - 1).getDriver_phonNum());
         labelTelepon.setFont(fontLabel);
         labelTelepon.setBounds(30, 190, 200, 30);
@@ -67,31 +67,42 @@ public class DriverProfile {
         JLabel labelPlat = new JLabel("Plat Nomor Kendaraan ");
         JTextField textPlat = new JTextField(driver.get(driver.size() - 1).getVehicle_plate());
         labelPlat.setFont(fontLabel);
-        labelPlat.setBounds(30, 190, 200, 30);
-        textPlat.setBounds(260, 190, 200, 30);
+        labelPlat.setBounds(30, 250, 250, 30);
+        textPlat.setBounds(260, 250, 200, 30);
+
+        
+
+        JButton buttonGanti = new JButton("Ganti Password");
+        buttonGanti.setBounds(40, 480, 400, 30);
+        buttonGanti.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new GantiPassword(id, driver.get(driver.size() - 1).getUser_pass());
+                f.dispose();
+            }
+        });
 
         JButton buttonSimpan = new JButton("Simpan");
         buttonSimpan.setBounds(40, 515, 400, 30);
-        // kalem yahh, segini duluu gw commitnya, ni otw tambahin yg di con DB
-        // buttonSimpan.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         boolean succeed = con.;
-        //         boolean succeed2 = con.updatePhoneNumDataPassangerToDB(id, textTelepon.getText());
-        //         if (succeed && succeed2) {
-        //             JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
-        //         } else {
-        //             JOptionPane.showMessageDialog(f, "Gagal di Update", "", JOptionPane.WARNING_MESSAGE);
-        //         }
-        //     }
-        // });
+        buttonSimpan.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                boolean succeed = con.updateUsernameDataDriverToDB(id, textNama.getText());
+                boolean succeed2 = con.updatePhoneNumDataDriverToDB(id, textTelepon.getText());
+                boolean succeed3 = con.updateVehicleNameDataDriverToDB(id, textNamaVehicle.getText());
+                boolean succeed4 = con.updateVehiclePlateDataDriverToDB(id, textPlat.getText());
+
+                if (succeed && succeed2 && succeed3 && succeed4) {
+                    JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
+                } else {
+                    JOptionPane.showMessageDialog(f, "Gagal di Update", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+
         JButton backButton = new JButton("Kembali");
-
         backButton.setFont(fontButton);
-
         backButton.setBounds(
                 10, 10, 90, 30);
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new MainMenuDriver(id);
@@ -109,6 +120,8 @@ public class DriverProfile {
         f.add(labelPlat);
         f.add(textPlat);
         f.add(backButton);
+        f.add(buttonGanti);
+        f.add(buttonSimpan);
 
 
         f.setSize(500, 600);
