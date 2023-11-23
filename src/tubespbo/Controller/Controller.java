@@ -524,12 +524,26 @@ public class Controller {
     }
 
     // kalau jenis kendaraan nya mobil, harganya di kali 2
-    public static int calculateFinalCost(int baseCost, String selectedVehicle) {
+    public int calculateFinalCost(int baseCost, String selectedVehicle) {
         return selectedVehicle.equals("Mobil") ? baseCost * 2 : baseCost;
     }
 
-    // user create an order
-    
+    // get promo value
+    public float getPromoVal (String inpCode) {
+        float val = 0;
+        conn.connect();
+        String query = "SELECT promo_value FROM promo WHERE promo_code = '" + inpCode + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                val = (rs.getFloat("promo_value"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return val;
+    }
 
 // order ride end
 

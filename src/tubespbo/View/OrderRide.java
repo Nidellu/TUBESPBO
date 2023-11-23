@@ -1,8 +1,11 @@
 package tubespbo.View;
 
+import java.awt.Button;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
@@ -77,12 +81,62 @@ public class OrderRide {
         labelPilihVehicle.setBounds(30, 210, 200, 30);
         boxPilihVehicle.setBounds(260, 213, 200, 30);
 
+        // Add action listeners
+        boxPilihVehicle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calculateCost();
+            }
+        });
+        // Label to display the result
+        labelResult = new JLabel();
+        labelResult.setFont(fontLabel);
+        labelResult.setBounds(260, 250, 300, 30);
+
         // input kode promo
         JLabel labelKodePromo = new JLabel("Masukan Kode Promo");
+        labelKodePromo.setFont(fontLabel);
         labelKodePromo.setBounds(30, 280, 200, 30);
         JTextField kodePromoField = new JTextField();
         kodePromoField.setBounds(260, 280, 200, 30);
+        
+        JButton usePromo = new JButton("✔");
+        usePromo.setFont(new Font("Arial", Font.PLAIN, 20));
+        usePromo.setBounds(464, 280, 40, 30);
+        // detail informasi promo yang digunakan
+        usePromo.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                String kodePromo = kodePromoField.getText();
+                if (kodePromo.isEmpty())  {
+                    JOptionPane.showMessageDialog(null, "Input dulu kode promonya!", "Diisi Dulu Yaa", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    float disc = con.getPromoVal(kodePromo);
 
+                    String costString = labelResult.getText();
+                    float costs;
+
+                    try {
+                        costs = Float.parseFloat(costString.replace("Rp. ", "").replace(",", ""));
+                    } catch (NumberFormatException ex) {
+                        costs = 0.0f;
+                    }
+
+                    float discVal = disc * costs;
+                    DecimalFormat rupiahFormat = new DecimalFormat("Rp #,###.##");
+                    String formattedDiscVal = rupiahFormat.format(discVal);
+
+                    JOptionPane.showMessageDialog(null, "Yeay Kamu Dapat Potongan Harga Sebesar " + formattedDiscVal, "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+        // detail harga
+        JLabel hargaAwal;
+        JLabel promoVal = new JLabel();
+        JLabel totalHarga = new JLabel("Tarif Total ");
+
+        
         //back button
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
@@ -98,7 +152,7 @@ public class OrderRide {
         // order button
         JButton orderButton = new JButton("Pesan Sekarang");
         orderButton.setFont(fontButton);
-        orderButton.setBounds(260, 295, 200, 30);
+        orderButton.setBounds(260, 500, 200, 30);
         orderButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -134,21 +188,13 @@ public class OrderRide {
         f.add(lineDiv);
         f.add(labelKodePromo);
         f.add(kodePromoField);
+        f.add(usePromo);
+        f.add(orderButton);
         
         f.setSize(500, 600);
         f.setLayout(null);
 
-        // Add action listeners
-        boxPilihVehicle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calculateCost();
-            }
-        });
-        // Label to display the result
-        labelResult = new JLabel();
-        labelResult.setFont(fontLabel);
-        labelResult.setBounds(260, 250, 300, 30);
+        
         f.add(labelResult);
         f.setVisible(true);
     }
@@ -161,7 +207,7 @@ public class OrderRide {
         String selectedVehicle = (String) boxPilihVehicle.getSelectedItem();
 
         if (baseCost != -1) {
-            int finalCost = Controller.calculateFinalCost(baseCost, selectedVehicle);
+            int finalCost = con.calculateFinalCost(baseCost, selectedVehicle);
             labelResult.setText("Rp. " + finalCost);
         } else {
             labelResult.setText("Biaya tidak dapat dihitung.");
