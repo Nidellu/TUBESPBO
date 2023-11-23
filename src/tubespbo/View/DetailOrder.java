@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 import tubespbo.Model.Order;
@@ -101,6 +102,29 @@ public class DetailOrder {
             driverVName.setFont(font2);
             driverVName.setBounds(30, 265, 300, 30);
 
+            if (listOrder.get(listOrder.size() - 1).getOrder_status() == OrderStatusEnum.NOW) {
+                JButton cancel = new JButton("Cancel");
+                cancel.setBounds(30, 310, 420, 30);
+                cancel.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        int choice = JOptionPane.showConfirmDialog(null, "Yakin mau dicancel?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+
+                        if (choice == JOptionPane.YES_OPTION) {
+                            if (con.updateStatusOrder(idOrder, "CANCEL")) {
+                                JOptionPane.showMessageDialog(null, "Berhasil dicancel", "Yahhh", JOptionPane.INFORMATION_MESSAGE);
+                                new CekOrder(id);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Gagal di cancel", "Upss", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Batal di cancel ya", "", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                });
+                f.add(cancel);
+            }
+
             // adding driver's data to frame
             f.add(driverInfo);
             f.add(driverName);
@@ -108,6 +132,7 @@ public class DetailOrder {
             f.add(driverVType);
             f.add(driverVName);
             f.add(driverVPlate);
+
         } else if (find.equalsIgnoreCase("Driver")) {
 
             String passName = con.getUsername(listOrder.get(listOrder.size() - 1).getCust_id());
@@ -120,11 +145,35 @@ public class DetailOrder {
             passNameCont.setFont(font4);
             passNameCont.setBounds(30, 220, 300, 30);
 
-            ArrayList<Passanger> passCont = con.getPassangerByID(id);
+            ArrayList<Passanger> passCont = con.getPassangerByID(listOrder.get(listOrder.size() - 1).getCust_id());
 
             JLabel passPhon = new JLabel(passCont.get(passCont.size() - 1).getPhone_number());
             passPhon.setFont(font2);
             passPhon.setBounds(370, 220, 300, 30);
+
+            if (listOrder.get(listOrder.size() - 1).getOrder_status() == OrderStatusEnum.NOW) {
+                JButton cancel = new JButton("Selesaikan Order");
+                cancel.setBounds(30, 310, 420, 30);
+                cancel.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        int choice = JOptionPane.showConfirmDialog(null, "Selesaikan?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+
+                        if (choice == JOptionPane.YES_OPTION) {
+                            if (con.updateStatusOrder(idOrder, "FINISHED")) {
+                                JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                                f.dispose();
+                                new CekOrder(id);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Gagal di diselesaikan", "Yahhh", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Batal diselesaikan", "", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                });
+                f.add(cancel);
+            }
 
             f.add(passInfo);
             f.add(passNameCont);
