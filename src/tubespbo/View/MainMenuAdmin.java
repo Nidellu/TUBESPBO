@@ -49,6 +49,7 @@ public class MainMenuAdmin {
                 + "__________________________________________");
         lineDiv.setBounds(10, 50, 500, 20);
         
+        // button buat log out
         JButton logOut = new JButton("Log out");
         logOut.setFont(fontButton);
         logOut.setBounds(340, 500, 100, 30);
@@ -59,6 +60,7 @@ public class MainMenuAdmin {
             }
         });
         
+    // button buat verif driver yang baru registrasi
         JButton verifDriver = new JButton("Verifikasi Driver");
         verifDriver.setFont(fontButton);
         verifDriver.setBounds(60, 215, 350, 30);
@@ -67,7 +69,8 @@ public class MainMenuAdmin {
                 f.dispose();
             }
         });
-        
+    
+    // button buat check income
         JButton checkIncome = new JButton("Cek Pendapatan");
         checkIncome.setFont(fontButton);
         checkIncome.setBounds(60, 255, 350, 30);
@@ -97,37 +100,7 @@ public class MainMenuAdmin {
             }
         });
 
-
-        // JTable table = new JTable(model) {
-        //     public Class getColumnClass(int column) {
-        //         return (column == 0) ? Icon.class : Object.class;
-        //     }
-        // };
-        // table.setPreferredScrollableViewportSize(table.getPreferredSize());
-
-        // table.setBounds(50, 100, 700, 200);
-        // JScrollPane sp = new JScrollPane(table);
-        // table.setRowHeight(50);
-
-    // button buat check income
-        JButton checkIncome = new JButton("Check Income");
-        checkIncome.setBounds(60, 355, 200, 30);
-        checkIncome.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new CheckIncomeAdmin(id);
-            }
-        });
-
-        // adding element into frame
         JPanel panel = new JPanel(null);
-        f.setLayout(null);
-        f.setSize(500, 600);
-        f.add(backButton);  // add back button
-        f.add(addPromoBtn); // add promo button
-        f.add(seePromoBtn); // add see promo button
-        // f.add(table);
-        // f.add(sp);
 
         f.add(intro);
         f.add(intro2);
