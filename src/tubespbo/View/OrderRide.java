@@ -79,9 +79,9 @@ public class OrderRide {
 
         // input kode promo
         JLabel labelKodePromo = new JLabel("Masukan Kode Promo");
-        labelKodePromo.setBounds(30, 250, 200, 30);
+        labelKodePromo.setBounds(30, 280, 200, 30);
         JTextField kodePromoField = new JTextField();
-        kodePromoField.setBounds(260, 253, 200, 30);
+        kodePromoField.setBounds(260, 280, 200, 30);
 
         //back button
         JButton backButton = new JButton("Kembali");
@@ -132,6 +132,8 @@ public class OrderRide {
         f.add(backButton); // add back button
         f.add(orderButton); // add order button
         f.add(lineDiv);
+        f.add(labelKodePromo);
+        f.add(kodePromoField);
         
         f.setSize(500, 600);
         f.setLayout(null);
