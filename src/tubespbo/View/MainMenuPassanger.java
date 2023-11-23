@@ -110,8 +110,10 @@ public class MainMenuPassanger {
         f.add(cekOrder);
         f.add(logOut);
 
+        f.setLocationRelativeTo(null);
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

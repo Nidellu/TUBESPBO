@@ -203,7 +203,4 @@ public class DetailOrder {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new DetailOrder(5, 1);
-    }
 }

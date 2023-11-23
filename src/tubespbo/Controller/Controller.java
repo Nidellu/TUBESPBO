@@ -1,12 +1,16 @@
 package tubespbo.Controller;
+
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import tubespbo.Model.Driver;
 import tubespbo.Model.Order;
@@ -279,28 +283,6 @@ public class Controller {
         return (listOrder);
     }
     
-    public ArrayList<Order> getOrderCancelFinish(int id) {
-        conn.connect();
-        String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
-                + "FROM orders WHERE cust_id = '" + id + "' AND (order_status = 'FINISHED' OR order_status = 'CANCEL')";
-        ArrayList<Order> listOrder = new ArrayList<>();
-        try {
-            Statement stmt = conn.con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                Order orders = new Order();
-                orders.setOrder_id(rs.getInt("order_id"));
-                orders.setOrder_destination(rs.getString("order_destination"));
-                orders.setOrder_date(rs.getDate("order_date"));
-                orders.setOrder_final_price(rs.getDouble("order_final_price"));
-                orders.setOrder_status(getEnum(rs.getString("order_status")));
-                listOrder.add(orders);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return (listOrder);
-    }
 
     // get user by username
     public boolean getByUserName(String username) {

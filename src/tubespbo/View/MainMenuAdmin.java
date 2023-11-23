@@ -4,12 +4,15 @@
  */
 package tubespbo.View;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,40 +34,52 @@ public class MainMenuAdmin {
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        String column[] = {"Id", "Name", "Email", "Password", "Category", "Photos"};
-        Object dummy[][] = {};
-        DefaultTableModel model = new DefaultTableModel(dummy, column);
-//
-//        for (int i = 0; i < listUser.size(); i++) {
-//            int id = listUser.get(i).getId();
-//            String name = listUser.get(i).getName();
-//            String email = listUser.get(i).getEmail();
-//            String password = listUser.get(i).getPassword();
-//            int idCategory = listUser.get(i).getIdCategory();
-//            String categoryString = con.getStringCategory(idCategory);
-//            String photo = listUser.get(i).getPhoto();
-//
-//            ImageIcon originalFotoIcon = new ImageIcon(photo);
-//
-//            Object[] data = {id, name, email, password, categoryString, originalFotoIcon};
-//
-//            model.addRow(data);
-//
-//        }
+        JLabel intro = new JLabel("Selamat Datang Admin.");
+        Font font = new Font("Courier", Font.BOLD, 20);
+        JLabel intro2 = new JLabel("Jangan Menyerah, tetap Semangat!");
+        Font font2 = new Font("Courier", Font.PLAIN, 16);
+        intro.setFont(font);
+        intro2.setFont(font2);
+        intro.setBounds(10, 10, 400, 30);
+        intro2.setBounds(10, 30, 300, 30);
 
-    // button buat balik ke main menu
-        JButton backButton = new JButton("Back to Main Menu");
-        backButton.setBounds(170, 350, 160, 30);
-        backButton.addActionListener(new ActionListener() {
+        Font fontButton = new Font("Courier", Font.BOLD, 12);
+
+        JLabel lineDiv = new JLabel("_______________________________"
+                + "__________________________________________");
+        lineDiv.setBounds(10, 50, 500, 20);
+        
+        JButton logOut = new JButton("Log out");
+        logOut.setFont(fontButton);
+        logOut.setBounds(340, 500, 100, 30);
+        logOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-
+                new StartMenu();
             }
         });
-
+        
+        JButton verifDriver = new JButton("Verifikasi Driver");
+        verifDriver.setFont(fontButton);
+        verifDriver.setBounds(60, 215, 350, 30);
+        verifDriver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+            }
+        });
+        
+        JButton checkIncome = new JButton("Cek Pendapatan");
+        checkIncome.setFont(fontButton);
+        checkIncome.setBounds(60, 255, 350, 30);
+        checkIncome.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+            }
+        });
+        
     // button buat nambah promo
         JButton addPromoBtn = new JButton("Add New Promo");
-        addPromoBtn.setBounds(100, 150, 200, 30);
+        addPromoBtn.setBounds(60, 295, 350, 30);
         addPromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -74,13 +89,14 @@ public class MainMenuAdmin {
     
     //button buat liat daftar promo
         JButton seePromoBtn = new JButton("See All Promo");
-        seePromoBtn.setBounds(340, 150, 200, 30);
+        seePromoBtn.setBounds(60, 335, 350, 30);
         seePromoBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new SeeAndDeletePromo(id);
             }
         });
+
 
         // JTable table = new JTable(model) {
         //     public Class getColumnClass(int column) {
@@ -95,7 +111,7 @@ public class MainMenuAdmin {
 
     // button buat check income
         JButton checkIncome = new JButton("Check Income");
-        checkIncome.setBounds(560, 150, 200, 30);
+        checkIncome.setBounds(60, 355, 200, 30);
         checkIncome.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
@@ -112,6 +128,19 @@ public class MainMenuAdmin {
         f.add(seePromoBtn); // add see promo button
         // f.add(table);
         // f.add(sp);
+
+        f.add(intro);
+        f.add(intro2);
+        f.add(lineDiv);
+        f.add(logOut);
+        f.add(verifDriver);
+        f.add(checkIncome);
+        f.add(addPromoBtn);
+        f.add(seePromoBtn);
+        
+        f.setLocationRelativeTo(null);
+        f.setSize(500, 600);
+        f.setLayout(null);
         f.setVisible(true);
     }
 
