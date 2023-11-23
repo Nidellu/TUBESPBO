@@ -98,13 +98,11 @@ public class RegistrasiPassanger {
         f.add(labelTelepon);
         f.add(textTelepon);
 
+        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
         f.add(backButton);
     }
 
-    public static void main(String[] args) {
-        new RegistrasiPassanger("", "", "");
-    }
 }

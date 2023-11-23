@@ -37,7 +37,7 @@ public class OrderRiwayat {
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
         JLabel intro = new JLabel("Orderan Selesai.");
-        JLabel intro = new JLabel("Riwayat Orderan.");
+        JLabel intro2 = new JLabel("Riwayat Orderan.");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -48,12 +48,9 @@ public class OrderRiwayat {
                 + "__________________________________________________"
                 + "___________________________");
 
-        lineDiv.setBounds(10, 100, 968, 20);
-
-        ArrayList<Order> listOrder = con.getOrderCancelFinish(id);
         lineDiv.setBounds(10, 100, 450, 20);
 
-        ArrayList<Order> listOrder = con.getOrderHistory(id);
+        ArrayList<Order> listOrder = con.getOrderNow(id);
 
         if (listOrder.isEmpty()) {
             JLabel ingpo = new JLabel("Yah... Order masih kosong nih :'(");
@@ -63,42 +60,6 @@ public class OrderRiwayat {
         }
 
         int height = (listOrder.size()) * 65;
-
-        if (height > 370) {
-            height = 370;
-        }
-
-        JLayeredPane gamePanelContainer = new JLayeredPane();
-        gamePanelContainer.setLayout(new BoxLayout(gamePanelContainer, BoxLayout.Y_AXIS));
-        gamePanelContainer.setBounds(30, 130, 415, height);
-
-        for (Order order : listOrder) {
-            JPanel gamePanel = new JPanel();
-
-            gamePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
-            int idOrder = order.getOrder_id();
-
-            JTextField nameField = new JTextField("    Tujuan: " + order.getOrder_destination() + "\t\t");
-            nameField.setBorder(null);
-            nameField.setEditable(false);
-            gamePanel.add(nameField);
-
-            JTextField priceField = new JTextField(order.getOrder_date() + "\t               ");
-            priceField.setBorder(null);
-            priceField.setEditable(false);
-            gamePanel.add(priceField);
-
-            JTextField genreField = new JTextField("Rp. " + order.getOrder_final_price() + "\t");
-            genreField.setBorder(null);
-            genreField.setEditable(false);
-            gamePanel.add(genreField);
-
-            JTextField status = new JTextField(order.getOrder_status().toString() + "\t\t            ");
-            status.setBorder(null);
-            status.setEditable(false);
-            gamePanel.add(status);
-
-            JButton buyButton = new JButton("Details");
         System.out.println(listOrder.size());
 
         // if (height > 370) {
@@ -155,11 +116,6 @@ public class OrderRiwayat {
                     new DetailOrder(id, idOrder);
                 }
             });
-            gamePanel.add(buyButton);
-
-            gamePanel.setOpaque(true);
-
-            gamePanelContainer.add(gamePanel);
             indivOrder.setVisible(true);
             indivOrder.add(buyButton);
             containerOrders.add(indivOrder);
@@ -171,10 +127,7 @@ public class OrderRiwayat {
                 + "__________________________________________________"
                 + "__________________________________________________"
                 + "___________________________");
-        lineDiv2.setBounds(10, 500, 968, 20);
-
         lineDiv2.setBounds(10, 510, 450, 20);
-
 
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
@@ -185,9 +138,6 @@ public class OrderRiwayat {
                 new CekOrder(id);
             }
         });
-
-        f.add(gamePanelContainer);
-        f.add((intro));
 
         JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // scrollPaneOrder.setVisible(false);
@@ -213,9 +163,4 @@ public class OrderRiwayat {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
-    // public static void main(String[] args) {
-    //     new OrderRiwayat(5);
-    // }
-
 }
