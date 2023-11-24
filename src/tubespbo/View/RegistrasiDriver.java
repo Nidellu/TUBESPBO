@@ -58,14 +58,14 @@ public class RegistrasiDriver {
         textPlat.setBounds(200, 140, 250, 30);
 
         JLabel labelJenis = new JLabel("Category: ");
-        String listCategory[] = {"Mobil", "Motor"};
+        String listCategory[] = { "Mobil", "Motor" };
         JComboBox boxJenis = new JComboBox(listCategory);
         boxJenis.setSelectedItem(null);
         labelJenis.setFont(fontLabel);
         labelJenis.setBounds(10, 170, 200, 30);
         boxJenis.setBounds(200, 170, 250, 30);
 
-        //tombol submit
+        // tombol submit
         JButton insertData = new JButton("Submit");
         insertData.setBounds(260, 300, 150, 30);
         insertData.addActionListener(new ActionListener() {
@@ -79,17 +79,13 @@ public class RegistrasiDriver {
                 if (telepon.isEmpty() || namaKendaraan.isEmpty() || plat.isEmpty() || jenis.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    boolean succeed = con.inputUserDataToDB(username, password, roles);
-                    if (succeed) {
-                        int id = con.getIDUser(username);
-                        boolean succeedDriver = con.inputDriverDataToWaitingList(username, password, telepon, namaKendaraan, jenis, plat);
-                        if (succeedDriver) {
-                            JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
-                            new StartMenu();
-                            f.dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
-                        }
+                    int id = con.getIDUser(username);
+                    boolean succeedDriver = con.inputDriverDataToWaitingList(username, password, telepon, namaKendaraan,
+                            jenis, plat);
+                    if (succeedDriver) {
+                        JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
+                        new StartMenu();
+                        f.dispose();
                     } else {
                         JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                     }
@@ -109,8 +105,7 @@ public class RegistrasiDriver {
                 f.dispose();
                 new Registrasi();
             }
-        }
-        );
+        });
 
         f.add(intro);
         f.add(intro2);
@@ -124,10 +119,10 @@ public class RegistrasiDriver {
         f.add(labelJenis);
         f.add(boxJenis);
 
-        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
+        f.setLocationRelativeTo(null);
         f.add(backButton);
     }
 

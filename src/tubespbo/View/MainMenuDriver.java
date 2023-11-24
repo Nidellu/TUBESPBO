@@ -89,7 +89,8 @@ public class MainMenuDriver {
         inbox.setBounds(70, 230, 140, 30);
         inbox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //
+                f.dispose();
+                new InboxDriver(id);
             }
         });
 
@@ -110,8 +111,8 @@ public class MainMenuDriver {
         tarikDanaButton.setBounds(70, 320, 350, 30);
         tarikDanaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                f.dispose();
                 new TarikDana(id);
+                f.dispose();
             }
         });
 
@@ -132,14 +133,12 @@ public class MainMenuDriver {
             }
         });
 
-        JButton withdrawal = new JButton("Withdrawal");
-        withdrawal.setFont(fontButton);
-        withdrawal.setBounds(70, 370, 350, 30);
-        withdrawal.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-        //                
-                    }
-                });
+        String statDrv =  con.getDriverStat(id);
+        if (statDrv.equals("BOOKED")) {
+            switchStatus.setEnabled(false); // Disable the button
+        } else {
+            switchStatus.setEnabled(true); // Enable the button
+        }
         
         // back button
         JButton backButton = new JButton("Back to Main Menu");
@@ -182,10 +181,5 @@ public class MainMenuDriver {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
-    //  public static void main(String[] args) {
-    //      new MainMenuDriver(6);
-    //  }
-
  
 }

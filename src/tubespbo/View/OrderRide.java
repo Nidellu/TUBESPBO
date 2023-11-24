@@ -1,42 +1,28 @@
 package tubespbo.View;
 
-import java.awt.Button;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.Driver;
 import tubespbo.Model.Passanger;
 
 public class OrderRide {
+
     public OrderRide(int id) {
         showDataScreen(id);
     }
 
-    private Map<String, Integer> vehicleCosts;
-    private JLabel labelAsal, labelTujuan, labelPilihVehicle, labelResult, totalHarga;
+    private JLabel labelAsal, labelTujuan;
     private JTextField textAsal, textTujuan;
-    private JComboBox<String> boxPilihVehicle;
-    private float hargaAwalValue = 0.0f;
-    private float promoVal = 0.0f;
-    private float totalHargaValue = 0.0f;
-    private float finalCost = 0.0f;
-    private Controller con = new Controller();
+    private final Controller con = new Controller();
 
     private void showDataScreen(int id) {
         JFrame f = new JFrame();
@@ -50,102 +36,90 @@ public class OrderRide {
         Font font2 = new Font("Courier", Font.PLAIN, 16);
         intro.setFont(font);
         intro2.setFont(font2);
-        intro.setBounds(160, 50, 400, 30);
-        intro2.setBounds(120, 70, 300, 30);
+        intro.setBounds(30, 70, 400, 30);
+        intro2.setBounds(30, 90, 300, 30);
 
         Font fontButton = new Font("Courier", Font.BOLD, 13);
 
         JLabel lineDiv = new JLabel("_______________________________"
                 + "__________________________________________");
-        lineDiv.setBounds(10, 90, 500, 20);
+        lineDiv.setBounds(10, 110, 460, 20);
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
         // lokasi jemput
         labelAsal = new JLabel("Lokasi jemput ");
         labelAsal.setFont(fontLabel);
-        labelAsal.setBounds(30, 130, 150, 30);
+        labelAsal.setBounds(30, 150, 200, 30);
         textAsal = new JTextField();
         textAsal.setFont(fontLabel);
-        textAsal.setBounds(260, 133, 200, 30);
+        textAsal.setBounds(250, 150, 200, 30);
 
         // lokasi tujuan
         labelTujuan = new JLabel("Tujuan ");
         labelTujuan.setFont(fontLabel);
-        labelTujuan.setBounds(30, 170, 150, 30);
+        labelTujuan.setBounds(30, 190, 150, 30);
         textTujuan = new JTextField();
         textTujuan.setFont(fontLabel);
-        textTujuan.setBounds(260, 173, 200, 30);
-        
-        // jenis kendaraan
-        labelPilihVehicle = new JLabel("Pilih Kendaraan ");
-        String listKendaraan[] = {"Mobil", "Motor"};
-        boxPilihVehicle = new JComboBox(listKendaraan);
-        boxPilihVehicle.setSelectedItem(null);
-        labelPilihVehicle.setFont(fontLabel);
-        labelPilihVehicle.setBounds(30, 210, 200, 30);
-        boxPilihVehicle.setBounds(260, 213, 200, 30);
-
-        // Add action listeners
-        boxPilihVehicle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calculateCost();
-            }
-        });
-       
+        textTujuan.setBounds(250, 190, 200, 30);
 
         // input kode promo
         JLabel labelKodePromo = new JLabel("Masukan Kode Promo");
         labelKodePromo.setFont(fontLabel);
-        labelKodePromo.setBounds(30, 250, 200, 30);
+        labelKodePromo.setBounds(30, 230, 200, 30);
         JTextField kodePromoField = new JTextField();
-        kodePromoField.setBounds(260, 250, 200, 30);
-        
+        kodePromoField.setBounds(250, 230, 150, 30);
+
         // button buat konfirmasi klo mau pakai promo
-        JButton usePromo = new JButton("✔");
-        usePromo.setFont(new Font("Arial", Font.PLAIN, 20));
-        usePromo.setBounds(464, 250, 40, 30);
+        JButton usePromo = new JButton(">");
+        usePromo.setFont(new Font("Arial", Font.PLAIN, 12));
+        usePromo.setBounds(400, 230, 50, 30);
         // detail informasi promo yang digunakan
         usePromo.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e) {
                 String kodePromo = kodePromoField.getText();
-                if (kodePromo.isEmpty())  {
+                if (kodePromo.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Input dulu kode promonya!", "Diisi Dulu Yaa", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    float disc = con.getPromoVal(kodePromo);
-
-                    String costString = labelResult.getText();
-                    float costs;
-
-                    try {
-                        costs = Float.parseFloat(costString.replace("Rp. ", "").replace(",", ""));
-                    } catch (NumberFormatException ex) {
-                        costs = 0.0f;
+                    if (con.findPromo(kodePromo)) {
+                        JOptionPane.showMessageDialog(null, "Promo berhasil ditemukan", "Diisi Dulu Yaa", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Kode belum bisa ditemukan", "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
                     }
-
-                    float discVal = disc * costs;
-                    promoVal = discVal;
-                    DecimalFormat rupiahFormat = new DecimalFormat("Rp #,###.##");
-                    String formattedDiscVal = rupiahFormat.format(discVal);
-                    
-                    JOptionPane.showMessageDialog(null, "Yeay Kamu Dapat Potongan Harga Sebesar " + formattedDiscVal, "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
 
-        // recap harga
-            // Label to display the result -- harga awal
-        labelResult = new JLabel();
-        labelResult.setFont(fontLabel);
-        labelResult.setBounds(260, 280, 300, 30);
-        float promoValue = getPromoVal();
-        String promoDigunakan = "Promo Digunakan \t" + formatCost(promoValue);
-        JLabel promoValLabel = new JLabel(promoDigunakan);
-        promoValLabel.setBounds(260, 310, 300, 30);
-        totalHarga = new JLabel();
-        totalHarga.setBounds(260, 340, 300, 30);
+        JButton next = new JButton("Next");
+        next.setBounds(40, 495, 400, 30);
+        next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!textTujuan.getText().isEmpty() || !textAsal.getText().isEmpty()) {
+                    if (textTujuan.getText().length() <= 1 || textAsal.getText().length() <= 1) {
+                        String kodePromo = kodePromoField.getText();
+                        String source = textAsal.getText().toUpperCase();
+                        String destination = textTujuan.getText().toUpperCase();
+                        if (!kodePromo.isEmpty()) {
+                            if (con.findPromo(kodePromo)) {
+                                f.dispose();
+                                new OrderRideNext(source, destination, id, kodePromo);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Kode belum di cek kayaknya nih", "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        } else {
+                            f.dispose();
+                            new OrderRideNext(source, destination, id, "");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(f, "Pilihan kota cuma satu huruf loh", "", JOptionPane.WARNING_MESSAGE);
+
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(f, "Tujuan atau Asal tidak boleh kosong!", "", JOptionPane.WARNING_MESSAGE);
+                }
+
+            }
+        });
 
         //back button
         JButton backButton = new JButton("Kembali");
@@ -159,98 +133,24 @@ public class OrderRide {
             }
         });
 
-        // check user's wallet -- if user's wallet < harga akhir --> order button disable
-
-        // order button
-        JButton orderButton = new JButton("Pesan Sekarang");
-        orderButton.setFont(fontButton);
-        orderButton.setBounds(260, 500, 200, 30);
-        orderButton.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                if (isAnyFieldEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    int userId = id;
-                    String source = textAsal.getText().toUpperCase();
-                    String destination = textTujuan.getText().toUpperCase();
-                    String promo = kodePromoField.getText();
-                    String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
-                    int idPromo = con.getPromoIdByCode(promo);
-                    
-                    Driver drv = con.getDriverAvailable(jenisKendaraan);
-                    if (drv == null) {
-                        JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        boolean status = con.createUserOrder(userId, idPromo, source, destination, finalCost, totalHargaValue, drv);
-                        if (status == true) {
-                            JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
-                            f.dispose();
-                            new OrderBerjalan(id);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                }
-            }
-
-            private boolean isAnyFieldEmpty() {
-                return textAsal.getText().isEmpty()
-                        || textTujuan.getText().isEmpty()
-                        || boxPilihVehicle.getSelectedItem() == null;
-            }
-        });
-
         f.add((intro));
         f.add((intro2));
         f.add(labelAsal); // add asal
         f.add(textAsal);
         f.add(labelTujuan); // add tujuan
         f.add(textTujuan);
-        f.add(labelPilihVehicle); // add choose vehicle
-        f.add(boxPilihVehicle);
-        f.add(backButton); // add back button
-        f.add(orderButton); // add order button
-        f.add(lineDiv);
+
         f.add(labelKodePromo); // add promo
         f.add(kodePromoField);
         f.add(usePromo); // use promo
-        f.add(orderButton); // add order button
-        f.add(labelResult); // add harga
-        f.add(promoValLabel); // add show promo uses
-        f.add(totalHarga); // add harga final
-        
+        f.add(backButton); // add back button
+        f.add(lineDiv);
+        f.add(next);
+
         f.setSize(500, 600);
         f.setLayout(null);
-
-        
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
-    private void calculateCost() {
-        char source = textAsal.getText().toUpperCase().charAt(0);
-        char destination = textTujuan.getText().toUpperCase().charAt(0);
-
-        int baseCost = con.calculateCost(source, destination);
-        String selectedVehicle = (String) boxPilihVehicle.getSelectedItem();
-
-        if (baseCost != -1) {
-            finalCost = con.calculateFinalCost(baseCost, selectedVehicle);
-            totalHargaValue = finalCost - promoVal;
-            labelResult.setText("Rp. " + finalCost);
-        } else {
-            labelResult.setText("Biaya tidak dapat dihitung.");
-        }
-        totalHarga.setText("Tarif Total \t" + formatCost(totalHargaValue));
-    }
-
-    // format cost
-    private String formatCost(float cost) {
-        DecimalFormat rupiahFormat = new DecimalFormat("Rp #,###.##");
-        return rupiahFormat.format(cost);
-    }
-
-     public float getPromoVal() {
-        return promoVal;
-    }
 }

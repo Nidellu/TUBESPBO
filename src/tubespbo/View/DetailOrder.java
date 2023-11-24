@@ -103,15 +103,25 @@ public class DetailOrder {
             driverVName.setBounds(30, 265, 300, 30);
 
             if (listOrder.get(listOrder.size() - 1).getOrder_status() == OrderStatusEnum.NOW) {
-                JButton cancel = new JButton("Cancel");
+                JButton cancel = new JButton("Top Up ke Driver");
                 cancel.setBounds(30, 310, 420, 30);
                 cancel.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        f.dispose();
+                        new MenuTopUpDariDriver(id, listOrder.get(listOrder.size() - 1).getDriver_id(), driver);
+                    }
+                });
+                f.add(cancel);
+                JButton topUp = new JButton("Cancel");
+                topUp.setBounds(30, 350, 420, 30);
+                topUp.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         int choice = JOptionPane.showConfirmDialog(null, "Yakin mau dicancel?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
 
                         if (choice == JOptionPane.YES_OPTION) {
                             if (con.updateStatusOrder(idOrder, "CANCEL")) {
                                 JOptionPane.showMessageDialog(null, "Berhasil dicancel", "Yahhh", JOptionPane.INFORMATION_MESSAGE);
+                                f.dispose();
                                 new CekOrder(id);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Gagal di cancel", "Upss", JOptionPane.ERROR_MESSAGE);
@@ -122,7 +132,7 @@ public class DetailOrder {
                         }
                     }
                 });
-                f.add(cancel);
+                f.add(topUp);
             }
 
             // adding driver's data to frame
@@ -162,6 +172,10 @@ public class DetailOrder {
                             if (con.updateStatusOrder(idOrder, "FINISHED")) {
                                 JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                                 // kembalikan status driver menjadi AVAILABLE
+                                float currSaldo = con.getWallet(listOrder.get(listOrder.size() - 1).getCust_id());
+                                float currSaldo2 = con.getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
+                                con.updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldo2 + listOrder.get(listOrder.size() - 1).getOrder_final_price());
+                                con.updateJoPay(listOrder.get(listOrder.size() - 1).getCust_id(), currSaldo - listOrder.get(listOrder.size() - 1).getOrder_final_price());
                                 con.changeToAvailable(id);
                                 f.dispose();
                                 new CekOrder(id);
@@ -240,39 +254,39 @@ public class DetailOrder {
 
         JLabel payDetail = new JLabel("Detail Pembayaran:");
         payDetail.setFont(font4);
-        payDetail.setBounds(30, 350, 300, 30);
+        payDetail.setBounds(30, 385, 300, 30);
 
         JLabel payRaw = new JLabel("Biaya Perjalanan:");
         payRaw.setFont(font2);
-        payRaw.setBounds(30, 375, 300, 30);
+        payRaw.setBounds(30, 410, 300, 30);
 
         JLabel payTax = new JLabel("Biaya  jasa aplikasi:");
         payTax.setFont(font2);
-        payTax.setBounds(30, 400, 300, 30);
+        payTax.setBounds(30, 435, 300, 30);
 
         JLabel payVoucher = new JLabel("Diskon Voucher:");
         payVoucher.setFont(font2);
-        payVoucher.setBounds(30, 425, 300, 30);
+        payVoucher.setBounds(30, 460, 300, 30);
 
         JLabel total = new JLabel("Total:");
         total.setFont(font4);
-        total.setBounds(30, 455, 300, 30);
+        total.setBounds(30, 490, 300, 30);
 
         JLabel payRawVal = new JLabel("Rp. " + listOrder.get(listOrder.size() - 1).getOrder_price());
         payRawVal.setFont(font2);
-        payRawVal.setBounds(370, 375, 300, 30);
+        payRawVal.setBounds(370, 410, 300, 30);
 
         JLabel payTaxVal = new JLabel("Rp. 2000");
         payTaxVal.setFont(font2);
-        payTaxVal.setBounds(370, 400, 300, 30);
+        payTaxVal.setBounds(370, 435, 300, 30);
 
         JLabel payVoucherVal = new JLabel("-BELUM");
         payVoucherVal.setFont(font2);
-        payVoucherVal.setBounds(370, 425, 300, 30);
+        payVoucherVal.setBounds(370, 460, 300, 30);
 
         JLabel totalVal = new JLabel("Rp. " + listOrder.get(listOrder.size() - 1).getOrder_final_price());
         totalVal.setFont(font4);
-        totalVal.setBounds(360, 455, 300, 30);
+        totalVal.setBounds(360, 490, 300, 30);
 
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
@@ -316,4 +330,7 @@ public class DetailOrder {
         f.setVisible(true);
     }
 
+    public static void main(String[] args) {
+        new DetailOrder(9, 11, 1);
+    }
 }

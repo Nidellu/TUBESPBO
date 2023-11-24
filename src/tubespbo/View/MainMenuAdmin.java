@@ -79,6 +79,8 @@ public class MainMenuAdmin {
         checkIncome.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
+                new CekPendapatan();
+
             }
         });
         
@@ -117,10 +119,5 @@ public class MainMenuAdmin {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
-    
-//     public static void main(String[] args) {
-//         new MainMenuAdmin();
-//     }
 
 }

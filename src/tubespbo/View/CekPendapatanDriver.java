@@ -10,21 +10,19 @@ import javax.swing.JLabel;
 
 import tubespbo.Controller.Controller;
 
-public class CekPendapatan {
-
-    public CekPendapatan() {
-        showDataScreen();
+public class CekPendapatanDriver {
+    public CekPendapatanDriver(int id) {
+        showDataScreen(id);
     }
 
-    private void showDataScreen() {
+    private void showDataScreen(int id) {
         Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Font font = new Font("Courier", Font.BOLD, 20);
-        Font font2 = new Font("Courier", Font.PLAIN, 14);
-        Font font3 = new Font("Courier", Font.PLAIN, 16);
-        Font font4 = new Font("Courier", Font.BOLD, 72);
+        Font font2 = new Font("Courier", Font.PLAIN, 16);
+        Font font3 = new Font("Courier", Font.BOLD, 72);
         Font fontButton = new Font("Courier", Font.BOLD, 13);
 
 
@@ -33,7 +31,7 @@ public class CekPendapatan {
         intro.setBounds(30, 70, 400, 30);
 
         JLabel intro2 = new JLabel("Selalu bersyukur ya!");
-        intro2.setFont(font3);
+        intro2.setFont(font2);
         intro2.setBounds(30, 95, 400, 30);
 
         JLabel lineDiv = new JLabel("__________________________________"
@@ -42,29 +40,29 @@ public class CekPendapatan {
                 + "___________________________");
         lineDiv.setBounds(10, 120, 465, 20);
 
-        JLabel time = new JLabel("Total Order Josen: ");
-        time.setFont(font3);
+        JLabel time = new JLabel("Total Order " + con.getUsername(id)+ ": ");
+        time.setFont(font2);
         time.setBounds(30, 150, 300, 30);
 
-        JLabel idForShow = new JLabel(con.getOrderCount() + "");
-        idForShow.setFont(font4);
+        JLabel idForShow = new JLabel(con.getOrderCountDriver(id) + "");
+        idForShow.setFont(font3);
         idForShow.setBounds(30, 180, 300, 90);
 
         JLabel payDetail = new JLabel("Dengan total pendapatan sebanyak:");
-        payDetail.setFont(font3);
-        payDetail.setBounds(30, 270, 300, 30);
+        payDetail.setFont(font2);
+        payDetail.setBounds(30, 270, 330, 30);
 
-        JLabel payRaw = new JLabel("Rp. " + con.getOrderCount()*2000);
+        JLabel payRaw = new JLabel("Rp. " + con.totalSalary(id));
         payRaw.setFont(font);
         payRaw.setBounds(30, 300, 300, 30);
 
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
-        backButton.setBounds(10, 10, 85, 30);
+        backButton.setBounds(10, 10, 90, 30);
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuAdmin();
+                new MainMenuDriver(id);
             }
         });
 
@@ -82,9 +80,10 @@ public class CekPendapatan {
 
         f.setSize(500, 600);
         f.setLayout(null);
-        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
-
+    
+    public static void main(String[] args) {
+        new CekPendapatanDriver(15);
+    }
 }

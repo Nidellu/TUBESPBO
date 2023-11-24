@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tubespbo.Model.Driver;
+import tubespbo.Model.JopayWaitingList;
 import tubespbo.Model.Order;
 import tubespbo.Model.OrderStatusEnum;
 import tubespbo.Model.Passanger;
@@ -71,6 +72,23 @@ public class Controller {
             stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, id);
             stmt.setString(2, phonNum);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean inputJopayList(int id, int idDriver, float saldo) {
+        conn.connect();
+        String query = "INSERT INTO jopaylist (passanger_id, driver_id, nominal) VALUES (?, ?, ?)";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.setInt(1, id);
+            stmt.setInt(2, idDriver);
+            stmt.setFloat(3, saldo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -182,6 +200,28 @@ public class Controller {
             e.printStackTrace();
         }
         return (listPass);
+    }
+    
+    public ArrayList<JopayWaitingList> getWaitingList(int idDriver) {
+        conn.connect();
+        String query = "SELECT * "
+                + "FROM jopaylist WHERE driver_id = '" + idDriver + "'";
+        ArrayList<JopayWaitingList> listWaiting = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                JopayWaitingList wait = new JopayWaitingList();
+                wait.setJopaylist_id(rs.getInt("jopaylist_id"));
+                wait.setCust_id(rs.getInt("passanger_id"));
+                wait.setDriver_id(rs.getInt("driver_id"));
+                wait.setNominal(rs.getFloat("nominal"));
+                listWaiting.add(wait);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listWaiting);
     }
 
     public ArrayList<Driver> getDriverByID(int id) {
@@ -325,6 +365,59 @@ public class Controller {
             e.printStackTrace();
         }
         return (exists);
+    }
+    
+    public boolean deleteWaitingJopay(int idJopayList) {
+        conn.connect();
+        String query = "DELETE FROM jopaylist WHERE jopaylist_id = '" + idJopayList + "'";
+        boolean exists = false;
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            exists = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (exists);
+    }
+
+    //salary driver
+    public double salaryDriver (int idDriver) {
+        conn.connect();
+        String query = "SELECT SUM(order_final_price) FROM orders WHERE driver_id = '" + idDriver + "' ";
+        double total = 0;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                total = (rs.getDouble("SUM(order_final_price)"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (total);
+    }
+
+    public int getOrderCountDriver (int idDriver) {
+        conn.connect();
+        String query = "SELECT COUNT(driver_id) FROM orders WHERE driver_id = '" + idDriver + "'";
+        int result = 0;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                result = (rs.getInt("COUNT(driver_id)"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (result);
+    }
+
+    public double totalSalary (int idDriver) {
+        double total = 0;
+        total = salaryDriver(idDriver) - (getOrderCountDriver(idDriver) * 2000);
+        return total;
     }
 
     // order status
@@ -653,6 +746,23 @@ public class Controller {
         }
         return Id;
     }
+
+    public boolean findPromo (String inpCode) {
+        float val = 0;
+        conn.connect();
+        String query = "SELECT * FROM promo WHERE promo_code = '" + inpCode + "'";
+        boolean found = false;
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                found = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return found;
+    }
 //promo ends here
 
 
@@ -842,7 +952,7 @@ public class Controller {
 // order ride end
 
 // start switch on off status driver
-    private String getDriverStat(int driverID) {
+    public String getDriverStat(int driverID) {
         String stat = "";
         conn.connect();
         String statsQuery = "SELECT driver_status FROM drivers WHERE driver_id = '" + driverID + "';";
@@ -866,7 +976,7 @@ public class Controller {
         } else if ("AVAILABLE".equalsIgnoreCase(currentStatus)) {
             return "Now Available";
         } else {
-            return "Unknown Status";
+            return "In Order";
         }
     }
 
