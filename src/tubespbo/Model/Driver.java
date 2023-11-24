@@ -12,7 +12,7 @@ public class Driver extends User {
     private String vehicle_plate;
     private DriverStatEnum statusDriver;
 
-    DriverStatusInterface state = new AvailableState();
+    DriverStatusInterface state;
     
     public String updateState(String status) {
         status = state.update(this, status);

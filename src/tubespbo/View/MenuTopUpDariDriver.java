@@ -21,16 +21,12 @@ public class MenuTopUpDariDriver {
     }
 
     private void showMenuTopUp(int id, int idDriver, String driverName) {
-        Controller con = new Controller();
-        User currUser = con.getUserByID(id);
+        User currUser = Controller.getInstance().getUserByID(id);
         System.out.println();
 
-        Font headerFont = new Font("Courier", Font.BOLD, 24);
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 16);
-        Font font4 = new Font("Courier", Font.BOLD, 14);
-        Font fontBack = new Font("Courier", Font.BOLD, 12);
 
         JFrame f = new JFrame();
         f.setLayout(null);
@@ -64,8 +60,8 @@ public class MenuTopUpDariDriver {
         wallet.setBackground(null);
         f.add(wallet);
 
-        String strSaldo = String.valueOf(con.getWallet(id));
-        if (con.getWallet(id) > 9999999) {
+        String strSaldo = String.valueOf(Controller.getInstance().getWallet(id));
+        if (Controller.getInstance().getWallet(id) > 9999999) {
             strSaldo = "9999999+";
         }
 
@@ -124,7 +120,7 @@ public class MenuTopUpDariDriver {
                                 "Ya");
 
                         if (result == JOptionPane.YES_OPTION) {
-                            boolean succeed = con.inputJopayList(id, idDriver, saldoTambahan);
+                            boolean succeed = Controller.getInstance().inputJopayList(id, idDriver, saldoTambahan);
                             if (succeed) {
                                 JOptionPane.showMessageDialog(f, "Tunggu Konfirmasi yah!", "Selamat",
                                         JOptionPane.DEFAULT_OPTION);

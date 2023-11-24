@@ -21,11 +21,10 @@ public class PassangerProfile {
     }
 
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ArrayList<Passanger> pass = con.getPassangerByID(id);
+        ArrayList<Passanger> pass = Controller.getInstance().getPassangerByID(id);
 
         JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -69,8 +68,8 @@ public class PassangerProfile {
         buttonSimpan.setBounds(40, 515, 400, 30);
         buttonSimpan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                boolean succeed = con.updateUserNameDataPassangerToDB(id, textNama.getText());
-                boolean succeed2 = con.updatePhoneNumDataPassangerToDB(id, textTelepon.getText());
+                boolean succeed = Controller.getInstance().updateUserNameDataPassangerToDB(id, textNama.getText());
+                boolean succeed2 = Controller.getInstance().updatePhoneNumDataPassangerToDB(id, textTelepon.getText());
                 if (succeed && succeed2) {
                     JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
                 } else {
@@ -105,9 +104,5 @@ public class PassangerProfile {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    
-    // public static void main(String[] args) {
-    //     new PassangerProfile(5);
-    // }
 
 }

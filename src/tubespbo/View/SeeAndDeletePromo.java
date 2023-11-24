@@ -27,12 +27,11 @@ public class SeeAndDeletePromo {
     }
 
     private void showResult() {
-        Controller cntrl = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // list of promo yang di get pakai controller
-        ArrayList<Promo> promolList = cntrl.getPromoList();
+        ArrayList<Promo> promolList = Controller.getInstance().getPromoList();
 
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
@@ -101,7 +100,7 @@ public class SeeAndDeletePromo {
             promoPanel.add(expField);
 
             // buat status
-            if (cntrl.checkPromoValidation(idPromo) == true) {
+            if (Controller.getInstance().checkPromoValidation(idPromo) == true) {
                 statPromo = "Masih Berlaku";
             } else {
                 statPromo = "Expired";
@@ -119,7 +118,7 @@ public class SeeAndDeletePromo {
                     int choice = JOptionPane.showConfirmDialog(null, "Yakin mau dihapus?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     
                     if (choice == JOptionPane.YES_OPTION) {
-                        if (cntrl.deletePromo(idPromo) == true) {
+                        if (Controller.getInstance().deletePromo(idPromo) == true) {
                             JOptionPane.showMessageDialog(null, "Promo berhasil dihapus!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "Promo gagal dihapus!", "Upss", JOptionPane.ERROR_MESSAGE);
@@ -153,8 +152,5 @@ public class SeeAndDeletePromo {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    
-    public static void main(String[] args) {
-        new SeeAndDeletePromo();
-    }
+
 }

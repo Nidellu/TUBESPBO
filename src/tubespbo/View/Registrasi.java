@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package tubespbo.View;
 
 import java.awt.Font;
@@ -27,7 +23,6 @@ public class Registrasi {
     private void form() {
         JFrame f = new JFrame("Form Registrasi");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -76,7 +71,7 @@ public class Registrasi {
                 if (nama.isEmpty() || password.isEmpty() || roles.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    boolean check = con.getByUserName(nama);
+                    boolean check = Controller.getInstance().getByUserName(nama);
                     if (!check) {
                         if (roles.equalsIgnoreCase("Passanger")) {
                             new RegistrasiPassanger(nama, password, roles);
@@ -114,10 +109,10 @@ public class Registrasi {
         f.add(labelCategory);
         f.add(boxRoles);
         
+        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
-        f.setLocationRelativeTo(null);
         f.add(backButton);
     }
 

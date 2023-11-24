@@ -27,17 +27,15 @@ public class InboxDriver {
     }
 
     private void showResult(int idDriver) {
-        Controller cntrl = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // list of promo yang di get pakai controller
-        ArrayList<JopayWaitingList> jopayList = cntrl.getWaitingList(idDriver);
+        ArrayList<JopayWaitingList> jopayList = Controller.getInstance().getWaitingList(idDriver);
 
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 18);
-        Font font4 = new Font("Courier", Font.BOLD, 14);
 
         JLabel intro = new JLabel("Inbox Driver");
         intro.setFont(font);
@@ -81,7 +79,7 @@ public class InboxDriver {
 
             jwlPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 
-            String username = cntrl.getUsername(jwl.getCust_id());
+            String username = Controller.getInstance().getUsername(jwl.getCust_id());
 
             JLabel promoCode = new JLabel("Permintaan : " + username);
             promoCode.setBounds(10, 5, 200, 25);
@@ -97,14 +95,14 @@ public class InboxDriver {
             terima.setBounds(230, 20, 90, 25);
             terima.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    float currSaldo = cntrl.getWallet(jwl.getCust_id());
-                    float currSaldo2 = cntrl.getWallet(jwl.getDriver_id());
+                    float currSaldo = Controller.getInstance().getWallet(jwl.getCust_id());
+                    float currSaldo2 = Controller.getInstance().getWallet(jwl.getDriver_id());
                     int choice = JOptionPane.showConfirmDialog(null, "Terima top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (choice == JOptionPane.YES_OPTION) {
                         if (currSaldo > jwl.getNominal()) {
-                            boolean succeed = cntrl.updateJoPay(idDriver, currSaldo2 - jwl.getNominal());
-                            boolean succeed2 = cntrl.updateJoPay(jwl.getCust_id(), currSaldo + jwl.getNominal());
-                            boolean succeed3 = cntrl.deleteWaitingJopay(jwl.getJopaylist_id());
+                            boolean succeed = Controller.getInstance().updateJoPay(idDriver, currSaldo2 - jwl.getNominal());
+                            boolean succeed2 = Controller.getInstance().updateJoPay(jwl.getCust_id(), currSaldo + jwl.getNominal());
+                            boolean succeed3 = Controller.getInstance().deleteWaitingJopay(jwl.getJopaylist_id());
                             if (succeed && succeed2 && succeed3) {
                                 JOptionPane.showMessageDialog(null, "Berhasil di top up!", "", JOptionPane.INFORMATION_MESSAGE);
                                 f.dispose();
@@ -129,7 +127,7 @@ public class InboxDriver {
                     int choice = JOptionPane.showConfirmDialog(null, "Tolak top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
 
                     if (choice == JOptionPane.YES_OPTION) {
-                        boolean succeed3 = cntrl.deleteWaitingJopay(jwl.getJopaylist_id());
+                        boolean succeed3 = Controller.getInstance().deleteWaitingJopay(jwl.getJopaylist_id());
                             if (succeed3) {
                                 JOptionPane.showMessageDialog(null, "Berhasil di tolak!", "", JOptionPane.INFORMATION_MESSAGE);
                                 f.dispose();

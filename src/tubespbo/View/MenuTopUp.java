@@ -17,16 +17,12 @@ import tubespbo.Model.User;
 public class MenuTopUp {
 
     public MenuTopUp(int id) {
-        Controller con = new Controller();
-        User currUser = con.getUserByID(id);
+        User currUser = Controller.getInstance().getUserByID(id);
         System.out.println();
 
-        Font headerFont = new Font("Courier", Font.BOLD, 24);
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 16);
-        Font font4 = new Font("Courier", Font.BOLD, 14);
-        Font fontBack = new Font("Courier", Font.BOLD, 12);
 
         JFrame f = new JFrame();
         f.setLayout(null);
@@ -60,8 +56,8 @@ public class MenuTopUp {
         wallet.setBackground(null);
         f.add(wallet);
 
-        String strSaldo = String.valueOf(con.getWallet(id));
-        if (con.getWallet(id) > 9999999) {
+        String strSaldo = String.valueOf(Controller.getInstance().getWallet(id));
+        if (Controller.getInstance().getWallet(id) > 9999999) {
             strSaldo = "9999999+";
         }
 
@@ -105,7 +101,7 @@ public class MenuTopUp {
             } else {
                 try {
                     float saldoTambahan = Float.parseFloat(inputField);
-                    float currSaldo = con.getWallet(id);
+                    float currSaldo = Controller.getInstance().getWallet(id);
                     if (saldoTambahan < 2000) {
                         JOptionPane.showMessageDialog(f, "Minimal Top Up saldo adalah 2000", "WARNING",
                                 JOptionPane.ERROR_MESSAGE);
@@ -121,7 +117,7 @@ public class MenuTopUp {
                                 "Ya");
 
                         if (result == JOptionPane.YES_OPTION) {
-                            con.updateJoPay(id, currSaldo + saldoTambahan);
+                            Controller.getInstance().updateJoPay(id, currSaldo + saldoTambahan);
                             JOptionPane.showMessageDialog(f, "Top Up berhasil dilakukan!", "WARNING",
                                     JOptionPane.DEFAULT_OPTION);
                             if (currUser.getUser_role().equalsIgnoreCase("DRIVER")) {

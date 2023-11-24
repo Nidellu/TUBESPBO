@@ -16,7 +16,6 @@ public class CekPendapatanDriver {
     }
 
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -40,11 +39,11 @@ public class CekPendapatanDriver {
                 + "___________________________");
         lineDiv.setBounds(10, 120, 465, 20);
 
-        JLabel time = new JLabel("Total Order " + con.getUsername(id)+ ": ");
+        JLabel time = new JLabel("Total Order " + Controller.getInstance().getUsername(id)+ ": ");
         time.setFont(font2);
         time.setBounds(30, 150, 300, 30);
 
-        JLabel idForShow = new JLabel(con.getOrderCountDriver(id) + "");
+        JLabel idForShow = new JLabel(Controller.getInstance().getOrderCountDriver(id) + "");
         idForShow.setFont(font3);
         idForShow.setBounds(30, 180, 300, 90);
 
@@ -52,7 +51,7 @@ public class CekPendapatanDriver {
         payDetail.setFont(font2);
         payDetail.setBounds(30, 270, 330, 30);
 
-        JLabel payRaw = new JLabel("Rp. " + con.totalSalary(id));
+        JLabel payRaw = new JLabel("Rp. " + Controller.getInstance().totalSalary(id));
         payRaw.setFont(font);
         payRaw.setBounds(30, 300, 300, 30);
 
@@ -83,7 +82,4 @@ public class CekPendapatanDriver {
         f.setVisible(true);
     }
     
-    public static void main(String[] args) {
-        new CekPendapatanDriver(15);
-    }
 }
