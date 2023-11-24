@@ -144,7 +144,4 @@ public class DetailOrder {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new DetailOrder(9, 11, 1);
-    }
 }

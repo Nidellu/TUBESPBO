@@ -52,9 +52,11 @@ public class DetailOrderDriver extends DetailOrder {
                             // get saldo user
                             float currSaldo = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getCust_id());
                             // get saldo driver
-                            float currSaldo2 = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
+                            float currSaldoDriver = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
+                            float currSaldoAdmin = Controller.getInstance().getWallet(1);
+                            Controller.getInstance().updateJoPay(1, currSaldoAdmin + 2000);
                             // nambah saldo driver
-                            Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldo2 + listOrder.get(listOrder.size() - 1).getOrder_final_price());
+                            Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldoDriver + listOrder.get(listOrder.size() - 1).getOrder_final_price() - 2000);
                             // kurangi saldo user
                             Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getCust_id(), currSaldo - listOrder.get(listOrder.size() - 1).getOrder_final_price());
                             // kembalikan status driver menjadi AVAILABLE

@@ -322,12 +322,13 @@ public class Controller {
         }
     }
 
-    public boolean updateDataDriverToDB(int idMasuk, String telepon, String vehicleName, String vehiclePlate) {
+    public boolean updateDataDriverToDB(int idMasuk, String telepon, String vehicleName, String vehiclePlate, String vehicleType) {
         DatabaseHandler.getInstance().connect();
         String query = "UPDATE drivers \n"
                 + "SET driver_phonNum = '" + telepon + "', \n"
                 + "vehicle_name = '" + vehicleName + "', \n"
-                + "vehicle_plate = '" + vehiclePlate + "' \n"
+                + "vehicle_plate = '" + vehiclePlate + "', \n"
+                + "vehicle_type = '" + vehicleType + "' \n"
                 + "WHERE driver_id = '" + idMasuk + "'";
         PreparedStatement stmt;
         try {
