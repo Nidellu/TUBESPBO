@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package tubespbo.View;
 
 import java.awt.Font;
@@ -16,10 +12,6 @@ import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
 
-/**
- *
- * @author brian
- */
 public class RegistrasiPassanger {
 
     public RegistrasiPassanger(String username, String password, String roles) {
@@ -29,7 +21,6 @@ public class RegistrasiPassanger {
     private void form(String username,String password, String roles) {
         JFrame f = new JFrame("Form Registrasi Driver");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -59,10 +50,10 @@ public class RegistrasiPassanger {
                 if (telepon.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    boolean succeed = con.inputUserDataToDB(username, password, roles);
+                    boolean succeed = Controller.getInstance().inputUserDataToDB(username, password, roles);
                     if (succeed) {
-                        int id = con.getIDUser(username);
-                        boolean succeedDriver = con.inputPassangerDataToDB(id, telepon);
+                        int id = Controller.getInstance().getIDUser(username);
+                        boolean succeedDriver = Controller.getInstance().inputPassangerDataToDB(id, telepon);
                         if (succeedDriver) {
                             JOptionPane.showMessageDialog(f, "Data berhasil disimpan,  Silahkan Login");
                             new LogIn();
@@ -98,10 +89,10 @@ public class RegistrasiPassanger {
         f.add(labelTelepon);
         f.add(textTelepon);
 
+        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
-        f.setLocationRelativeTo(null);
         f.add(backButton);
     }
 

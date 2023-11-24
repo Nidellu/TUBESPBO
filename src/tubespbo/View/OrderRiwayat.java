@@ -26,7 +26,6 @@ public class OrderRiwayat{
     }
 
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -48,7 +47,7 @@ public class OrderRiwayat{
 
         lineDiv.setBounds(10, 100, 460, 20);
 
-        ArrayList<Order> listOrder = con.getOrderHistory(id);
+        ArrayList<Order> listOrder = Controller.getInstance().getOrderHistory(id);
         
         if (listOrder.isEmpty()) {
             JLabel ingpo = new JLabel("Yah... Order masih kosong nih :'(");
@@ -106,33 +105,20 @@ public class OrderRiwayat{
 
             JButton buyButton = new JButton("Details");
             buyButton.setBounds(300, 30, 90, 25);
-            // buyButton.addActionListener(new ActionListener() {
-            //     public void actionPerformed(ActionEvent e) {
-            //         f.dispose();
-            //         new DetailOrder(id, idOrder);
-            //     }
-            // });
-
-            // indivOrder.setVisible(true);
-            // indivOrder.add(buyButton);
-            // containerOrders.add(indivOrder);
-
-            // containerOrders.add(buyButton);
-
-            // containerOrders.setOpaque(true);
-
-            // containerOrders.setVisible(true);
-            // // containerOrders.add(buyButton);
-            // // containerOrders.add(indivOrder);
-            // containerOrders.setVisible(true);
-            // orderHeight += 0;
-            System.out.println("Hello");
-            JButton detailsButton = new JButton("Details");
+                        JButton detailsButton = new JButton("Details");
             detailsButton.setBounds(340, 28, 90, 25);
             detailsButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
-                    new DetailOrder(id, idOrder, 2);
+                    String find = Controller.getInstance().getRolesUser(id);
+                    if(find.equalsIgnoreCase("Passanger")){
+                        new DetailOrderPassanger(id, idOrder, 2);
+                    } else if(find.equalsIgnoreCase("Driver")) {
+                        new DetailOrderDriver(id, idOrder, 2);
+                    } else if(find.equalsIgnoreCase("Admin")){
+                        new DetailOrderAdmin(id, idOrder, 2);
+                    }
+                    
                 }
             });
             indivOrder.add(detailsButton);
@@ -150,21 +136,6 @@ public class OrderRiwayat{
         
         f.add((intro));
 
-        // JScrollPane scrollPaneOrder = new JScrollPane(containerOrders, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        //         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        // scrollPaneOrder.setVisible(false);
-        // scrollPaneOrder.setBorder(null);
-        // // scrollPaneOrder.setBackground(Color.CYAN);
-        // scrollPaneOrder.setBounds(30, 120, 415, 400);
-        // // scrollPaneOrder.setPreferredSize(new Dimension(415, height));
-
-        // // scrollPaneOrder.add(containerOrders);
-
-        // f.getContentPane().add(scrollPaneOrder);
-
-        // f.add(containerOrders);
-        f.add((intro));
-        // f.add(scrollPaneOrder);
 
         f.add(backButton);
         f.add(lineDiv);
@@ -175,7 +146,5 @@ public class OrderRiwayat{
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    
-
 }
 

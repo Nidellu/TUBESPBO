@@ -22,7 +22,6 @@ public class LogIn {
     private void showPencarianScreen() {
         JFrame f = new JFrame("Login");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -58,11 +57,11 @@ public class LogIn {
         buttonCari.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String password = String.valueOf(inputPassword.getPassword());
-                boolean found = con.logIn(inputName.getText(), password);
+                boolean found = Controller.getInstance().logIn(inputName.getText(), password);
                 if (found) {
                     f.dispose();
-                    int id = con.getIDUser(inputName.getText());
-                    String role = con.getRolesUser(id);
+                    int id = Controller.getInstance().getIDUser(inputName.getText());
+                    String role = Controller.getInstance().getRolesUser(id);
                     if (role.equalsIgnoreCase("Admin")) {
                         new MainMenuAdmin();
                     } else if (role.equalsIgnoreCase("Passanger")) {

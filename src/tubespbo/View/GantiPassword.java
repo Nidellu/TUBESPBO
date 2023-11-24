@@ -3,7 +3,6 @@ package tubespbo.View;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.Passanger;
 
 public class GantiPassword {
 
@@ -21,11 +19,8 @@ public class GantiPassword {
     }
 
     private void showDataScreen(int id, String passwordCheck) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ArrayList<Passanger> pass = con.getPassangerByID(id);
 
         JLabel intro = new JLabel("Mengubah Kata Sandi.");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -59,7 +54,7 @@ public class GantiPassword {
                 String password = String.valueOf(inputPassword.getPassword());
                 String passwordBaru = String.valueOf(inputPasswordBaru.getPassword());
                 if (passwordCheck.equals(password)) {
-                    boolean succeed = con.updatePasswordDataPassangerToDB(id, passwordBaru);
+                    boolean succeed = Controller.getInstance().updatePasswordDataPassangerToDB(id, passwordBaru);
                     if (succeed) {
                         JOptionPane.showMessageDialog(f, "Password Berhasil diubah");
                         f.dispose();
@@ -77,11 +72,11 @@ public class GantiPassword {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                String role = con.getRolesUser(id);
+                String role = Controller.getInstance().getRolesUser(id);
                 if (role.equalsIgnoreCase("Passanger")) {
-                    new PassangerProfile(id);
+                    new MainMenuPassanger(id);
                 } else if (role.equalsIgnoreCase("Driver")) {
-                    new DriverProfile(id);
+                    new MainMenuDriver(id);
                 }
             }
         });

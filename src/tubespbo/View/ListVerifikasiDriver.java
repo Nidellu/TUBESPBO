@@ -27,12 +27,11 @@ public class ListVerifikasiDriver {
     }
 
     private void showResult() {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // list of promo yang di get pakai controller
-        ArrayList<Driver> waitingList = con.getWaitingDriver(0);
+        ArrayList<Driver> waitingList = Controller.getInstance().getWaitingDriver(0);
 
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
@@ -113,12 +112,12 @@ public class ListVerifikasiDriver {
                 public void actionPerformed(ActionEvent e) {
                     int choice = JOptionPane.showConfirmDialog(null, "Verifikasi?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (choice == JOptionPane.YES_OPTION) {
-                        boolean succeed = con.inputUserDataToDB(wait.getUser_name(), wait.getUser_pass(), "Driver");
+                        boolean succeed = Controller.getInstance().inputUserDataToDB(wait.getUser_name(), wait.getUser_pass(), "Driver");
                         if (succeed) {
-                            int id = con.getIDUser(wait.getUser_name());
-                            boolean succeedDriver = con.inputDriverDataToDB(id, wait.getDriver_phonNum(), wait.getVehicle_name(), wait.getVehicle_type(), wait.getVehicle_plate());
+                            int id = Controller.getInstance().getIDUser(wait.getUser_name());
+                            boolean succeedDriver = Controller.getInstance().inputDriverDataToDB(id, wait.getDriver_phonNum(), wait.getVehicle_name(), wait.getVehicle_type(), wait.getVehicle_plate());
                             System.out.println(wait.getUser_name());
-                            boolean succeedDelete = con.deleteWaitingDriver(wait.getUser_name());
+                            boolean succeedDelete = Controller.getInstance().deleteWaitingDriver(wait.getUser_name());
                             if (succeedDriver && succeedDelete) {
                                 JOptionPane.showMessageDialog(f, "Data berhasil disimpan, Silahkan Login");
                                 new LogIn();
@@ -158,7 +157,4 @@ public class ListVerifikasiDriver {
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new ListVerifikasiDriver();
-    }
 }

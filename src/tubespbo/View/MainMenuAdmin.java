@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import tubespbo.Controller.Controller;
 
 public class MainMenuAdmin {
 
@@ -21,7 +20,6 @@ public class MainMenuAdmin {
     }
 
     private void showDataScreen() {
-        Controller con = new Controller();
 
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +77,7 @@ public class MainMenuAdmin {
         checkIncome.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new CekPendapatan();
+                new CekPendapatanAdmin();
 
             }
         });

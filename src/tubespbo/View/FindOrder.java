@@ -19,7 +19,6 @@ public class FindOrder {
     }
 
     private void showDataScreen() {
-        Controller con = new Controller();
         JFrame f = new JFrame();
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,10 +53,10 @@ public class FindOrder {
             public void actionPerformed(ActionEvent e) {
                 String thisID = inputOrder.getText();
                 int getID = Integer.parseInt(thisID);
-                boolean found = con.getOrder(getID);
+                boolean found = Controller.getInstance().getOrder(getID);
                 if (found) {
                     f.dispose();
-                    new DetailOrder(1, getID, 0);
+                    new DetailOrderAdmin(1, getID, 0);
                 } else {
                     JOptionPane.showMessageDialog(f, "Order tidak ditemukan", "Huff", JOptionPane.WARNING_MESSAGE);
                 }
@@ -89,7 +88,4 @@ public class FindOrder {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    // public static void main(String[] args) {
-    //     new FindOrder();
-    // }
 }

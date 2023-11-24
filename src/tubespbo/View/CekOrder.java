@@ -17,7 +17,6 @@ public class CekOrder {
     }
 
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +57,7 @@ public class CekOrder {
         riwayat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                 new OrderRiwayat(id);
+                new OrderRiwayat(id);
             }
         });
 
@@ -68,7 +67,7 @@ public class CekOrder {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                String role = con.getRolesUser(id);
+                String role = Controller.getInstance().getRolesUser(id);
                 if(role.equalsIgnoreCase("Passanger")){
                     new MainMenuPassanger(id);
                 } else if (role.equalsIgnoreCase("Driver")){
@@ -92,5 +91,6 @@ public class CekOrder {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
+    
 
 }

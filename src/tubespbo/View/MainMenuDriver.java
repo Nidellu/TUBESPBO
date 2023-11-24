@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package tubespbo.View;
 
 import java.awt.Color;
@@ -17,22 +14,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.User;
+import tubespbo.Model.Driver;
 
 public class MainMenuDriver {
 
     public MainMenuDriver(int id) {
         showDataScreen(id);
     }
-
+    protected Driver drv;
+    
     private void showDataScreen(int id) {
-        Controller con = new Controller();
-        ArrayList<User> listUser; // ini buat apa
-
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        drv = Controller.getInstance().getDriverByID(id).get(0);
 
-        String nameDisplay = con.getUsername(id);
+        String nameDisplay = Controller.getInstance().getUsername(id);
 
         JLabel intro = new JLabel("Selamat Datang di Josen " + nameDisplay + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -55,17 +52,16 @@ public class MainMenuDriver {
         profileButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new DriverProfile(id);
+                new DriverProfile(drv);
             }
         });
 
-        double walletDisplay = con.getWallet(id);
         JLabel border = new JLabel();
         border.setBorder(BorderFactory.createLineBorder(Color.black));
         border.setBounds(30, 135, 425, 60);
 
-        String strSaldo = String.valueOf(con.getWallet(id));
-        if (con.getWallet(id) > 9999999) {
+        String strSaldo = String.valueOf(Controller.getInstance().getWallet(id));
+        if (Controller.getInstance().getWallet(id) > 9999999) {
             strSaldo = "9999999+";
         }
 
@@ -111,35 +107,38 @@ public class MainMenuDriver {
         tarikDanaButton.setBounds(70, 320, 350, 30);
         tarikDanaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new TarikDana(id);
                 f.dispose();
+                new TarikDana(drv);
             }
         });
 
         //button for swithcing status
-        JButton switchStatus = new JButton(con.getSwitchStatusText(id));
+        JButton switchStatus = new JButton(Controller.getInstance().getSwitchStatusText(id));
         switchStatus.setFont(fontButton);
         switchStatus.setBounds(70, 360, 350, 30);
         switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                boolean success = con.driverOnOffStat(id);
+                String state = Controller.getInstance().getDriverStat(drv.getDriver_id());
+                drv.setStateDriver(state);
+                state = drv.updateState(state);
+                boolean success = Controller.getInstance().updateDriverStatus(id, state);
                 if (success == true) {
-                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);  
+                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Status Gagal Diubah!", "Upss", JOptionPane.ERROR_MESSAGE);               
+                    JOptionPane.showMessageDialog(null, "Status Gagal Diubah!", "Upss", JOptionPane.ERROR_MESSAGE);
                 }
                 f.dispose();
-                    new MainMenuDriver(id);     
+                    new MainMenuDriver(id);
             }
         });
 
-        String statDrv =  con.getDriverStat(id);
+        String statDrv =  Controller.getInstance().getDriverStat(id);
         if (statDrv.equals("BOOKED")) {
             switchStatus.setEnabled(false); // Disable the button
         } else {
             switchStatus.setEnabled(true); // Enable the button
         }
-        
+
         // back button
         JButton backButton = new JButton("Back to Main Menu");
         backButton.setBounds(170, 350, 150, 30);
@@ -182,4 +181,7 @@ public class MainMenuDriver {
         f.setVisible(true);
     }
  
+    public static void main(String[] args) {
+        new MainMenuDriver(3);
+    }
 }

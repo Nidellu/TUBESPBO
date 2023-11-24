@@ -27,17 +27,15 @@ public class OrderRideNext {
     //detail pembayaran
     private JLabel detail, biayaA, biayaB, biayaC, biayaD;
     private JComboBox<String> boxPilihVehicle;
-    private final float hargaAwalValue = 0.0f;
     private float promoVal = 0.0f;
     private float totalHargaValue = 0.0f;
     private float finalCost = 0.0f;
-    private final Controller con = new Controller();
 
     private void showDataScreen(String asal, String tujuan, int id, String promo) {
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ArrayList<Passanger> pass = con.getPassangerByID(id);
+        ArrayList<Passanger> pass = Controller.getInstance().getPassangerByID(id);
 
         JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -153,7 +151,6 @@ public class OrderRideNext {
         backButton.setFont(fontButton);
         backButton.setBounds(10, 10, 90, 30);
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new MainMenuPassanger(id);
@@ -171,7 +168,7 @@ public class OrderRideNext {
                 if (isAnyFieldEmpty()) {
                     JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (con.getWallet(id) < totalHargaValue) {
+                    if (Controller.getInstance().getWallet(id) < totalHargaValue) {
                         int choice = JOptionPane.showConfirmDialog(null, "Saldo kamu ga cukup loh, mau top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                         if (choice == JOptionPane.YES_OPTION) {
                             JOptionPane.showMessageDialog(null, "Ke menu top up!", "", JOptionPane.INFORMATION_MESSAGE);
@@ -184,13 +181,13 @@ public class OrderRideNext {
                         }
                     } else {
                         String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
-                        int idPromo = con.getPromoIdByCode(promo);
+                        int idPromo = Controller.getInstance().getPromoIdByCode(promo);
 
-                        Driver drv = con.getDriverAvailable(jenisKendaraan);
+                        Driver drv = Controller.getInstance().getDriverAvailable(jenisKendaraan);
                         if (drv == null) {
                             JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            boolean status = con.createUserOrder(id, idPromo, asal, tujuan, finalCost, totalHargaValue, drv);
+                            boolean status = Controller.getInstance().createUserOrder(id, idPromo, asal, tujuan, finalCost, totalHargaValue, drv);
                             if (status == true) {
                                 JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
                                 f.dispose();
@@ -229,20 +226,20 @@ public class OrderRideNext {
 
         f.setSize(500, 600);
         f.setLayout(null);
-        f.setLocationRelativeTo(null);
+
         f.setVisible(true);
     }
 
     private void calculateCost(String asal, String tujuan, String kodePromo) {
-        float disc = con.getPromoVal(kodePromo);
+        float disc = Controller.getInstance().getPromoVal(kodePromo);
         char source = asal.charAt(0);
         char destination = tujuan.charAt(0);
 
-        int baseCost = con.calculateCost(source, destination);
+        int baseCost = Controller.getInstance().calculateCost(source, destination);
         String selectedVehicle = (String) boxPilihVehicle.getSelectedItem();
 
         if (baseCost != -1) {
-            int hasil = con.calculateFinalCost(baseCost, selectedVehicle);
+            int hasil = Controller.getInstance().calculateFinalCost(baseCost, selectedVehicle);
             float afterDisc = (hasil + 2000) * disc;
             finalCost = hasil;
             totalHargaValue = (hasil + 2000) - afterDisc;
