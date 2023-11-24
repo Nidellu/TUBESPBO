@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package tubespbo.View;
 
 import java.awt.Font;
@@ -15,10 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
-/**
- *
- * @author brian
- */
 public class StartMenu {
     public StartMenu(){
         pilihOpsi();
@@ -38,15 +31,15 @@ public class StartMenu {
         JLabel hello = new JLabel("Selamat Datang di Josen!");
         Font font = new Font("Courier", Font.BOLD,20);
         hello.setFont(font);
-        hello.setBounds(53, 140, 300, 80);
+        hello.setBounds(70, 140, 300, 80);
         
         JLabel intro = new JLabel("Mau kemana sayang? ");
         JLabel intro2 = new JLabel("Sini abang Josen yang anter");
         Font font2 = new Font("Courier", Font.PLAIN,14);
         intro.setFont(font2);
         intro2.setFont(font2);
-        intro.setBounds(110, 200, 250, 30);
-        intro2.setBounds(75, 220, 250, 30);
+        intro.setBounds(118, 200, 250, 30);
+        intro2.setBounds(98, 220, 250, 30);
         
         Font fontButton = new Font("Courier", Font.BOLD,12);
         
@@ -91,4 +84,5 @@ public class StartMenu {
         mainMenu.setLocationRelativeTo(null);
         mainMenu.setVisible(true);
     }
+
 }
