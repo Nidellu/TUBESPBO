@@ -27,7 +27,7 @@ public class DetailOrder {
     }
 
     private void showDataScreen(int id, int idOrder, int menu) {
-        
+
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         listOrder = Controller.getInstance().getDetailOrder(idOrder);
@@ -63,6 +63,13 @@ public class DetailOrder {
         idForShow.setFont(font4);
         idForShow.setBounds(420, 150, 300, 30);
 
+        JLabel asal = new JLabel(listOrder.get(listOrder.size() - 1).getOrder_pickup() + " menuju");
+        asal.setFont(font4);
+        asal.setBounds(340, 95, 100, 30);
+
+        JLabel destination = new JLabel(listOrder.get(listOrder.size() - 1).getOrder_destination());
+        destination.setFont(font4);
+        destination.setBounds(420, 95, 40, 30);
 
         JLabel payDetail = new JLabel("Detail Pembayaran:");
         payDetail.setFont(font4);
@@ -92,7 +99,10 @@ public class DetailOrder {
         payTaxVal.setFont(font2);
         payTaxVal.setBounds(370, 435, 300, 30);
 
-        JLabel payVoucherVal = new JLabel("-BELUM");
+        float disc = Controller.getInstance().getPromoValByID(listOrder.get(listOrder.size() - 1).getPromo_id());
+        float result = (listOrder.get(listOrder.size() - 1).getOrder_price() + 2000) * disc;
+
+        JLabel payVoucherVal = new JLabel("Rp. " + result);
         payVoucherVal.setFont(font2);
         payVoucherVal.setBounds(370, 460, 300, 30);
 
@@ -114,8 +124,8 @@ public class DetailOrder {
                         new OrderRiwayat(id);
                         break;
                     default:
-                    new MainMenuAdmin();
-                    break;
+                        new MainMenuAdmin();
+                        break;
                 }
             }
         });
@@ -125,6 +135,9 @@ public class DetailOrder {
 
         f.add(time);
         f.add(idForShow);
+
+        f.add(asal);
+        f.add(destination);
 
         f.add(payDetail);
         f.add(payRaw);
