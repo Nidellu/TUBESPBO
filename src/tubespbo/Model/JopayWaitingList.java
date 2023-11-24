@@ -5,8 +5,6 @@
  */
 package tubespbo.Model;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author brian
