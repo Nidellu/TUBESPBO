@@ -3,6 +3,7 @@ package tubespbo.View;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -196,6 +197,7 @@ public class OrderRideNext {
                                 JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
                             }
                         }
+
                     }
 
                 }

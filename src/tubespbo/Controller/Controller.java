@@ -835,16 +835,17 @@ public class Controller {
 
     // find driver who's available
     public Driver getDriverAvailable(String jenisKendaraan) {
-        Driver dr = new Driver();
+        Driver dr = null;
         DatabaseHandler.getInstance().connect();
-        String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n"
-                + "FROM drivers d \r\n"
-                + "JOIN users u ON u.user_id = d.driver_id\r\n"
-                + "WHERE u.user_id = d.driver_id AND d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
+        String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate "
+        + "FROM drivers d "
+        + "JOIN users u ON u.user_id = d.driver_id "
+        + "WHERE d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = 'AVAILABLE';";
+
         try {
             Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
+            if (rs.next()) {
                 int dId = rs.getInt("d.driver_id");
                 String dName = rs.getString("u.user_name");
                 String dPhone = rs.getString("d.driver_phonNum");
