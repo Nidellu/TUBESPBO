@@ -183,10 +183,5 @@ public class MainMenuDriver {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-
-      public static void main(String[] args) {
-          new MainMenuDriver(6);
-      }
-
  
 }
