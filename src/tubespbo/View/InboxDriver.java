@@ -95,11 +95,11 @@ public class InboxDriver {
             terima.setBounds(230, 20, 90, 25);
             terima.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    float currSaldo = Controller.getInstance().getWallet(jwl.getCust_id());
-                    float currSaldo2 = Controller.getInstance().getWallet(jwl.getDriver_id());
+                    float currSaldo = Controller.getInstance().getWallet(jwl.getCust_id()); // get passanger saldo
+                    float currSaldo2 = Controller.getInstance().getWallet(jwl.getDriver_id()); // get driver saldo
                     int choice = JOptionPane.showConfirmDialog(null, "Terima top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if (choice == JOptionPane.YES_OPTION) {
-                        if (currSaldo > jwl.getNominal()) {
+                        if (currSaldo2 > jwl.getNominal()) {
                             boolean succeed = Controller.getInstance().updateJoPay(idDriver, currSaldo2 - jwl.getNominal());
                             boolean succeed2 = Controller.getInstance().updateJoPay(jwl.getCust_id(), currSaldo + jwl.getNominal());
                             boolean succeed3 = Controller.getInstance().deleteWaitingJopay(jwl.getJopaylist_id());
@@ -108,7 +108,7 @@ public class InboxDriver {
                                 f.dispose();
                                 new InboxDriver(idDriver);
                             } else {
-                                JOptionPane.showMessageDialog(null, "Gagal top up!", "", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Gagal di top up!", "", JOptionPane.INFORMATION_MESSAGE);
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Saldo tidak mencukupi buat top up!", "", JOptionPane.INFORMATION_MESSAGE);
