@@ -1,26 +1,17 @@
 package tubespbo.View;
 
-import java.awt.Button;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.Driver;
 import tubespbo.Model.Passanger;
 
 public class OrderRide {
@@ -158,6 +149,7 @@ public class OrderRide {
 
         f.setSize(500, 600);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
