@@ -82,7 +82,7 @@ public class Controller {
     
     public boolean inputJopayList(int id, int idDriver, float saldo) {
         conn.connect();
-        String query = "INSERT INTO gopaylist (passanger_id, driver_id, nominal) VALUES (?, ?, ?)";
+        String query = "INSERT INTO jopaylist (passanger_id, driver_id, nominal) VALUES (?, ?, ?)";
         PreparedStatement stmt;
         try {
             stmt = conn.con.prepareStatement(query);
@@ -205,13 +205,14 @@ public class Controller {
     public ArrayList<JopayWaitingList> getWaitingList(int idDriver) {
         conn.connect();
         String query = "SELECT * "
-                + "FROM gopaylist WHERE driver_id = '" + idDriver + "'";
+                + "FROM jopaylist WHERE driver_id = '" + idDriver + "'";
         ArrayList<JopayWaitingList> listWaiting = new ArrayList<>();
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 JopayWaitingList wait = new JopayWaitingList();
+                wait.setJopaylist_id(rs.getInt("jopaylist_id"));
                 wait.setCust_id(rs.getInt("passanger_id"));
                 wait.setDriver_id(rs.getInt("driver_id"));
                 wait.setNominal(rs.getFloat("nominal"));
@@ -366,9 +367,9 @@ public class Controller {
         return (exists);
     }
     
-    public boolean deleteWaitingJopay(int idUser, int idDriver) {
+    public boolean deleteWaitingJopay(int idJopayList) {
         conn.connect();
-        String query = "DELETE FROM gopaylist WHERE driver_id = '" + idDriver + "' AND passanger_id = '" + idUser +"'";
+        String query = "DELETE FROM jopaylist WHERE jopaylist_id = '" + idJopayList + "'";
         boolean exists = false;
         try {
             Statement stmt = conn.con.createStatement();

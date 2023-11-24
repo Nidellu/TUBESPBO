@@ -126,17 +126,17 @@ public class MenuTopUpDariDriver {
                         if (result == JOptionPane.YES_OPTION) {
                             boolean succeed = con.inputJopayList(id, idDriver, saldoTambahan);
                             if (succeed) {
-                                JOptionPane.showMessageDialog(f, "Tunggu Konfirmasi yah!", "WARNING",
+                                JOptionPane.showMessageDialog(f, "Tunggu Konfirmasi yah!", "Selamat",
                                         JOptionPane.DEFAULT_OPTION);
                                 new MainMenuPassanger(id);
                                 f.dispose();
                             } else {
-                                JOptionPane.showMessageDialog(f, "Gagal top up", "WARNING",
+                                JOptionPane.showMessageDialog(f, "Gagal top up", "Yahhh",
                                         JOptionPane.DEFAULT_OPTION);
                             }
 
                         } else {
-                            JOptionPane.showMessageDialog(f, "Top Up saldo telah dibatalkan", "",
+                            JOptionPane.showMessageDialog(f, "Top Up saldo telah dibatalkan", "Yahhh :'(",
                                     JOptionPane.INFORMATION_MESSAGE);
 
                         }
@@ -155,6 +155,10 @@ public class MenuTopUpDariDriver {
         f.setResizable(false);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new MenuTopUpDariDriver(5,6,"Aqbil");
     }
 
 }

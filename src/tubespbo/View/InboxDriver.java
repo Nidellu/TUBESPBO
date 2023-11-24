@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.JopayWaitingList;
-import tubespbo.Model.Promo;
 
 public class InboxDriver {
 
@@ -105,7 +104,7 @@ public class InboxDriver {
                         if (currSaldo > jwl.getNominal()) {
                             boolean succeed = cntrl.updateJoPay(idDriver, currSaldo2 - jwl.getNominal());
                             boolean succeed2 = cntrl.updateJoPay(jwl.getCust_id(), currSaldo + jwl.getNominal());
-                            boolean succeed3 = cntrl.deleteWaitingJopay(jwl.getCust_id(), idDriver);
+                            boolean succeed3 = cntrl.deleteWaitingJopay(jwl.getJopaylist_id());
                             if (succeed && succeed2 && succeed3) {
                                 JOptionPane.showMessageDialog(null, "Berhasil di top up!", "", JOptionPane.INFORMATION_MESSAGE);
                                 f.dispose();
@@ -130,7 +129,7 @@ public class InboxDriver {
                     int choice = JOptionPane.showConfirmDialog(null, "Tolak top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
 
                     if (choice == JOptionPane.YES_OPTION) {
-                        boolean succeed3 = cntrl.deleteWaitingJopay(jwl.getCust_id(), idDriver);
+                        boolean succeed3 = cntrl.deleteWaitingJopay(jwl.getJopaylist_id());
                             if (succeed3) {
                                 JOptionPane.showMessageDialog(null, "Berhasil di tolak!", "", JOptionPane.INFORMATION_MESSAGE);
                                 f.dispose();
