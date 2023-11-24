@@ -118,8 +118,8 @@ public class ListVerifikasiDriver {
                             boolean succeedDriver = Controller.getInstance().inputDriverDataToDB(id, wait.getDriver_phonNum(), wait.getVehicle_name(), wait.getVehicle_type(), wait.getVehicle_plate());
                             boolean succeedDelete = Controller.getInstance().deleteWaitingDriver(wait.getUser_name());
                             if (succeedDriver && succeedDelete) {
-                                JOptionPane.showMessageDialog(f, "Data berhasil disimpan, Silahkan Login");
-                                new LogIn();
+                                JOptionPane.showMessageDialog(f, "Data berhasil diverify");
+                                new ListVerifikasiDriver();
                                 f.dispose();
                             } else {
                                 JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);

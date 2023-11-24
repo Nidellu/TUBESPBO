@@ -142,7 +142,7 @@ public class Controller {
 
     public int getOrderCount() {
         DatabaseHandler.getInstance().connect();
-        String query = "SELECT COUNT(order_id) FROM orders";
+        String query = "SELECT COUNT(order_id) FROM orders WHERE order_status = 'FINISHED'";
         int result = 0;
         try {
             Statement stmt = DatabaseHandler.getInstance().con.createStatement();
@@ -372,7 +372,7 @@ public class Controller {
     //salary driver
     public double salaryDriver(int idDriver) {
         DatabaseHandler.getInstance().connect();
-        String query = "SELECT SUM(order_final_price) FROM orders WHERE driver_id = '" + idDriver + "' ";
+        String query = "SELECT SUM(order_final_price) FROM orders WHERE driver_id = '" + idDriver + "' AND order_status = 'FINISHED'";
         double total = 0;
         try {
             Statement stmt = DatabaseHandler.getInstance().con.createStatement();
@@ -388,7 +388,7 @@ public class Controller {
 
     public int getOrderCountDriver(int idDriver) {
         DatabaseHandler.getInstance().connect();
-        String query = "SELECT COUNT(driver_id) FROM orders WHERE driver_id = '" + idDriver + "'";
+        String query = "SELECT COUNT(driver_id) FROM orders WHERE driver_id = '" + idDriver + "' AND order_status = 'FINISHED'";
         int result = 0;
         try {
             Statement stmt = DatabaseHandler.getInstance().con.createStatement();
@@ -801,6 +801,23 @@ public class Controller {
         float val = 0;
         DatabaseHandler.getInstance().connect();
         String query = "SELECT promo_value FROM promo WHERE promo_code = '" + inpCode + "'";
+        try {
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                val = (rs.getFloat("promo_value"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return val;
+    }
+    
+    // get promo value
+    public float getPromoValByID(int idPromo) {
+        float val = 0;
+        DatabaseHandler.getInstance().connect();
+        String query = "SELECT promo_value FROM promo WHERE promo_id = '" + idPromo + "'";
         try {
             Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);

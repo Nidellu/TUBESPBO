@@ -74,19 +74,16 @@ public class RegistrasiDriver {
                 if (telepon.isEmpty() || namaKendaraan.isEmpty() || plat.isEmpty() || jenis.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    boolean succeed = Controller.getInstance().inputUserDataToDB(username, password, roles);
-                    if (succeed) {
-                        boolean succeedDriver = Controller.getInstance().inputDriverDataToWaitingList(username, password, telepon, namaKendaraan, jenis, plat);
-                        if (succeedDriver) {
-                            JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
-                            new StartMenu();
-                            f.dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
-                        }
+
+                    boolean succeedDriver = Controller.getInstance().inputDriverDataToWaitingList(username, password, telepon, namaKendaraan, jenis, plat);
+                    if (succeedDriver) {
+                        JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
+                        new StartMenu();
+                        f.dispose();
                     } else {
                         JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                     }
+
                 }
 
             }
