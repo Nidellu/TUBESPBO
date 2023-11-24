@@ -172,6 +172,10 @@ public class DetailOrder {
                             if (con.updateStatusOrder(idOrder, "FINISHED")) {
                                 JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                                 // kembalikan status driver menjadi AVAILABLE
+                                float currSaldo = con.getWallet(listOrder.get(listOrder.size() - 1).getCust_id());
+                                float currSaldo2 = con.getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
+                                con.updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldo2 + listOrder.get(listOrder.size() - 1).getOrder_final_price());
+                                con.updateJoPay(listOrder.get(listOrder.size() - 1).getCust_id(), currSaldo - listOrder.get(listOrder.size() - 1).getOrder_final_price());
                                 con.changeToAvailable(id);
                                 f.dispose();
                                 new CekOrder(id);
@@ -327,6 +331,6 @@ public class DetailOrder {
     }
 
     public static void main(String[] args) {
-        new DetailOrder(5, 8, 1);
+        new DetailOrder(9, 11, 1);
     }
 }
