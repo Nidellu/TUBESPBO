@@ -4,9 +4,25 @@ package tubespbo.Controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.TimeZone;
+
 import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
+
+    private static DatabaseHandler instance;
+
+    private DatabaseHandler() {
+        // May be necessary to obtain
+        // starting value elsewhere...
+    }
+
+    public static synchronized DatabaseHandler getInstance() {
+        if (instance == null) // Lazy instantiation
+        {
+            instance = new DatabaseHandler();
+        }
+        return instance;
+    }
 
     public Connection con;
     private String driver = "com.mysql.cj.jdbc.Driver";
