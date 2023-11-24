@@ -24,12 +24,9 @@ public class TarikDana {
         Controller con = new Controller();
         Driver currDriver = con.getDriverByID(id).get(0);
 
-        Font headerFont = new Font("Courier", Font.BOLD, 24);
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 16);
-        Font font4 = new Font("Courier", Font.BOLD, 14);
-        Font fontBack = new Font("Courier", Font.BOLD, 12);
         
         JFrame f = new JFrame();
         f.setLayout(null);

@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package tubespbo.Model;
 
-/**
- *
- * @author brian
- */
 public class Driver extends User {
     private int driver_id;
     private String driver_phonNum;

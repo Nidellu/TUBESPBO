@@ -1,22 +1,17 @@
 package tubespbo.View;
 
-import java.awt.Button;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import tubespbo.Controller.Controller;
@@ -28,11 +23,9 @@ public class OrderRide {
         showDataScreen(id);
     }
 
-    private Map<String, Integer> vehicleCosts;
     private JLabel labelAsal, labelTujuan, labelPilihVehicle, labelResult, totalHarga;
     private JTextField textAsal, textTujuan;
     private JComboBox<String> boxPilihVehicle;
-    private float hargaAwalValue = 0.0f;
     private float promoVal = 0.0f;
     private float totalHargaValue = 0.0f;
     private float finalCost = 0.0f;

@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
-import tubespbo.Model.Promo;
 
 public class ListVerifikasiDriver {
 

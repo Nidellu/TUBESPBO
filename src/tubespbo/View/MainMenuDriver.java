@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import tubespbo.Controller.Controller;
-import tubespbo.Model.User;
 
 public class MainMenuDriver {
 
@@ -27,7 +26,6 @@ public class MainMenuDriver {
 
     private void showDataScreen(int id) {
         Controller con = new Controller();
-        ArrayList<User> listUser; // ini buat apa
 
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

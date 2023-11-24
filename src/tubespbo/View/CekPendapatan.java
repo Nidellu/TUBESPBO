@@ -3,16 +3,11 @@ package tubespbo.View;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import tubespbo.Controller.Controller;
-import tubespbo.Model.Driver;
-import tubespbo.Model.Order;
-import tubespbo.Model.OrderStatusEnum;
-import tubespbo.Model.Passanger;
 
 public class CekPendapatan {
 
