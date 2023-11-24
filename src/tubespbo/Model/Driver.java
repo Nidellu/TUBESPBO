@@ -76,4 +76,11 @@ public class Driver extends User {
         this.vehicle_plate = vehicle_plate;
     }
 
+    @Override
+    public String toString() {
+        return "Driver [driver_id=" + driver_id + ", driver_phonNum=" + driver_phonNum + ", vehicle_name="
+                + vehicle_name + ", vehicle_type=" + vehicle_type + ", vehicle_plate=" + vehicle_plate
+                + ", statusDriver=" + statusDriver + "]";
+    }
+
 }
