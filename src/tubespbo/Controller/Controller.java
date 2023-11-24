@@ -952,7 +952,7 @@ public class Controller {
 // order ride end
 
 // start switch on off status driver
-    private String getDriverStat(int driverID) {
+    public String getDriverStat(int driverID) {
         String stat = "";
         conn.connect();
         String statsQuery = "SELECT driver_status FROM drivers WHERE driver_id = '" + driverID + "';";
@@ -976,7 +976,7 @@ public class Controller {
         } else if ("AVAILABLE".equalsIgnoreCase(currentStatus)) {
             return "Now Available";
         } else {
-            return "Unknown Status";
+            return "In Order";
         }
     }
 
