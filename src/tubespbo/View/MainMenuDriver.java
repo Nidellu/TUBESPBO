@@ -182,6 +182,6 @@ public class MainMenuDriver {
     }
  
     public static void main(String[] args) {
-        new MainMenuDriver(3);
+        new MainMenuDriver(6);
     }
 }

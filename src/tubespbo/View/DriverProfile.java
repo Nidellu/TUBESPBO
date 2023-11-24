@@ -5,23 +5,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 
 public class DriverProfile {
-    public DriverProfile (Driver driver) {
+
+    public DriverProfile(Driver driver) {
         showDataScreen(driver);
     }
+    protected JFrame f = new JFrame();
+    JLabel labelNamaVehicle, labelPlat;
+    protected JTextField textPlat, textNamaVehicle;
 
     //bertahap yaa sayy kalemm
-    private void showDataScreen (Driver driver) {
-        JFrame f = new JFrame();
+    private void showDataScreen(Driver driver) {
+
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel intro = new JLabel("Halo, " + driver.getUser_name() + "!");
@@ -41,7 +45,6 @@ public class DriverProfile {
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
-
         JLabel labelNama = new JLabel("Username ");
         JTextField textNama = new JTextField(driver.getUser_name());
         labelNama.setFont(fontLabel);
@@ -54,19 +57,41 @@ public class DriverProfile {
         labelTelepon.setBounds(30, 190, 200, 30);
         textTelepon.setBounds(260, 190, 200, 30);
 
-        JLabel labelNamaVehicle = new JLabel("Nama Vehicle ");
-        JTextField textNamaVehicle = new JTextField(driver.getVehicle_name());
+        JLabel labelJenis = new JLabel("Ganti jenis Kendaraan ");
+        labelJenis.setFont(fontLabel);
+        labelJenis.setBounds(30, 230, 200, 30);
+
+        String listKendaraan[] = {"Mobil", "Motor"};
+        JComboBox boxPilihVehicle = new JComboBox(listKendaraan);
+        boxPilihVehicle.setSelectedItem(null);
+        boxPilihVehicle.setBounds(260, 230, 200, 30);
+
+        labelNamaVehicle = new JLabel();
         labelNamaVehicle.setFont(fontLabel);
-        labelNamaVehicle.setBounds(30, 220, 200, 30);
-        textNamaVehicle.setBounds(260, 220, 200, 30);
-
-        JLabel labelPlat = new JLabel("Plat Nomor Kendaraan ");
-        JTextField textPlat = new JTextField(driver.getVehicle_plate());
+        f.add(labelNamaVehicle);
+        labelPlat = new JLabel();
+        f.add(labelPlat);
+        textNamaVehicle = new JTextField();
+        f.add(textNamaVehicle);
+        textPlat = new JTextField();
         labelPlat.setFont(fontLabel);
-        labelPlat.setBounds(30, 250, 250, 30);
-        textPlat.setBounds(260, 250, 200, 30);
+        textPlat = new JTextField();
+        f.add(textPlat);
 
-        
+        boxPilihVehicle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                labelNamaVehicle.setText("Nama Vehicle ");
+                labelNamaVehicle.setBounds(30, 270, 200, 30);
+                textNamaVehicle.setBounds(260, 270, 200, 30);
+
+                labelPlat.setText("Plat Nomor Kendaraan ");
+
+                labelPlat.setBounds(30, 310, 250, 30);
+                textPlat.setBounds(260, 310, 200, 30);
+
+            }
+        });
 
         JButton buttonGanti = new JButton("Ganti Password");
         buttonGanti.setBounds(40, 480, 400, 30);
@@ -80,9 +105,9 @@ public class DriverProfile {
         JButton buttonSimpan = new JButton("Simpan");
         buttonSimpan.setBounds(40, 515, 400, 30);
         buttonSimpan.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 boolean succeed = Controller.getInstance().updateUsernameDataDriverToDB(driver.getDriver_id(), textNama.getText());
-                boolean succeed2 = Controller.getInstance().updateDataDriverToDB(driver.getDriver_id(), textTelepon.getText(), textNamaVehicle.getText(), textPlat.getText());
+                boolean succeed2 = Controller.getInstance().updateDataDriverToDB(driver.getDriver_id(), textTelepon.getText(), textNamaVehicle.getText(), textPlat.getText(), boxPilihVehicle.getSelectedItem().toString());
                 if (succeed && succeed2) {
                     JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
                 } else {
@@ -101,26 +126,23 @@ public class DriverProfile {
                 new MainMenuDriver(driver.getDriver_id());
             }
         });
-        
+
         f.add(intro);
         f.add(intro2);
         f.add(labelNama);
         f.add(textNama);
         f.add(labelTelepon);
         f.add(textTelepon);
-        f.add(labelNamaVehicle);
-        f.add(textNamaVehicle);
-        f.add(labelPlat);
-        f.add(textPlat);
+
+        f.add(labelJenis);
+        f.add(boxPilihVehicle);
         f.add(backButton);
         f.add(buttonGanti);
         f.add(buttonSimpan);
-
 
         f.setSize(500, 600);
         f.setLayout(null);
         f.setVisible(true);
     }
 
-    
 }

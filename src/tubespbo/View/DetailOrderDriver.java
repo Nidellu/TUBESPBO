@@ -51,8 +51,10 @@ public class DetailOrderDriver extends DetailOrder {
                             JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                             // kembalikan status driver menjadi AVAILABLE
                             float currSaldo = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getCust_id());
-                            float currSaldo2 = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
-                            Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldo2 + listOrder.get(listOrder.size() - 1).getOrder_final_price());
+                            float currSaldoDriver = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
+                            float currSaldoAdmin = Controller.getInstance().getWallet(1);
+                            Controller.getInstance().updateJoPay(1, currSaldoAdmin + 2000);
+                            Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldoDriver + listOrder.get(listOrder.size() - 1).getOrder_final_price() - 2000);
                             Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getCust_id(), currSaldo - listOrder.get(listOrder.size() - 1).getOrder_final_price());
                             Controller.getInstance().changeToAvailable(id);
                             f.dispose();

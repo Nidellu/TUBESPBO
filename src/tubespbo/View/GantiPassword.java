@@ -58,7 +58,13 @@ public class GantiPassword {
                     if (succeed) {
                         JOptionPane.showMessageDialog(f, "Password Berhasil diubah");
                         f.dispose();
-                        new PassangerProfile(id);
+                        String find = Controller.getInstance().getRolesUser(id);
+                        if (find.equalsIgnoreCase("Passanger")) {
+                            new MainMenuPassanger(id);
+                        } else if (find.equalsIgnoreCase("Driver")) {
+                            new MainMenuDriver(id);
+                        }
+                        
                     }
                 } else {
                     JOptionPane.showMessageDialog(f, "Password Lama Tidak Sama!", "", JOptionPane.WARNING_MESSAGE);
