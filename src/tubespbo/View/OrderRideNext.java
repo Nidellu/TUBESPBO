@@ -63,7 +63,7 @@ public class OrderRideNext {
         lineDiv.setBounds(10, 110, 460, 20);
 
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
-        
+
         JLabel asalLabel = new JLabel("Asal: ");
         asalLabel.setFont(font2);
         asalLabel.setBounds(30, 160, 200, 30);
@@ -84,11 +84,17 @@ public class OrderRideNext {
         tujuanGet.setFont(font2);
         tujuanGet.setHorizontalAlignment(SwingConstants.RIGHT);
         tujuanGet.setBounds(250, 190, 200, 30);
-        JLabel promoGet = new JLabel(promo);
+        String promoField = "";
+        if(promo.isEmpty()){
+            promoField = "-";
+        } else {
+            promoField = promo;
+        }
+        JLabel promoGet = new JLabel(promoField);
         promoGet.setFont(font2);
         promoGet.setHorizontalAlignment(SwingConstants.RIGHT);
         promoGet.setBounds(250, 220, 200, 30);
-        
+
         f.add(asalLabel);
         f.add(tujuanLabel);
         f.add(promoLabel);
@@ -112,7 +118,7 @@ public class OrderRideNext {
                 calculateCost(asal, tujuan, promo);
             }
         });
-        
+
         //label buat detail
         detail = new JLabel();
         detail.setFont(font2);
@@ -130,7 +136,6 @@ public class OrderRideNext {
         biayaD = new JLabel();
         biayaD.setFont(font2);
         biayaD.setBounds(30, 450, 200, 30);
-
 
         // recap harga
         // Label to display the result -- harga awal
@@ -174,23 +179,36 @@ public class OrderRideNext {
                 if (isAnyFieldEmpty()) {
                     JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    int userId = id;
-                    String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
-                    int idPromo = con.getPromoIdByCode(promo);
-
-                    Driver drv = con.getDriverAvailable(jenisKendaraan);
-                    if (drv == null) {
-                        JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        boolean status = con.createUserOrder(userId, idPromo, asal, tujuan, finalCost, totalHargaValue, drv);
-                        if (status == true) {
-                            JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
+                    if (con.getWallet(id) < totalHargaValue) {
+                        int choice = JOptionPane.showConfirmDialog(null, "Saldo kamu ga cukup loh, mau top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION) {
+                            JOptionPane.showMessageDialog(null, "Ke menu top up!", "", JOptionPane.INFORMATION_MESSAGE);
                             f.dispose();
-                            new OrderBerjalan(id);
+                            new MenuTopUp(id);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Ke menu utama!", "", JOptionPane.INFORMATION_MESSAGE);
+                            f.dispose();
+                            new MainMenuPassanger(id);
+                        }
+                    } else {
+                        String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
+                        int idPromo = con.getPromoIdByCode(promo);
+
+                        Driver drv = con.getDriverAvailable(jenisKendaraan);
+                        if (drv == null) {
+                            JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            boolean status = con.createUserOrder(id, idPromo, asal, tujuan, finalCost, totalHargaValue, drv);
+                            if (status == true) {
+                                JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
+                                f.dispose();
+                                new OrderBerjalan(id);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     }
+
                 }
             }
 
@@ -242,7 +260,7 @@ public class OrderRideNext {
         } else {
             labelResult.setText("Biaya tidak dapat dihitung.");
         }
-        
+
         detail.setText("Detail Pembayaran");
         biayaA.setText("Biaya perjalanan");
         biayaB.setText("Biaya jasa aplikasi");

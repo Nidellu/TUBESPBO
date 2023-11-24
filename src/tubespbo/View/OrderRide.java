@@ -110,11 +110,13 @@ public class OrderRide {
                         String destination = textTujuan.getText().toUpperCase();
                         if (!kodePromo.isEmpty()) {
                             if (con.findPromo(kodePromo)) {
+                                f.dispose();
                                 new OrderRideNext(source, destination, id, kodePromo);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Kode belum di cek kayaknya nih", "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
                             }
                         } else {
+                            f.dispose();
                             new OrderRideNext(source, destination, id, "");
                         }
                     } else {

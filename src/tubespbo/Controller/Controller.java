@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tubespbo.Model.Driver;
+import tubespbo.Model.JopayWaitingList;
 import tubespbo.Model.Order;
 import tubespbo.Model.OrderStatusEnum;
 import tubespbo.Model.Passanger;
@@ -71,6 +72,23 @@ public class Controller {
             stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, id);
             stmt.setString(2, phonNum);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean inputJopayList(int id, int idDriver, float saldo) {
+        conn.connect();
+        String query = "INSERT INTO jopaylist (passanger_id, driver_id, nominal) VALUES (?, ?, ?)";
+        PreparedStatement stmt;
+        try {
+            stmt = conn.con.prepareStatement(query);
+            stmt.setInt(1, id);
+            stmt.setInt(2, idDriver);
+            stmt.setFloat(3, saldo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -182,6 +200,28 @@ public class Controller {
             e.printStackTrace();
         }
         return (listPass);
+    }
+    
+    public ArrayList<JopayWaitingList> getWaitingList(int idDriver) {
+        conn.connect();
+        String query = "SELECT * "
+                + "FROM jopaylist WHERE driver_id = '" + idDriver + "'";
+        ArrayList<JopayWaitingList> listWaiting = new ArrayList<>();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                JopayWaitingList wait = new JopayWaitingList();
+                wait.setJopaylist_id(rs.getInt("jopaylist_id"));
+                wait.setCust_id(rs.getInt("passanger_id"));
+                wait.setDriver_id(rs.getInt("driver_id"));
+                wait.setNominal(rs.getFloat("nominal"));
+                listWaiting.add(wait);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (listWaiting);
     }
 
     public ArrayList<Driver> getDriverByID(int id) {
@@ -316,6 +356,20 @@ public class Controller {
     public boolean deleteWaitingDriver(String username) {
         conn.connect();
         String query = "DELETE FROM waitinglist WHERE driver_username = '" + username + "'";
+        boolean exists = false;
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            exists = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (exists);
+    }
+    
+    public boolean deleteWaitingJopay(int idJopayList) {
+        conn.connect();
+        String query = "DELETE FROM jopaylist WHERE jopaylist_id = '" + idJopayList + "'";
         boolean exists = false;
         try {
             Statement stmt = conn.con.createStatement();

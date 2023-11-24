@@ -14,9 +14,13 @@ import javax.swing.SwingConstants;
 import tubespbo.Controller.Controller;
 import tubespbo.Model.User;
 
-public class MenuTopUp {
+public class MenuTopUpDariDriver {
 
-    public MenuTopUp(int id) {
+    public MenuTopUpDariDriver(int id, int idDriver, String driverName) {
+        showMenuTopUp(id, idDriver, driverName);
+    }
+
+    private void showMenuTopUp(int id, int idDriver, String driverName) {
         Controller con = new Controller();
         User currUser = con.getUserByID(id);
         System.out.println();
@@ -32,12 +36,12 @@ public class MenuTopUp {
         f.setLayout(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel intro = new JLabel("Dompet " + currUser.getUser_name() + ".");
+        JLabel intro = new JLabel("Top Up dari " + driverName + ".");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
         f.add(intro);
 
-        JLabel intro2 = new JLabel("Kalau dompet tipis jangan nangis yah!");
+        JLabel intro2 = new JLabel("Top up uang yah jangan hatinya eaaa");
         intro2.setFont(font2);
         intro2.setBounds(30, 90, 300, 30);
         f.add(intro2);
@@ -105,7 +109,6 @@ public class MenuTopUp {
             } else {
                 try {
                     float saldoTambahan = Float.parseFloat(inputField);
-                    float currSaldo = con.getWallet(id);
                     if (saldoTambahan < 2000) {
                         JOptionPane.showMessageDialog(f, "Minimal Top Up saldo adalah 2000", "WARNING",
                                 JOptionPane.ERROR_MESSAGE);
@@ -117,21 +120,23 @@ public class MenuTopUp {
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.QUESTION_MESSAGE,
                                 null,
-                                new Object[] { "Ya", "Tidak" },
+                                new Object[]{"Ya", "Tidak"},
                                 "Ya");
 
                         if (result == JOptionPane.YES_OPTION) {
-                            con.updateJoPay(id, currSaldo + saldoTambahan);
-                            JOptionPane.showMessageDialog(f, "Top Up berhasil dilakukan!", "WARNING",
-                                    JOptionPane.DEFAULT_OPTION);
-                            if (currUser.getUser_role().equalsIgnoreCase("DRIVER")) {
-                                new MainMenuDriver(id);
-                            } else if (currUser.getUser_role().equalsIgnoreCase("PASSANGER")) {
+                            boolean succeed = con.inputJopayList(id, idDriver, saldoTambahan);
+                            if (succeed) {
+                                JOptionPane.showMessageDialog(f, "Tunggu Konfirmasi yah!", "Selamat",
+                                        JOptionPane.DEFAULT_OPTION);
                                 new MainMenuPassanger(id);
+                                f.dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(f, "Gagal top up", "Yahhh",
+                                        JOptionPane.DEFAULT_OPTION);
                             }
-                            f.dispose();
+
                         } else {
-                            JOptionPane.showMessageDialog(f, "Top Up saldo telah dibatalkan", "",
+                            JOptionPane.showMessageDialog(f, "Top Up saldo telah dibatalkan", "Yahhh :'(",
                                     JOptionPane.INFORMATION_MESSAGE);
 
                         }
@@ -150,6 +155,10 @@ public class MenuTopUp {
         f.setResizable(false);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
+    }
+    
+    public static void main(String[] args) {
+        new MenuTopUpDariDriver(5,6,"Aqbil");
     }
 
 }
