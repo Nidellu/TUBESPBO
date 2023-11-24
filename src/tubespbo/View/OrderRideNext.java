@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -230,7 +229,7 @@ public class OrderRideNext {
 
         f.setSize(500, 600);
         f.setLayout(null);
-
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
