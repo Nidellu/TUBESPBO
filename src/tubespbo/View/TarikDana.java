@@ -16,26 +16,21 @@ import tubespbo.Model.Driver;
 
 public class TarikDana {
     
-    public TarikDana(int id) {
-        Withdraw(id);
+    public TarikDana(Driver driver) {
+        Withdraw(driver);
     }
   
-    private void Withdraw(int id) {
-        Controller con = new Controller();
-        Driver currDriver = con.getDriverByID(id).get(0);
+    private void Withdraw(Driver driver) {
 
-        Font headerFont = new Font("Courier", Font.BOLD, 24);
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 14);
         Font font3 = new Font("Courier", Font.PLAIN, 16);
-        Font font4 = new Font("Courier", Font.BOLD, 14);
-        Font fontBack = new Font("Courier", Font.BOLD, 12);
         
         JFrame f = new JFrame();
         f.setLayout(null);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel intro = new JLabel("Dompet " + currDriver.getUser_name() + ".");
+        JLabel intro = new JLabel("Dompet " + driver.getUser_name() + ".");
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
         f.add(intro);
@@ -62,8 +57,8 @@ public class TarikDana {
         wallet.setBounds(30, 150, 800, 30);
         wallet.setBackground(null);
         f.add(wallet);
-        String strSaldo = String.valueOf(con.getWallet(id));
-        if (con.getWallet(id) > 9999999) {
+        String strSaldo = String.valueOf(Controller.getInstance().getWallet(driver.getDriver_id()));
+        if (Controller.getInstance().getWallet(driver.getDriver_id()) > 9999999) {
             strSaldo = "9999999+";
         }
         JLabel saldo = new JLabel("Rp.  "  + strSaldo);
@@ -76,7 +71,7 @@ public class TarikDana {
         JButton backButton = new JButton("Kembali");
         backButton.setBounds(10, 10, 85, 30);
         backButton.addActionListener(e -> {
-            new MainMenuDriver(id);
+            new MainMenuDriver(driver.getDriver_id());
             f.dispose();
         });
         f.add(backButton);
@@ -101,7 +96,7 @@ public class TarikDana {
                 if (nominalTarik < 10000) {
                     JOptionPane.showMessageDialog(f, "Minimal penarikan adalah Rp 10000", "WARNING",
                             JOptionPane.WARNING_MESSAGE);
-                } else if (nominalTarik > con.getWallet(id)) {
+                } else if (nominalTarik > Controller.getInstance().getWallet(driver.getDriver_id())) {
                     JOptionPane.showMessageDialog(f, "Saldo anda tidak mencukupi", "WARNING",
                             JOptionPane.WARNING_MESSAGE);
                 } else {
@@ -116,7 +111,7 @@ public class TarikDana {
                             "Ya");
 
                     if (result == JOptionPane.YES_OPTION) {
-                        if (con.updateJoPay(id, con.getWallet(id) - nominalTarik)) {
+                        if (Controller.getInstance().updateJoPay(driver.getDriver_id(), Controller.getInstance().getWallet(driver.getDriver_id()) - nominalTarik)) {
                             JOptionPane.showMessageDialog(f, "Penarikan berhasil dilakukan!", "",
                                     JOptionPane.DEFAULT_OPTION);
                         } else {
@@ -124,7 +119,7 @@ public class TarikDana {
                                     JOptionPane.ERROR_MESSAGE);
                         }
 
-                        new MainMenuDriver(id);
+                        new MainMenuDriver(driver.getDriver_id());
                         f.dispose();
                     } else {
                         JOptionPane.showMessageDialog(f, "Penarikan saldo telah dibatalkan", "",

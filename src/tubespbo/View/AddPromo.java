@@ -24,7 +24,6 @@ public class AddPromo {
     }
 
     private void addHere() {
-        Controller cntrl = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -85,7 +84,7 @@ public class AddPromo {
                     if (codePromo.length() < 10) {
                         if (!codePromo.contains(" ")) {
                             if (promoValFloat <= 1.0) {
-                                boolean valid = cntrl.addNewPromo(codePromo, promoValFloat, expiredDate);
+                                boolean valid = Controller.getInstance().addNewPromo(codePromo, promoValFloat, expiredDate);
                                 if (valid == true) {
                                     JOptionPane.showMessageDialog(null, "Promo Berhasil Ditambahkan!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
                                 } else {

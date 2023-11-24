@@ -19,11 +19,10 @@ public class MainMenuPassanger {
     }
 
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String nameDisplay = con.getUsername(id);
+        String nameDisplay = Controller.getInstance().getUsername(id);
 
         JLabel intro = new JLabel("Selamat Datang di Josen " + nameDisplay + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -50,13 +49,12 @@ public class MainMenuPassanger {
             }
         });
 
-        double walletDisplay = con.getWallet(id);
         JLabel border = new JLabel();
         border.setBorder(BorderFactory.createLineBorder(Color.black));
         border.setBounds(30, 135, 425, 60);
 
-        String strSaldo = String.valueOf(con.getWallet(id));
-        if (con.getWallet(id) > 9999999) {
+        String strSaldo = String.valueOf(Controller.getInstance().getWallet(id));
+        if (Controller.getInstance().getWallet(id) > 9999999) {
             strSaldo = "9999999+";
         }
 

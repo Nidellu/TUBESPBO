@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package tubespbo.View;
 
 import java.awt.Font;
@@ -26,7 +22,6 @@ public class RegistrasiDriver {
     private void form(String username, String password, String roles) {
         JFrame f = new JFrame("Form Registrasi Driver");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Controller con = new Controller();
 
         JLabel intro = new JLabel("Selamat Datang di Josen!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -58,14 +53,14 @@ public class RegistrasiDriver {
         textPlat.setBounds(200, 140, 250, 30);
 
         JLabel labelJenis = new JLabel("Category: ");
-        String listCategory[] = { "Mobil", "Motor" };
+        String listCategory[] = {"Mobil", "Motor"};
         JComboBox boxJenis = new JComboBox(listCategory);
         boxJenis.setSelectedItem(null);
         labelJenis.setFont(fontLabel);
         labelJenis.setBounds(10, 170, 200, 30);
         boxJenis.setBounds(200, 170, 250, 30);
 
-        // tombol submit
+        //tombol submit
         JButton insertData = new JButton("Submit");
         insertData.setBounds(260, 300, 150, 30);
         insertData.addActionListener(new ActionListener() {
@@ -79,13 +74,16 @@ public class RegistrasiDriver {
                 if (telepon.isEmpty() || namaKendaraan.isEmpty() || plat.isEmpty() || jenis.isEmpty()) {
                     JOptionPane.showMessageDialog(f, "Data belum lengkap nih", "", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    int id = con.getIDUser(username);
-                    boolean succeedDriver = con.inputDriverDataToWaitingList(username, password, telepon, namaKendaraan,
-                            jenis, plat);
-                    if (succeedDriver) {
-                        JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
-                        new StartMenu();
-                        f.dispose();
+                    boolean succeed = Controller.getInstance().inputUserDataToDB(username, password, roles);
+                    if (succeed) {
+                        boolean succeedDriver = Controller.getInstance().inputDriverDataToWaitingList(username, password, telepon, namaKendaraan, jenis, plat);
+                        if (succeedDriver) {
+                            JOptionPane.showMessageDialog(f, "Data berhasil ditambahkan. Silahkan kembali ke menu utama.");
+                            new StartMenu();
+                            f.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(f, "Data gagal Disimpan", "", JOptionPane.WARNING_MESSAGE);
                     }
@@ -97,15 +95,14 @@ public class RegistrasiDriver {
 
         JButton backButton = new JButton("Back");
 
-        backButton.setBounds(
-                60, 300, 150, 30);
+        backButton.setBounds(60, 300, 150, 30);
         backButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new Registrasi();
             }
-        });
+        }
+        );
 
         f.add(intro);
         f.add(intro2);
@@ -119,10 +116,10 @@ public class RegistrasiDriver {
         f.add(labelJenis);
         f.add(boxJenis);
 
+        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
-        f.setLocationRelativeTo(null);
         f.add(backButton);
     }
 

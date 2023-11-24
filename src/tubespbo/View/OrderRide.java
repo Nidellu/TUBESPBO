@@ -22,13 +22,12 @@ public class OrderRide {
 
     private JLabel labelAsal, labelTujuan;
     private JTextField textAsal, textTujuan;
-    private final Controller con = new Controller();
 
     private void showDataScreen(int id) {
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ArrayList<Passanger> pass = con.getPassangerByID(id);
+        ArrayList<Passanger> pass = Controller.getInstance().getPassangerByID(id);
 
         JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
         Font font = new Font("Courier", Font.BOLD, 20);
@@ -81,7 +80,7 @@ public class OrderRide {
                 if (kodePromo.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Input dulu kode promonya!", "Diisi Dulu Yaa", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (con.findPromo(kodePromo)) {
+                    if (Controller.getInstance().findPromo(kodePromo)) {
                         JOptionPane.showMessageDialog(null, "Promo berhasil ditemukan", "Diisi Dulu Yaa", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Kode belum bisa ditemukan", "Berhasil Menggunakan Kode Promo", JOptionPane.INFORMATION_MESSAGE);
@@ -100,7 +99,7 @@ public class OrderRide {
                         String source = textAsal.getText().toUpperCase();
                         String destination = textTujuan.getText().toUpperCase();
                         if (!kodePromo.isEmpty()) {
-                            if (con.findPromo(kodePromo)) {
+                            if (Controller.getInstance().findPromo(kodePromo)) {
                                 f.dispose();
                                 new OrderRideNext(source, destination, id, kodePromo);
                             } else {
@@ -149,7 +148,6 @@ public class OrderRide {
 
         f.setSize(500, 600);
         f.setLayout(null);
-        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 

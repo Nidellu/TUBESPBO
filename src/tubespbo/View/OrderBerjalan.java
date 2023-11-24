@@ -26,7 +26,6 @@ public class OrderBerjalan {
     }
 
     private void showDataScreen(int id) {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -36,7 +35,7 @@ public class OrderBerjalan {
         Font font4 = new Font("Courier", Font.BOLD, 14);
 
         JLabel intro = new JLabel("Orderan saat Ini.");
-        
+
         intro.setFont(font);
         intro.setBounds(30, 70, 400, 30);
 
@@ -49,19 +48,18 @@ public class OrderBerjalan {
 
         lineDiv.setBounds(10, 100, 460, 20);
 
-        ArrayList<Order> listOrder = con.getOrderNow(id);
-        
+        ArrayList<Order> listOrder = Controller.getInstance().getOrderNow(id);
+
         if (listOrder.isEmpty()) {
             JLabel ingpo = new JLabel("Yah... Order masih kosong nih :'(");
             ingpo.setFont(font3);
             ingpo.setBounds(110, 300, 400, 30);
             f.add(ingpo);
         }
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(20, 130, 445, 420);
         f.getContentPane().add(scrollPane);
-
 
         JPanel containerOrder = new JPanel();
         scrollPane.setViewportView(containerOrder);
@@ -75,10 +73,10 @@ public class OrderBerjalan {
         for (Order order : listOrder) {
             JPanel indivOrder = new JPanel(null);
             indivOrder.setFont(font2);
-            indivOrder.setPreferredSize(new Dimension(300,60));
+            indivOrder.setPreferredSize(new Dimension(300, 60));
             orderListCont.add(indivOrder);
             indivOrder.setLayout(null);
-            
+
             indivOrder.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
             int idOrder = order.getOrder_id();
@@ -87,18 +85,18 @@ public class OrderBerjalan {
             nameField.setBounds(10, 5, 100, 25);
             nameField.setBorder(null);
             indivOrder.add(nameField);
-            
+
             JLabel dateField = new JLabel(order.getOrder_date() + "");
             dateField.setBounds(353, 5, 70, 20);
             dateField.setBorder(null);
             indivOrder.add(dateField);
-            
+
             JLabel priceField = new JLabel("Rp. " + order.getOrder_final_price() + "");
             priceField.setBorder(null);
             priceField.setBounds(10, 30, 70, 25);
             indivOrder.add(priceField);
-            
-            JLabel status = new JLabel( order.getOrder_status().toString() + "");
+
+            JLabel status = new JLabel(order.getOrder_status().toString() + "");
             status.setFont(font4);
             status.setBorder(null);
             status.setBounds(150, 3, 150, 25);
@@ -109,13 +107,20 @@ public class OrderBerjalan {
             detailsButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     f.dispose();
-                    new DetailOrder(id, idOrder, 1);
+                    String find = Controller.getInstance().getRolesUser(id);
+                    if (find.equalsIgnoreCase("Passanger")) {
+                        new DetailOrderPassanger(id, idOrder, 1);
+                    } else if (find.equalsIgnoreCase("Driver")) {
+                        new DetailOrderDriver(id, idOrder, 1);
+                    } else if (find.equalsIgnoreCase("Admin")) {
+                        new DetailOrderAdmin(id, idOrder, 1);
+                    }
                 }
             });
             indivOrder.add(detailsButton);
-            
+
         }
-        
+
         JButton backButton = new JButton("Kembali");
         backButton.setFont(fontButton);
         backButton.setBounds(10, 10, 150, 30);
@@ -125,19 +130,19 @@ public class OrderBerjalan {
                 new CekOrder(id);
             }
         });
-        
+
         f.add((intro));
 
         f.add(backButton);
         f.add(lineDiv);
-        
+
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(500, 600);
         f.getContentPane().setLayout(null);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    
+
     public static void main(String[] args) {
         new OrderBerjalan(6);
     }

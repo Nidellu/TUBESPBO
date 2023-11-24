@@ -7,24 +7,22 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import tubespbo.Controller.Controller;
 
-public class CekPendapatan {
 
-    public CekPendapatan() {
+public class CekPendapatanAdmin {
+
+    public CekPendapatanAdmin() {
         showDataScreen();
     }
 
     private void showDataScreen() {
-        Controller con = new Controller();
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Font font = new Font("Courier", Font.BOLD, 20);
-        Font font2 = new Font("Courier", Font.PLAIN, 14);
-        Font font3 = new Font("Courier", Font.PLAIN, 16);
-        Font font4 = new Font("Courier", Font.BOLD, 72);
+        Font font2 = new Font("Courier", Font.PLAIN, 16);
+        Font font3 = new Font("Courier", Font.BOLD, 72);
         Font fontButton = new Font("Courier", Font.BOLD, 13);
 
 
@@ -33,7 +31,7 @@ public class CekPendapatan {
         intro.setBounds(30, 70, 400, 30);
 
         JLabel intro2 = new JLabel("Selalu bersyukur ya!");
-        intro2.setFont(font3);
+        intro2.setFont(font2);
         intro2.setBounds(30, 95, 400, 30);
 
         JLabel lineDiv = new JLabel("__________________________________"
@@ -43,18 +41,18 @@ public class CekPendapatan {
         lineDiv.setBounds(10, 120, 465, 20);
 
         JLabel time = new JLabel("Total Order Josen: ");
-        time.setFont(font3);
+        time.setFont(font2);
         time.setBounds(30, 150, 300, 30);
 
-        JLabel idForShow = new JLabel(con.getOrderCount() + "");
-        idForShow.setFont(font4);
+        JLabel idForShow = new JLabel(Controller.getInstance().getOrderCount() + "");
+        idForShow.setFont(font3);
         idForShow.setBounds(30, 180, 300, 90);
 
         JLabel payDetail = new JLabel("Dengan total pendapatan sebanyak:");
-        payDetail.setFont(font3);
+        payDetail.setFont(font2);
         payDetail.setBounds(30, 270, 300, 30);
 
-        JLabel payRaw = new JLabel("Rp. " + con.getOrderCount()*2000);
+        JLabel payRaw = new JLabel("Rp. " + Controller.getInstance().getOrderCount()*2000);
         payRaw.setFont(font);
         payRaw.setBounds(30, 300, 300, 30);
 
@@ -82,7 +80,6 @@ public class CekPendapatan {
 
         f.setSize(500, 600);
         f.setLayout(null);
-        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
