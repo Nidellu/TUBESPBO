@@ -133,14 +133,12 @@ public class MainMenuDriver {
             }
         });
 
-        JButton withdrawal = new JButton("Withdrawal");
-        withdrawal.setFont(fontButton);
-        withdrawal.setBounds(70, 370, 350, 30);
-        withdrawal.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-        //                
-                    }
-                });
+        String statDrv =  con.getDriverStat(id);
+        if (statDrv.equals("BOOKED")) {
+            switchStatus.setEnabled(false); // Disable the button
+        } else {
+            switchStatus.setEnabled(true); // Enable the button
+        }
         
         // back button
         JButton backButton = new JButton("Back to Main Menu");
