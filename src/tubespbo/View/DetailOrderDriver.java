@@ -49,11 +49,15 @@ public class DetailOrderDriver extends DetailOrder {
                     if (choice == JOptionPane.YES_OPTION) {
                         if (Controller.getInstance().updateStatusOrder(idOrder, "FINISHED")) {
                             JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
-                            // kembalikan status driver menjadi AVAILABLE
+                            // get saldo user
                             float currSaldo = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getCust_id());
+                            // get saldo driver
                             float currSaldo2 = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getDriver_id());
+                            // nambah saldo driver
                             Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getDriver_id(), currSaldo2 + listOrder.get(listOrder.size() - 1).getOrder_final_price());
+                            // kurangi saldo user
                             Controller.getInstance().updateJoPay(listOrder.get(listOrder.size() - 1).getCust_id(), currSaldo - listOrder.get(listOrder.size() - 1).getOrder_final_price());
+                            // kembalikan status driver menjadi AVAILABLE
                             Controller.getInstance().changeToAvailable(id);
                             f.dispose();
                             new CekOrder(id);

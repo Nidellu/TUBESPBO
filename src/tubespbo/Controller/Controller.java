@@ -835,7 +835,7 @@ public class Controller {
 
     // find driver who's available
     public Driver getDriverAvailable(String jenisKendaraan) {
-        Driver dr = new Driver();
+        Driver dr = null;
         DatabaseHandler.getInstance().connect();
         String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n"
                 + "FROM drivers d \r\n"

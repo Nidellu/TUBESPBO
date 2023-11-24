@@ -112,10 +112,21 @@ public class MainMenuDriver {
             }
         });
 
+        // button buat cek pendapatan
+        JButton cekPendapatanBtn =  new JButton("Cek Pendapatan Driver");
+        cekPendapatanBtn.setFont(fontButton);
+        cekPendapatanBtn.setBounds(70, 360, 350, 30);
+        cekPendapatanBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                new CekPendapatanDriver(id);
+            }
+        });
+
         //button for swithcing status
         JButton switchStatus = new JButton(Controller.getInstance().getSwitchStatusText(id));
         switchStatus.setFont(fontButton);
-        switchStatus.setBounds(70, 360, 350, 30);
+        switchStatus.setBounds(70, 410, 350, 30);
         switchStatus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String state = Controller.getInstance().getDriverStat(drv.getDriver_id());
@@ -166,6 +177,7 @@ public class MainMenuDriver {
         f.add(wallet);
         f.add(topUp);
         f.add(profileButton);
+        f.add(cekPendapatanBtn);
         f.add(lineDiv);
 
         f.add(inbox);
