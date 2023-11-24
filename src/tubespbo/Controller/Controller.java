@@ -25,8 +25,6 @@ public class Controller {
     private static Controller instance;
 
     private Controller() {
-        // May be necessary to obtain
-        // starting value elsewhere...
     }
 
     public static synchronized Controller getInstance() {
