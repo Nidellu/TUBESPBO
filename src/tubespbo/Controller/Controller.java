@@ -22,15 +22,28 @@ import tubespbo.Model.User;
 
 public class Controller {
 
-    static DatabaseHandler conn = new DatabaseHandler();
+    private static Controller instance;
+
+    private Controller() {
+        // May be necessary to obtain
+        // starting value elsewhere...
+    }
+
+    public static synchronized Controller getInstance() {
+        if (instance == null) // Lazy instantiation
+        {
+            instance = new Controller();
+        }
+        return instance;
+    }
 
     // input user's data
     public boolean inputUserDataToDB(String username, String password, String kategoriUser) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO users (user_name, user_pass, user_role, user_wallet) VALUES (?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, kategoriUser);
@@ -45,11 +58,11 @@ public class Controller {
 
     // input driver's data
     public boolean inputDriverDataToDB(int id, String phonNum, String namaKendaraan, String tipe, String plat) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO drivers (driver_id, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setInt(1, id);
             stmt.setString(2, phonNum);
             stmt.setString(3, namaKendaraan);
@@ -65,11 +78,11 @@ public class Controller {
 
     // input passanger's data
     public boolean inputPassangerDataToDB(int id, String phonNum) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO passangers (passanger_id, passanger_phonNum) VALUES (?, ?)";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setInt(1, id);
             stmt.setString(2, phonNum);
             stmt.executeUpdate();
@@ -79,13 +92,13 @@ public class Controller {
             return false;
         }
     }
-    
+
     public boolean inputJopayList(int id, int idDriver, float saldo) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO jopaylist (passanger_id, driver_id, nominal) VALUES (?, ?, ?)";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setInt(1, id);
             stmt.setInt(2, idDriver);
             stmt.setFloat(3, saldo);
@@ -99,11 +112,11 @@ public class Controller {
 
     // update username passanger
     public boolean updateUserNameDataPassangerToDB(int idMasuk, String username) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" + idMasuk + "';";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -114,12 +127,12 @@ public class Controller {
 
     // update phone number passanger
     public boolean updatePhoneNumDataPassangerToDB(int idMasuk, String telepon) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "UPDATE passangers SET passanger_phonNum = '" + telepon + "' WHERE passanger_id = '" + idMasuk
                 + "';";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -129,30 +142,29 @@ public class Controller {
     }
 
     public int getOrderCount() {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT COUNT(order_id) FROM orders";
         int result = 0;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 result = (rs.getInt("COUNT(order_id)"));
             }
-            
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
-    
+
     // update passanger's password
     public boolean updatePasswordDataPassangerToDB(int idMasuk, String pass) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "UPDATE users SET user_pass = '" + pass + "' WHERE user_id = '" + idMasuk + "';";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -160,13 +172,13 @@ public class Controller {
             return false;
         }
     }
-    
+
     public boolean updateStatusOrder(int idOrder, String state) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "UPDATE orders SET order_status = '" + state + "' WHERE order_id = '" + idOrder + "';";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -177,14 +189,14 @@ public class Controller {
 
     // get list of passangers
     public ArrayList<Passanger> getPassangerByID(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * "
                 + "FROM users "
                 + "JOIN passangers ON passangers.passanger_id = users.user_id "
                 + "WHERE passangers.passanger_id = '" + id + "'";
         ArrayList<Passanger> listPass = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Passanger pass = new Passanger();
@@ -201,14 +213,14 @@ public class Controller {
         }
         return (listPass);
     }
-    
+
     public ArrayList<JopayWaitingList> getWaitingList(int idDriver) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * "
                 + "FROM jopaylist WHERE driver_id = '" + idDriver + "'";
         ArrayList<JopayWaitingList> listWaiting = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 JopayWaitingList wait = new JopayWaitingList();
@@ -225,17 +237,18 @@ public class Controller {
     }
 
     public ArrayList<Driver> getDriverByID(int id) {
-        conn.connect();
-        String query = "SELECT users.user_name, users.user_pass, drivers.driver_phonNum, drivers.vehicle_name, drivers.vehicle_type, drivers.vehicle_plate "
+        DatabaseHandler.getInstance().connect();
+        String query = "SELECT users.user_id, users.user_name, users.user_pass, drivers.driver_phonNum, drivers.vehicle_name, drivers.vehicle_type, drivers.vehicle_plate "
                 + "FROM users "
                 + "JOIN drivers ON drivers.driver_id = users.user_id "
                 + "WHERE drivers.driver_id = '" + id + "'";
         ArrayList<Driver> listDriver = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Driver drivers = new Driver();
+                drivers.setDriver_id(rs.getInt("users.user_id"));
                 drivers.setUser_name(rs.getString("users.user_name"));
                 drivers.setUser_pass(rs.getString("users.user_pass"));
                 drivers.setDriver_phonNum(rs.getString("drivers.driver_phonNum"));
@@ -251,13 +264,13 @@ public class Controller {
         return (listDriver);
     }
 
-    public boolean inputDriverDataToWaitingList (String username, String password, String phonNum, String namaKendaraan, String tipe, String plat) {
-        conn.connect();
+    public boolean inputDriverDataToWaitingList(String username, String password, String phonNum, String namaKendaraan, String tipe, String plat) {
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO waitinglist (driver_username, driver_password, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
-            stmt.setString(1, username);            
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
+            stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, phonNum);
             stmt.setString(4, namaKendaraan);
@@ -271,14 +284,13 @@ public class Controller {
         }
     }
 
-
     public ArrayList<Driver> getWaitingDriver(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT driver_username, driver_password, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate "
                 + "FROM waitinglist ";
         ArrayList<Driver> listDriver = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Driver drivers = new Driver();
@@ -298,11 +310,11 @@ public class Controller {
     }
 
     public boolean updateUsernameDataDriverToDB(int idMasuk, String username) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "UPDATE users SET user_name = '" + username + "' WHERE user_id = '" + idMasuk + "';";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -311,40 +323,16 @@ public class Controller {
         }
     }
 
-    public boolean updatePhoneNumDataDriverToDB (int idMasuk, String telepon) {
-        conn.connect();
-        String query = "UPDATE drivers SET driver_phonNum = '" + telepon + "' WHERE driver_id = '" + idMasuk + "';";
+    public boolean updateDataDriverToDB(int idMasuk, String telepon, String vehicleName, String vehiclePlate) {
+        DatabaseHandler.getInstance().connect();
+        String query = "UPDATE drivers \n"
+                + "SET driver_phonNum = '" + telepon + "', \n"
+                + "vehicle_name = '" + vehicleName + "', \n"
+                + "vehicle_plate = '" + vehiclePlate + "' \n"
+                + "WHERE driver_id = '" + idMasuk + "'";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
-            stmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updateVehicleNameDataDriverToDB (int idMasuk, String vehicleName) {
-        conn.connect();
-        String query = "UPDATE drivers SET vehicle_name = '" + vehicleName + "' WHERE driver_id = '" + idMasuk + "';";
-        PreparedStatement stmt;
-        try {
-            stmt = conn.con.prepareStatement(query);
-            stmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updateVehiclePlateDataDriverToDB (int idMasuk, String vehiclePlate) {
-        conn.connect();
-        String query = "UPDATE drivers SET vehicle_plate = '" + vehiclePlate + "' WHERE driver_id = '" + idMasuk + "';";
-        PreparedStatement stmt;
-        try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -354,11 +342,11 @@ public class Controller {
     }
 
     public boolean deleteWaitingDriver(String username) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "DELETE FROM waitinglist WHERE driver_username = '" + username + "'";
         boolean exists = false;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             stmt.executeUpdate(query);
             exists = true;
         } catch (SQLException e) {
@@ -366,13 +354,13 @@ public class Controller {
         }
         return (exists);
     }
-    
+
     public boolean deleteWaitingJopay(int idJopayList) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "DELETE FROM jopaylist WHERE jopaylist_id = '" + idJopayList + "'";
         boolean exists = false;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             stmt.executeUpdate(query);
             exists = true;
         } catch (SQLException e) {
@@ -382,12 +370,12 @@ public class Controller {
     }
 
     //salary driver
-    public double salaryDriver (int idDriver) {
-        conn.connect();
+    public double salaryDriver(int idDriver) {
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT SUM(order_final_price) FROM orders WHERE driver_id = '" + idDriver + "' ";
         double total = 0;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 total = (rs.getDouble("SUM(order_final_price)"));
@@ -398,12 +386,12 @@ public class Controller {
         return (total);
     }
 
-    public int getOrderCountDriver (int idDriver) {
-        conn.connect();
+    public int getOrderCountDriver(int idDriver) {
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT COUNT(driver_id) FROM orders WHERE driver_id = '" + idDriver + "'";
         int result = 0;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 result = (rs.getInt("COUNT(driver_id)"));
@@ -414,7 +402,7 @@ public class Controller {
         return (result);
     }
 
-    public double totalSalary (int idDriver) {
+    public double totalSalary(int idDriver) {
         double total = 0;
         total = salaryDriver(idDriver) - (getOrderCountDriver(idDriver) * 2000);
         return total;
@@ -433,15 +421,14 @@ public class Controller {
         }
     }
 
-
     // get list of detail order
     public ArrayList<Order> getDetailOrder(int idOrder) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT order_id, driver_id, cust_id, promo_id, order_pickup, order_destination, order_price, order_final_price, order_date, order_status, order_vehicle_name, order_vehicle_plate "
                 + "FROM orders WHERE order_id = '" + idOrder + "'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Order orders = new Order();
@@ -465,12 +452,12 @@ public class Controller {
     }
 
     public String getTimeOrder(int idOrder) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT order_date "
                 + "FROM orders WHERE order_id = '" + idOrder + "'";
         String listOrder = "";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Order orders = new Order();
@@ -484,12 +471,12 @@ public class Controller {
     }
 
     public ArrayList<Order> getOrderNow(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT order_id, order_destination, order_date, order_final_price, order_status, order_vehicle_name "
                 + "FROM orders WHERE (cust_id = '" + id + "' OR driver_id = '" + id + "') AND order_status = 'NOW'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Order orders = new Order();
@@ -507,12 +494,12 @@ public class Controller {
     }
 
     public ArrayList<Order> getOrderHistory(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * "
                 + "FROM orders WHERE (cust_id = '" + id + "' OR driver_id = '" + id + "') AND order_status <> 'NOW'";
         ArrayList<Order> listOrder = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Order orders = new Order();
@@ -531,11 +518,11 @@ public class Controller {
 
     // get user by username
     public boolean getByUserName(String username) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "'";
         boolean exists = false;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 exists = true;
@@ -547,11 +534,11 @@ public class Controller {
     }
 
     public boolean getOrder(int idOrder) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * FROM orders WHERE order_id = '" + idOrder + "'";
         boolean exists = false;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 exists = true;
@@ -564,11 +551,11 @@ public class Controller {
 
     // login
     public boolean logIn(String username, String password) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * FROM users WHERE user_name = '" + username + "' AND user_pass = '" + password + "'";
         boolean exists = false;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 exists = true;
@@ -580,11 +567,11 @@ public class Controller {
     }
 
     public int getIDUser(String username) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT user_id FROM users WHERE user_name = '" + username + "'";
         int id = 0;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 id = (rs.getInt("user_id"));
@@ -597,11 +584,11 @@ public class Controller {
     }
 
     public String getUsername(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT user_name FROM users WHERE user_id = '" + id + "'";
         String username = "";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 username = (rs.getString("user_name"));
@@ -614,11 +601,11 @@ public class Controller {
     }
 
     public String getRolesUser(int userID) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT user_role FROM users WHERE user_id = '" + userID + "'";
         String roles = "";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 roles = (rs.getString("user_role"));
@@ -632,11 +619,11 @@ public class Controller {
 
     // get user's wallet
     public float getWallet(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT user_wallet FROM users WHERE user_id = '" + id + "'";
         float walletResult = 0;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 walletResult = (rs.getFloat("user_wallet"));
@@ -650,11 +637,11 @@ public class Controller {
     // promo's logic start here
     // adding new promo
     public boolean addNewPromo(String promoCode, float promoValue, Date expired) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO promo (promo_code, promo_exp, promo_value) VALUES (?, ?, ?)";
         PreparedStatement stmt;
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setString(1, promoCode);
             stmt.setDate(2, (java.sql.Date) expired);
             stmt.setFloat(3, promoValue);
@@ -668,11 +655,11 @@ public class Controller {
 
     // show all promo
     public ArrayList<Promo> getPromoList() {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * FROM promo ORDER BY promo_exp"; // biar nampilin dari promo yang terbaru
         ArrayList<Promo> listpPromos = new ArrayList<>();
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Promo prm = new Promo();
@@ -693,9 +680,9 @@ public class Controller {
         boolean valid = true;
 
         try {
-            conn.connect();
+            DatabaseHandler.getInstance().connect();
             String query = "SELECT promo_exp FROM promo WHERE promo_id = '" + id + "'";
-            try (Statement stmt = conn.con.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            try (Statement stmt = DatabaseHandler.getInstance().con.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
 
                 if (rs.next()) {
                     // Move the date retrieval inside the 'if' block
@@ -717,11 +704,11 @@ public class Controller {
 
     // deleting promo
     public static boolean deletePromo(int id) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
 
         String query = "DELETE FROM promo WHERE promo_id='" + id + "'";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             stmt.executeUpdate(query);
             return (true);
         } catch (SQLException e) {
@@ -733,10 +720,10 @@ public class Controller {
     // get promo ID
     public int getPromoIdByCode(String inpCode) {
         int Id = 0;
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT promo_id FROM promo WHERE promo_code = '" + inpCode + "'";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Id = (rs.getInt("promo_id"));
@@ -747,13 +734,13 @@ public class Controller {
         return Id;
     }
 
-    public boolean findPromo (String inpCode) {
+    public boolean findPromo(String inpCode) {
         float val = 0;
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * FROM promo WHERE promo_code = '" + inpCode + "'";
         boolean found = false;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 found = true;
@@ -765,15 +752,14 @@ public class Controller {
     }
 //promo ends here
 
-
 // update JoPay
     public boolean updateJoPay(int id, double saldo) {
 
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
 
         String query = "UPDATE users SET user_wallet = " + saldo + "WHERE user_id = " + id + ";";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             stmt.executeUpdate(query);
             return (true);
         } catch (SQLException e) {
@@ -811,12 +797,12 @@ public class Controller {
     }
 
     // get promo value
-    public float getPromoVal (String inpCode) {
+    public float getPromoVal(String inpCode) {
         float val = 0;
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT promo_value FROM promo WHERE promo_code = '" + inpCode + "'";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 val = (rs.getFloat("promo_value"));
@@ -829,10 +815,10 @@ public class Controller {
 
     public User getUserByID(int id) {
         float val = 0;
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String query = "SELECT * FROM users WHERE user_id = " + id;
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             User user = new User();
             while (rs.next()) {
@@ -852,13 +838,13 @@ public class Controller {
     // find driver who's available
     public Driver getDriverAvailable(String jenisKendaraan) {
         Driver dr = new Driver();
-        conn.connect();
-        String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n" + 
-                "FROM drivers d \r\n" + 
-                "JOIN users u ON u.user_id = d.driver_id\r\n" + 
-                "WHERE u.user_id = d.driver_id AND d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
+        DatabaseHandler.getInstance().connect();
+        String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate\r\n"
+                + "FROM drivers d \r\n"
+                + "JOIN users u ON u.user_id = d.driver_id\r\n"
+                + "WHERE u.user_id = d.driver_id AND d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = \"AVAILABLE\" LIMIT 1;";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int dId = rs.getInt("d.driver_id");
@@ -875,14 +861,14 @@ public class Controller {
     }
 
     // user order
-    public boolean createUserOrder (int custID, int promoID, String asal, String tujuan, Float harga, Float hargaAkhir, Driver dr) {
-    
-        conn.connect();
+    public boolean createUserOrder(int custID, int promoID, String asal, String tujuan, Float harga, Float hargaAkhir, Driver dr) {
+
+        DatabaseHandler.getInstance().connect();
         String query = "INSERT INTO orders (cust_id, promo_id, driver_id, order_date, order_pickup, order_destination, order_price, order_final_price, order_vehicle_name, order_vehicle_plate, order_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
             java.sql.Date currentDate = getCurrentDate();
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setInt(1, custID);
             stmt.setInt(2, promoID);
             stmt.setInt(3, dr.getDriver_id());
@@ -913,15 +899,17 @@ public class Controller {
     }
 
     // change driver's status if they're taking an order
-    private boolean changeDriverStat (int drvID) {
-        conn.connect();
-        String query = "UPDATE drivers\r\n" + //
-                "SET driver_status = 'BOOKED'\r\n" + //
-                "WHERE driver_id = '" + drvID + "';"; 
+    private boolean changeDriverStat(int drvID) {
+        DatabaseHandler.getInstance().connect();
+        String query = "UPDATE drivers\r\n"
+                + //
+                "SET driver_status = 'BOOKED'\r\n"
+                + //
+                "WHERE driver_id = '" + drvID + "';";
         PreparedStatement stmt;
-                
+
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -931,15 +919,17 @@ public class Controller {
     }
 
     // kembalikan status driver menjadi available setelah menyelesaikan order
-    public boolean changeToAvailable (int drvID) {
-        conn.connect();
-        String query = "UPDATE drivers\r\n" + //
-                "SET driver_status = 'AVAILABLE'\r\n" + //
-                "WHERE driver_id = '" + drvID + "';"; 
+    public boolean changeToAvailable(int drvID) {
+        DatabaseHandler.getInstance().connect();
+        String query = "UPDATE drivers\r\n"
+                + //
+                "SET driver_status = 'AVAILABLE'\r\n"
+                + //
+                "WHERE driver_id = '" + drvID + "';";
         PreparedStatement stmt;
-                
+
         try {
-            stmt = conn.con.prepareStatement(query);
+            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -947,17 +937,15 @@ public class Controller {
             return false;
         }
     }
-    
 
 // order ride end
-
 // start switch on off status driver
     public String getDriverStat(int driverID) {
         String stat = "";
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String statsQuery = "SELECT driver_status FROM drivers WHERE driver_id = '" + driverID + "';";
         try {
-            Statement stmt = conn.con.createStatement();
+            Statement stmt = DatabaseHandler.getInstance().con.createStatement();
             ResultSet rs = stmt.executeQuery(statsQuery);
             while (rs.next()) {
                 stat = rs.getString("driver_status");
@@ -968,7 +956,6 @@ public class Controller {
         return stat;
     }
 
-    
     public String getSwitchStatusText(int driverID) {
         String currentStatus = getDriverStat(driverID);
         if ("OFFLINE".equalsIgnoreCase(currentStatus)) {
@@ -981,7 +968,7 @@ public class Controller {
     }
 
     public boolean driverOnOffStat(int driverID) {
-        conn.connect();
+        DatabaseHandler.getInstance().connect();
         String stats = getDriverStat(driverID);
 
         if ("AVAILABLE".equalsIgnoreCase(stats)) {
@@ -991,18 +978,22 @@ public class Controller {
             updateDriverStatus(driverID, "AVAILABLE");
             return true;
         } else {
-            return false; 
+            return false;
         }
     }
 
-    private void updateDriverStatus(int driverID, String newStatus) {
-        String query = "UPDATE drivers SET driver_status = '" +  newStatus + "' WHERE driver_id = '" + driverID + "';";
+    public boolean updateDriverStatus(int driverID, String newStatus) {
+        String query = "UPDATE drivers SET driver_status = '" + newStatus + "' WHERE driver_id = '" + driverID + "';";
         try {
-            PreparedStatement statement = conn.con.prepareStatement(query);
+            PreparedStatement statement = DatabaseHandler.getInstance().con.prepareStatement(query);
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        
+        
     }
 // end on off status driver
 }
