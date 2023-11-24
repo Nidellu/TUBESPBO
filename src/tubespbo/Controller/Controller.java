@@ -57,7 +57,7 @@ public class Controller {
     // input driver's data
     public boolean inputDriverDataToDB(int id, String phonNum, String namaKendaraan, String tipe, String plat) {
         DatabaseHandler.getInstance().connect();
-        String query = "INSERT INTO drivers (driver_id, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO drivers (driver_id, driver_phonNum, vehicle_name, vehicle_type, vehicle_plate, driver_status) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt;
         try {
             stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
@@ -66,6 +66,7 @@ public class Controller {
             stmt.setString(3, namaKendaraan);
             stmt.setString(4, tipe);
             stmt.setString(5, plat);
+            stmt.setString(6, "AVAILABLE");
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
