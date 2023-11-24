@@ -124,10 +124,10 @@ public class RegistrasiDriver {
         f.add(labelJenis);
         f.add(boxJenis);
 
-        f.setLocationRelativeTo(null);
         f.setSize(500, 400);
         f.setLayout(null);
         f.setVisible(true);
+        f.setLocationRelativeTo(null);
         f.add(backButton);
     }
 
