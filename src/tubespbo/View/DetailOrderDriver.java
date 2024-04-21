@@ -1,5 +1,6 @@
 package tubespbo.View;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,31 +25,19 @@ public class DetailOrderDriver extends DetailOrder {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String passName = Controller.getInstance().getUsername(listOrder.get(listOrder.size() - 1).getCust_id());
-
-        JLabel passInfo = new JLabel("Info Passanger:");
-        passInfo.setFont(font4);
-        passInfo.setBounds(30, 190, 300, 30);
-
-        JLabel passNameCont = new JLabel(passName);
-        passNameCont.setFont(font4);
-        passNameCont.setBounds(30, 220, 300, 30);
-
+        JLabel passInfo = FrameHandler.createLabel("Info Passanger:", font4, 30, 190, 300, 30);
+        JLabel passNameCont = FrameHandler.createLabel(passName, font4, 30, 220, 300, 30);
         ArrayList<Passanger> passCont = Controller.getInstance().getPassangerByID(listOrder.get(listOrder.size() - 1).getCust_id());
-
-        JLabel passPhon = new JLabel(passCont.get(passCont.size() - 1).getPhone_number());
-        passPhon.setFont(font2);
-        passPhon.setBounds(370, 220, 300, 30);
+        JLabel passPhon = FrameHandler.createLabel(passCont.get(passCont.size() - 1).getPhone_number(), font2, 370, 220, 300, 30);
 
         if (listOrder.get(listOrder.size() - 1).getOrder_status() == OrderStatusEnum.NOW) {
-            JButton cancel = new JButton("Selesaikan Order");
-            cancel.setBounds(30, 310, 420, 30);
-            cancel.addActionListener(new ActionListener() {
+            JButton cancel = FrameHandler.createButton("Selesaikan Order", new Font("Courier", Font.BOLD, 12), 30, 310, 420, 30, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    int choice = JOptionPane.showConfirmDialog(null, "Selesaikan?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    int choice = FrameHandler.showConfirmationDialog("Selesaikan?", "Konfirmasi");
 
                     if (choice == JOptionPane.YES_OPTION) {
                         if (Controller.getInstance().updateStatusOrder(idOrder, "FINISHED")) {
-                            JOptionPane.showMessageDialog(null, "Berhasil diselesaikan", "Yeay", JOptionPane.INFORMATION_MESSAGE);
+                            FrameHandler.showInformationMessage("Berhasil diselesaikan", "Yeay");
                             // get saldo user
                             float currSaldo = Controller.getInstance().getWallet(listOrder.get(listOrder.size() - 1).getCust_id());
                             // get saldo driver
@@ -64,11 +53,10 @@ public class DetailOrderDriver extends DetailOrder {
                             f.dispose();
                             new CekOrder(id);
                         } else {
-                            JOptionPane.showMessageDialog(null, "Gagal di diselesaikan", "Yahhh", JOptionPane.ERROR_MESSAGE);
+                            FrameHandler.showErrorDialog("Gagal di diselesaikan", "Yahhh");
                         }
-
                     } else {
-                        JOptionPane.showMessageDialog(null, "Batal diselesaikan", "", JOptionPane.INFORMATION_MESSAGE);
+                        FrameHandler.showInformationMessage("Batal diselesaikan", "");
                     }
                 }
             });

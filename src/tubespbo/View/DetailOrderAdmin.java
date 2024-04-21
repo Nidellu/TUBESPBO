@@ -18,12 +18,7 @@ public class DetailOrderAdmin extends DetailOrder {
 
     private void showDataScreenAdmin(int id, int idOrder, int menu) {
 
-        ArrayList<Order> listOrder = Controller.getInstance().getDetailOrder(idOrder);
-
-        JLabel intro = new JLabel("Detail Pesanan.");
-        intro.setFont(font);
-        intro.setBounds(30, 70, 400, 30);
-
+        JLabel intro = FrameHandler.createLabel("Detail Pesanan.", font, 30, 70, 400, 30);
         String message = "";
         if (listOrder.get(listOrder.size() - 1).getOrder_status() == OrderStatusEnum.FINISHED) {
             message = "Sudah sampai tujuan.";
@@ -32,53 +27,21 @@ public class DetailOrderAdmin extends DetailOrder {
         } else if (listOrder.get(0).getOrder_status() == OrderStatusEnum.NOW) {
             message = "Sedang dalam perjalanan";
         }
-
-        JLabel intro2 = new JLabel(message);
-        intro2.setFont(font3);
-        intro2.setBounds(30, 95, 400, 30);
-
-        JLabel lineDiv = new JLabel("__________________________________"
+        JLabel intro2 = FrameHandler.createLabel(message, font3, 30, 95, 400, 30);
+        JLabel lineDiv = FrameHandler.createLabel("__________________________________"
                 + "__________________________________________________"
                 + "__________________________________________________"
-                + "___________________________");
-        lineDiv.setBounds(10, 120, 465, 20);
-
-        JLabel time = new JLabel("" + Controller.getInstance().getTimeOrder(idOrder));
-        time.setFont(font2);
-        time.setBounds(30, 150, 300, 30);
-
-        JLabel idForShow = new JLabel("#" + idOrder);
-        idForShow.setFont(font4);
-        idForShow.setBounds(420, 150, 300, 30);
-
+                + "___________________________", null, 10, 120, 465, 20);
+        JLabel time = FrameHandler.createLabel("" + Controller.getInstance().getTimeOrder(idOrder), font2, 30, 150, 300, 30);
+        JLabel idForShow = FrameHandler.createLabel("#" + idOrder, font4, 420, 150, 300, 30);
+        JLabel driverInfo = FrameHandler.createLabel("Info Driver:", font4, 30, 190, 300, 30);
         String driver = Controller.getInstance().getUsername(listOrder.get(listOrder.size() - 1).getDriver_id());
-
-        JLabel driverInfo = new JLabel("Info Driver:");
-        driverInfo.setFont(font4);
-        driverInfo.setBounds(30, 190, 300, 30);
-
-        JLabel driverName = new JLabel(driver);
-        driverName.setFont(font4);
-        driverName.setBounds(30, 220, 300, 30);
-
-        ArrayList<Driver> driverCont = Controller.getInstance()
-                .getDriverByID(listOrder.get(listOrder.size() - 1).getDriver_id());
-
-        JLabel driverPhon = new JLabel(driverCont.get(driverCont.size() - 1).getDriver_phonNum());
-        driverPhon.setFont(font2);
-        driverPhon.setBounds(370, 220, 300, 30);
-
-        JLabel driverVType = new JLabel(driverCont.get(driverCont.size() - 1).getVehicle_type());
-        driverVType.setFont(font2);
-        driverVType.setBounds(30, 245, 300, 30);
-
-        JLabel driverVPlate = new JLabel(driverCont.get(driverCont.size() - 1).getVehicle_plate());
-        driverVPlate.setFont(font2);
-        driverVPlate.setBounds(390, 255, 300, 30);
-
-        JLabel driverVName = new JLabel(driverCont.get(driverCont.size() - 1).getVehicle_name());
-        driverVName.setFont(font2);
-        driverVName.setBounds(30, 265, 300, 30);
+        JLabel driverName = FrameHandler.createLabel(driver, font4, 30, 220, 300, 30);
+        ArrayList<Driver> driverCont = Controller.getInstance().getDriverByID(listOrder.get(listOrder.size() - 1).getDriver_id());
+        JLabel driverPhon = FrameHandler.createLabel(driverCont.get(driverCont.size() - 1).getDriver_phonNum(), font2, 370, 220, 300, 30);
+        JLabel driverVType = FrameHandler.createLabel(driverCont.get(driverCont.size() - 1).getVehicle_type(), font2, 30, 245, 300, 30);
+        JLabel driverVPlate = FrameHandler.createLabel(driverCont.get(driverCont.size() - 1).getVehicle_plate(), font2, 390, 255, 300, 30);
+        JLabel driverVName = FrameHandler.createLabel(driverCont.get(driverCont.size() - 1).getVehicle_name(), font2, 30, 265, 300, 30);
 
         f.add(driverInfo);
         f.add(driverName);
@@ -88,22 +51,13 @@ public class DetailOrderAdmin extends DetailOrder {
         f.add(driverVPlate);
 
         String passName = Controller.getInstance().getUsername(listOrder.get(listOrder.size() - 1).getCust_id());
+        JLabel passInfo = FrameHandler.createLabel("Info Passanger:", font4, 30, 290, 300, 30);
+        JLabel passNameCont = FrameHandler.createLabel(passName, font4, 30, 318, 300, 30);
+        ArrayList<Passanger> passCont = Controller.getInstance().getPassangerByID(listOrder.get(listOrder.size() - 1).getCust_id());
+        JLabel passPhon = FrameHandler.createLabel(passCont.get(passCont.size() - 1).getPhone_number(), font2, 370, 318, 300, 30);
 
-        JLabel passInfo = new JLabel("Info Passanger:");
-        passInfo.setFont(font4);
-        passInfo.setBounds(30, 290, 300, 30);
-
-        JLabel passNameCont = new JLabel(passName);
-        passNameCont.setFont(font4);
-        passNameCont.setBounds(30, 318, 300, 30);
-
-        ArrayList<Passanger> passCont = Controller.getInstance()
-                .getPassangerByID(listOrder.get(listOrder.size() - 1).getCust_id());
-
-        JLabel passPhon = new JLabel(passCont.get(passCont.size() - 1).getPhone_number());
-        passPhon.setFont(font2);
-        passPhon.setBounds(370, 318, 300, 30);
-
+        f.add(intro);
+        f.add(intro2);
         f.add(passInfo);
         f.add(passNameCont);
         f.add(passPhon);

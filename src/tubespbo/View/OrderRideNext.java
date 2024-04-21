@@ -24,8 +24,8 @@ public class OrderRideNext {
         showDataScreen(asal, tujuan, id, promo);
     }
 
+    JFrame f;
     private JLabel admin, labelPilihVehicle, hasilPromo, labelResult, totalHarga;
-    //detail pembayaran
     private JLabel detail, biayaA, biayaB, biayaC, biayaD;
     private JComboBox<String> boxPilihVehicle;
     private float promoVal = 0.0f;
@@ -33,58 +33,40 @@ public class OrderRideNext {
     private float finalCost = 0.0f;
 
     private void showDataScreen(String asal, String tujuan, int id, String promo) {
-        JFrame f = new JFrame();
+        f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ArrayList<Passanger> pass = Controller.getInstance().getPassangerByID(id);
 
-        JLabel intro = new JLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!");
-        Font font = new Font("Courier", Font.BOLD, 20);
-        JLabel intro2 = new JLabel("Mau kemana kali ini sayy?");
-        Font font2 = new Font("Courier", Font.PLAIN, 16);
-        intro.setFont(font);
-        intro2.setFont(font2);
-        intro.setBounds(30, 70, 400, 30);
-        intro2.setBounds(30, 90, 300, 30);
-
+        Font heading1 = new Font("Courier", Font.BOLD, 20);
+        Font text1 = new Font("Courier", Font.PLAIN, 16);
         Font fontButton = new Font("Courier", Font.BOLD, 13);
-
-        JLabel lineDiv = new JLabel("_______________________________"
-                + "__________________________________________");
-        lineDiv.setBounds(10, 110, 460, 20);
-
         Font fontLabel = new Font("Courier", Font.BOLD, 16);
 
-        JLabel asalLabel = new JLabel("Asal: ");
-        asalLabel.setFont(font2);
-        asalLabel.setBounds(30, 160, 200, 30);
-        JLabel tujuanLabel = new JLabel("Tujuan: ");
-        tujuanLabel.setFont(font2);
-        tujuanLabel.setBounds(30, 190, 200, 30);
-        JLabel promoLabel = new JLabel("Kode Promo: ");
-        promoLabel.setFont(font2);
-        promoLabel.setBounds(30, 220, 200, 30);
+        JLabel intro = FrameHandler.createLabel("Halo, " + pass.get(pass.size() - 1).getUser_name() + "!", heading1, 30, 70, 400, 30);
+        JLabel intro2 = FrameHandler.createLabel("Mau kemana kali ini sayy?", text1, 30, 90, 300, 30);
 
-        // recap harga
-        // Label to display the result -- harga awal
-        JLabel asalGet = new JLabel(asal);
-        asalGet.setFont(font2);
+        JLabel lineDiv = FrameHandler.createLabel("_______________________________"
+                + "__________________________________________", null, 10, 110, 460, 20);
+        JLabel asalLabel = FrameHandler.createLabel("Asal: ", text1, 30, 160, 200, 30);
+        JLabel tujuanLabel = FrameHandler.createLabel("Tujuan: ", text1, 30, 190, 200, 30);
+        JLabel promoLabel = FrameHandler.createLabel("Kode Promo: ", text1, 30, 220, 200, 30);
+
+        JLabel asalGet = FrameHandler.createLabel(asal, text1, 250, 160, 200, 30);
         asalGet.setHorizontalAlignment(SwingConstants.RIGHT);
-        asalGet.setBounds(250, 160, 200, 30);
-        JLabel tujuanGet = new JLabel(tujuan);
-        tujuanGet.setFont(font2);
+
+        JLabel tujuanGet = FrameHandler.createLabel(tujuan, text1, 250, 190, 200, 30);
         tujuanGet.setHorizontalAlignment(SwingConstants.RIGHT);
-        tujuanGet.setBounds(250, 190, 200, 30);
+
         String promoField = "";
-        if(promo.isEmpty()){
+        if (promo.isEmpty()) {
             promoField = "-";
         } else {
             promoField = promo;
         }
-        JLabel promoGet = new JLabel(promoField);
-        promoGet.setFont(font2);
+
+        JLabel promoGet = FrameHandler.createLabel(promoField, text1, 250, 220, 200, 30);
         promoGet.setHorizontalAlignment(SwingConstants.RIGHT);
-        promoGet.setBounds(250, 220, 200, 30);
 
         f.add(asalLabel);
         f.add(tujuanLabel);
@@ -93,16 +75,11 @@ public class OrderRideNext {
         f.add(tujuanGet);
         f.add(promoGet);
 
-        // jenis kendaraan
-        labelPilihVehicle = new JLabel("Pilih Kendaraan ");
+        labelPilihVehicle = FrameHandler.createLabel("Pilih Kendaraan ", fontLabel, 30, 280, 200, 30);
         String listKendaraan[] = {"Mobil", "Motor"};
         boxPilihVehicle = new JComboBox(listKendaraan);
         boxPilihVehicle.setSelectedItem(null);
-        labelPilihVehicle.setFont(fontLabel);
-        labelPilihVehicle.setBounds(30, 280, 200, 30);
         boxPilihVehicle.setBounds(250, 280, 200, 30);
-
-        // Add action listeners
         boxPilihVehicle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,103 +87,27 @@ public class OrderRideNext {
             }
         });
 
-        //label buat detail
-        detail = new JLabel();
-        detail.setFont(font2);
-        detail.setBounds(30, 330, 200, 30);
-        detail.setFont(fontLabel);
-        biayaA = new JLabel();
-        biayaA.setFont(font2);
-        biayaA.setBounds(30, 360, 200, 30);
-        biayaB = new JLabel();
-        biayaB.setFont(font2);
-        biayaB.setBounds(30, 390, 200, 30);
-        biayaC = new JLabel();
-        biayaC.setFont(font2);
-        biayaC.setBounds(30, 420, 200, 30);
-        biayaD = new JLabel();
-        biayaD.setFont(font2);
-        biayaD.setBounds(30, 450, 200, 30);
+        detail = FrameHandler.createLabel(null, fontLabel, 30, 330, 200, 30);
+        biayaA = FrameHandler.createLabel(null, text1, 30, 360, 200, 30);
+        biayaB = FrameHandler.createLabel(null, text1, 30, 390, 200, 30);
+        biayaC = FrameHandler.createLabel(null, text1, 30, 420, 200, 30);
+        biayaD = FrameHandler.createLabel(null, text1, 30, 450, 200, 30);
 
-        // recap harga
-        // Label to display the result -- harga awal
-        labelResult = new JLabel();
-        labelResult.setFont(font2);
+        labelResult = FrameHandler.createLabel(null, text1, 250, 360, 200, 30);
         labelResult.setHorizontalAlignment(SwingConstants.RIGHT);
-        labelResult.setBounds(250, 360, 200, 30);
-        admin = new JLabel();
-        admin.setFont(font2);
+        admin = FrameHandler.createLabel(null, text1, 250, 390, 200, 30);
         admin.setHorizontalAlignment(SwingConstants.RIGHT);
-        admin.setBounds(250, 390, 200, 30);
-        hasilPromo = new JLabel();
-        hasilPromo.setFont(font2);
+        hasilPromo = FrameHandler.createLabel(null, text1, 250, 420, 200, 30);
         hasilPromo.setHorizontalAlignment(SwingConstants.RIGHT);
-        hasilPromo.setBounds(250, 420, 200, 30);
-        totalHarga = new JLabel();
-        totalHarga.setFont(font2);
+        totalHarga = FrameHandler.createLabel(null, text1, 250, 450, 200, 30);
         totalHarga.setHorizontalAlignment(SwingConstants.RIGHT);
-        totalHarga.setBounds(250, 450, 200, 30);
 
         //back button
-        JButton backButton = new JButton("Kembali");
-        backButton.setFont(fontButton);
-        backButton.setBounds(10, 10, 90, 30);
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new MainMenuPassanger(id);
-            }
-        });
+        JButton backButton = FrameHandler.createButton("Kembali", fontButton, 10, 10, 90, 30, e -> onBack(id));
 
-        // check user's wallet -- if user's wallet < harga akhir --> order button disable
+        // check user's wallet -- if (user's wallet < harga akhir) --> order button disable
         // order button
-        JButton orderButton = new JButton("Pesan Sekarang");
-        orderButton.setFont(fontButton);
-        orderButton.setBounds(40, 500, 400, 30);
-        orderButton.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                if (isAnyFieldEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Masih ada bagian yang kosong nih!", "Isi Dulu Datanya", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    if (Controller.getInstance().getWallet(id) < totalHargaValue) {
-                        int choice = JOptionPane.showConfirmDialog(null, "Saldo kamu ga cukup loh, mau top up?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-                        if (choice == JOptionPane.YES_OPTION) {
-                            JOptionPane.showMessageDialog(null, "Ke menu top up!", "", JOptionPane.INFORMATION_MESSAGE);
-                            f.dispose();
-                            new MenuTopUp(id);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Ke menu utama!", "", JOptionPane.INFORMATION_MESSAGE);
-                            f.dispose();
-                            new MainMenuPassanger(id);
-                        }
-                    } else {
-                        String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
-                        int idPromo = Controller.getInstance().getPromoIdByCode(promo);
-
-                        Driver drv = Controller.getInstance().getDriverAvailable(jenisKendaraan);
-                        if (drv == null) {
-                            JOptionPane.showMessageDialog(null, "Tidak Dapat Menemukan Dirver!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            boolean status = Controller.getInstance().createUserOrder(id, idPromo, asal, tujuan, finalCost, totalHargaValue, drv);
-                            if (status == true) {
-                                JOptionPane.showMessageDialog(null, "Kamu Sudah Dalam Pesanan!", "Yeayy", JOptionPane.INFORMATION_MESSAGE);
-                                f.dispose();
-                                new OrderBerjalan(id);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-
-                    }
-
-                }
-            }
-
-            private boolean isAnyFieldEmpty() {
-                return boxPilihVehicle.getSelectedItem() == null;
-            }
-        });
+        JButton orderButton = FrameHandler.createButton("Pesan Sekarang", fontButton, 40, 500, 400, 30, e -> order(id, asal, tujuan, promo));
 
         f.add((intro));
         f.add((intro2));
@@ -226,6 +127,7 @@ public class OrderRideNext {
         f.add(biayaC);
         f.add(biayaD);
 
+        f.setLocationRelativeTo(null);
         f.setSize(500, 600);
         f.setLayout(null);
 
@@ -260,7 +162,6 @@ public class OrderRideNext {
         totalHarga.setText("" + formatCost(totalHargaValue));
     }
 
-    // format cost
     private String formatCost(float cost) {
         DecimalFormat rupiahFormat = new DecimalFormat("Rp #,###.##");
         return rupiahFormat.format(cost);
@@ -268,6 +169,51 @@ public class OrderRideNext {
 
     public float getPromoVal() {
         return promoVal;
+    }
+
+    private void onBack(int id) {
+        f.dispose();
+        new MainMenuPassanger(id);
+    }
+
+    private void order(int id, String asal, String tujuan, String promo) {
+        if (isAnyFieldEmpty()) {
+            FrameHandler.showErrorDialog("Masih ada bagian yang kosong nih!", "Isi Dulu Datanya");
+        } else {
+            if (Controller.getInstance().getWallet(id) < totalHargaValue) {
+                int choice = FrameHandler.showConfirmationDialog("Saldo kamu ga cukup loh, mau top up?", "Konfirmasi");
+                if (choice == JOptionPane.YES_OPTION) {
+                    FrameHandler.showInformationMessage("Ke menu top up!", "");
+                    f.dispose();
+                    new MenuTopUp(id);
+                } else {
+                    FrameHandler.showInformationMessage("Ke menu utama!", "");
+                    f.dispose();
+                    new MainMenuPassanger(id);
+                }
+            } else {
+                String jenisKendaraan = boxPilihVehicle.getSelectedItem().toString();
+                int idPromo = Controller.getInstance().getPromoIdByCode(promo);
+
+                Driver drv = Controller.getInstance().getDriverAvailable(jenisKendaraan);
+                if (drv == null) {
+                    FrameHandler.showErrorDialog("Tidak Dapat Menemukan Driver!", "Yahh Maap Yahh");
+                } else {
+                    boolean status = Controller.getInstance().createUserOrder(id, idPromo, asal, tujuan, finalCost, totalHargaValue, drv);
+                    if (status) {
+                        FrameHandler.showInformationMessage("Kamu Sudah Dalam Pesanan!", "Yeayy");
+                        f.dispose();
+                        new OrderBerjalan(id);
+                    } else {
+                        FrameHandler.showErrorDialog("Pesanan Kamu Gagal DiProses!", "Yahh Maap Yahh");
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isAnyFieldEmpty() {
+        return boxPilihVehicle.getSelectedItem() == null;
     }
 
 }

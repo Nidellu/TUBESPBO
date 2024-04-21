@@ -1,32 +1,31 @@
-
 package tubespbo.View;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 
 public class MainMenuDriver {
 
+    JFrame f;
+
     public MainMenuDriver(int id) {
         showDataScreen(id);
     }
     protected Driver drv;
-    
+
     private void showDataScreen(int id) {
-        JFrame f = new JFrame();
+        f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         drv = Controller.getInstance().getDriverByID(id).get(0);
 
         String nameDisplay = Controller.getInstance().getUsername(id);
@@ -70,80 +69,14 @@ public class MainMenuDriver {
         wallet.setBounds(50, 150, 800, 30);
         wallet.setBackground(null);
 
-        JButton topUp = new JButton("Top Up");
-        topUp.setFont(fontButton);
-        topUp.setBounds(340, 150, 100, 30);
-        topUp.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                new MenuTopUp(id);
-                f.dispose();
-            }
-        });
-      
-        JButton inbox = new JButton("Inbox");
-        inbox.setFont(fontButton);
-        inbox.setBounds(70, 230, 140, 30);
-        inbox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new InboxDriver(id);
-            }
-        });
+        JButton topUp = FrameHandler.createButton("Top Up", fontButton, 340, 150, 100, 30, e -> onTopUp(id));
+        JButton inbox = FrameHandler.createButton("Inbox", fontButton, 70, 230, 140, 30, e -> onInbox(id));
+        JButton historyOrder = FrameHandler.createButton("Lihat Pesanan", fontButton, 250, 230, 170, 30, e -> onCheckOrder(id));
+        JButton tarikDanaButton = FrameHandler.createButton("Tarik Dana", fontButton, 70, 320, 350, 30, e -> onWithdraw(drv));
+        JButton cekPendapatanBtn = FrameHandler.createButton("Cek Pendapatan Driver", fontButton, 70, 360, 350, 30, e -> onCheckIncome(id));
+        JButton switchStatus = FrameHandler.createButton(Controller.getInstance().getSwitchStatusText(id), fontButton, 70, 410, 350, 30, e -> onSwitchStatus(id, drv));
 
-        // button buat liat history
-        JButton historyOrder = new JButton("Lihat Pesanan");
-        historyOrder.setFont(fontButton);
-        historyOrder.setBounds(250, 230, 170, 30);
-        historyOrder.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new CekOrder(id);
-            }
-        });
-
-        //button buat tarik dana
-        JButton tarikDanaButton = new JButton("Tarik Dana");
-        tarikDanaButton.setFont(fontButton);
-        tarikDanaButton.setBounds(70, 320, 350, 30);
-        tarikDanaButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new TarikDana(drv);
-            }
-        });
-
-        // button buat cek pendapatan
-        JButton cekPendapatanBtn =  new JButton("Cek Pendapatan Driver");
-        cekPendapatanBtn.setFont(fontButton);
-        cekPendapatanBtn.setBounds(70, 360, 350, 30);
-        cekPendapatanBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new CekPendapatanDriver(id);
-            }
-        });
-
-        //button for swithcing status
-        JButton switchStatus = new JButton(Controller.getInstance().getSwitchStatusText(id));
-        switchStatus.setFont(fontButton);
-        switchStatus.setBounds(70, 410, 350, 30);
-        switchStatus.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String state = Controller.getInstance().getDriverStat(drv.getDriver_id());
-                drv.setStateDriver(state);
-                state = drv.updateState(state);
-                boolean success = Controller.getInstance().updateDriverStatus(id, state);
-                if (success == true) {
-                    JOptionPane.showMessageDialog(null, "Status Berhasil Diubah!", "Yeay", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Status Gagal Diubah!", "Upss", JOptionPane.ERROR_MESSAGE);
-                }
-                f.dispose();
-                    new MainMenuDriver(id);
-            }
-        });
-
-        String statDrv =  Controller.getInstance().getDriverStat(id);
+        String statDrv = Controller.getInstance().getDriverStat(id);
         if (statDrv.equals("BOOKED")) {
             switchStatus.setEnabled(false); // Disable the button
         } else {
@@ -151,25 +84,10 @@ public class MainMenuDriver {
         }
 
         // back button
-        JButton backButton = new JButton("Back to Main Menu");
-        backButton.setBounds(170, 350, 150, 30);
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JButton backButton = FrameHandler.createButton("Kembali", fontButton, 170, 350, 150, 30, e -> onBack());
 
-                f.dispose();
-            }
-        });
-        
         // logout button
-        JButton logOut = new JButton("Log out");
-        logOut.setFont(fontButton);
-        logOut.setBounds(340, 500, 100, 30);
-        logOut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                f.dispose();
-                new StartMenu();
-            }
-        });
+        JButton logOut = FrameHandler.createButton("Log out", fontButton, 340, 500, 100, 30, e -> onLogOut());
 
         f.add((intro));
         f.add((intro2));
@@ -192,8 +110,52 @@ public class MainMenuDriver {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
- 
-    public static void main(String[] args) {
-        new MainMenuDriver(6);
+
+    private void onTopUp(int id) {
+        new MenuTopUp(id);
+        f.dispose();
+    }
+
+    private void onInbox(int id) {
+        f.dispose();
+        new InboxDriver(id);
+    }
+
+    private void onCheckOrder(int id) {
+        f.dispose();
+        new CekOrder(id);
+    }
+
+    private void onWithdraw(Driver drv) {
+        f.dispose();
+        new TarikDana(drv);
+    }
+
+    private void onCheckIncome(int id) {
+        f.dispose();
+        new CekPendapatanDriver(id);
+    }
+
+    private void onSwitchStatus(int id, Driver drv) {
+        String state = Controller.getInstance().getDriverStat(drv.getDriver_id());
+        drv.setStateDriver(state);
+        state = drv.updateState(state);
+        boolean success = Controller.getInstance().updateDriverStatus(id, state);
+        if (success) {
+            FrameHandler.showMessageDialog("Status Berhasil Diubah!", "Yeay");
+        } else {
+            FrameHandler.showErrorDialog("Status Gagal Diubah!", "Upss");
+        }
+        f.dispose();
+        new MainMenuDriver(id);
+    }
+
+    private void onBack() {
+        f.dispose();
+    }
+
+    private void onLogOut() {
+        f.dispose();
+        new StartMenu();
     }
 }

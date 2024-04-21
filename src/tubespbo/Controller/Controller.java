@@ -28,29 +28,27 @@ public class Controller {
     }
 
     public static synchronized Controller getInstance() {
-        if (instance == null) // Lazy instantiation
-        {
+        if (instance == null) {
             instance = new Controller();
         }
         return instance;
     }
 
-    // input user's data
-    public boolean inputUserDataToDB(String username, String password, String kategoriUser) {
+    public boolean addUserToDB(String username, String password, String role) {
         DatabaseHandler.getInstance().connect();
-        String query = "INSERT INTO users (user_name, user_pass, user_role, user_wallet) VALUES (?, ?, ?, ?)";
-        PreparedStatement stmt;
         try {
-            stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
+            String query = "INSERT INTO users (user_name, user_pass, user_role, user_wallet) VALUES (?, ?, ?, 0)";
+            PreparedStatement stmt = DatabaseHandler.getInstance().con.prepareStatement(query);
             stmt.setString(1, username);
             stmt.setString(2, password);
-            stmt.setString(3, kategoriUser);
-            stmt.setFloat(4, 0);
+            stmt.setString(3, role);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -72,6 +70,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -89,6 +89,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -106,6 +108,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -121,6 +125,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -153,6 +159,8 @@ public class Controller {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return result;
     }
@@ -169,6 +177,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -183,6 +193,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -209,6 +221,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listPass);
     }
@@ -231,6 +245,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listWaiting);
     }
@@ -259,6 +275,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listDriver);
     }
@@ -280,6 +298,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -304,6 +324,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listDriver);
     }
@@ -319,6 +341,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -338,6 +362,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -351,6 +377,8 @@ public class Controller {
             exists = true;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (exists);
     }
@@ -365,6 +393,8 @@ public class Controller {
             exists = true;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (exists);
     }
@@ -382,6 +412,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (total);
     }
@@ -398,6 +430,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (result);
     }
@@ -447,6 +481,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listOrder);
     }
@@ -462,10 +498,11 @@ public class Controller {
             while (rs.next()) {
                 Order orders = new Order();
                 listOrder = (rs.getString("order_date"));
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listOrder);
     }
@@ -489,6 +526,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listOrder);
     }
@@ -512,6 +551,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listOrder);
     }
@@ -529,6 +570,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (exists);
     }
@@ -545,6 +588,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (exists);
     }
@@ -562,6 +607,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return exists;
     }
@@ -579,6 +626,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
 
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return id;
     }
@@ -596,6 +645,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
 
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return username;
     }
@@ -613,6 +664,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
 
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return roles;
     }
@@ -630,6 +683,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (walletResult);
     }
@@ -650,6 +705,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -671,6 +728,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return (listpPromos);
     }
@@ -697,6 +756,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
 
         return valid;
@@ -714,6 +775,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return (false);
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -730,6 +793,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return Id;
     }
@@ -747,6 +812,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return found;
     }
@@ -765,6 +832,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return (false);
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 // order ride start here
@@ -809,10 +878,12 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return val;
     }
-    
+
     // get promo value
     public float getPromoValByID(int idPromo) {
         float val = 0;
@@ -826,6 +897,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return val;
     }
@@ -849,6 +922,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -857,9 +932,9 @@ public class Controller {
         Driver dr = null;
         DatabaseHandler.getInstance().connect();
         String query = "SELECT u.user_name, d.driver_id, d.driver_phonNum, d.vehicle_type, d.vehicle_name, d.vehicle_plate "
-        + "FROM drivers d "
-        + "JOIN users u ON u.user_id = d.driver_id "
-        + "WHERE d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = 'AVAILABLE';";
+                + "FROM drivers d "
+                + "JOIN users u ON u.user_id = d.driver_id "
+                + "WHERE d.vehicle_type = '" + jenisKendaraan + "' AND d.driver_status = 'AVAILABLE';";
 
         try {
             Statement stmt = DatabaseHandler.getInstance().con.createStatement();
@@ -874,6 +949,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return dr;
     }
@@ -905,6 +982,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -933,6 +1012,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -953,6 +1034,8 @@ public class Controller {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
     }
 
@@ -970,6 +1053,8 @@ public class Controller {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
         return stat;
     }
@@ -1003,15 +1088,16 @@ public class Controller {
     public boolean updateDriverStatus(int driverID, String newStatus) {
         String query = "UPDATE drivers SET driver_status = '" + newStatus + "' WHERE driver_id = '" + driverID + "';";
         try {
+            DatabaseHandler.getInstance().connect();
             PreparedStatement statement = DatabaseHandler.getInstance().con.prepareStatement(query);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            DatabaseHandler.getInstance().disconnect();
         }
-        
-        
     }
 // end on off status driver
 }
