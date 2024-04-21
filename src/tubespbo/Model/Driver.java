@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package tubespbo.Model;
 
-/**
- *
- * @author brian
- */
 public class Driver extends User {
     private int driver_id;
     private String driver_phonNum;
@@ -15,6 +7,22 @@ public class Driver extends User {
     private String vehicle_type;
     private String vehicle_plate;
     private DriverStatEnum statusDriver;
+
+    DriverStatusInterface state;
+    
+    public String updateState(String status) {
+        status = state.update(this, status);
+        return status;
+    }
+    
+    public void setStateDriver(String status) {
+        if(status.equalsIgnoreCase("AVAILABLE")){
+            this.state = new AvailableState();
+        } else {
+            this.state = new OfflineState();
+        }
+        
+    }
 
     public Driver(int driver_id, String driver_phonNum, String vehicle_name, String vehicle_type, String vehicle_plate, int user_id, String user_name, String user_pass, String user_role, float user_wallet) {
         super(user_id, user_name, user_pass, user_role, user_wallet);
@@ -74,6 +82,21 @@ public class Driver extends User {
 
     public void setVehicle_plate(String vehicle_plate) {
         this.vehicle_plate = vehicle_plate;
+    }
+
+    public DriverStatEnum getStatusDriver() {
+        return statusDriver;
+    }
+
+    public void setStatusDriver(DriverStatEnum statusDriver) {
+        this.statusDriver = statusDriver;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver [driver_id=" + driver_id + ", driver_phonNum=" + driver_phonNum + ", vehicle_name="
+                + vehicle_name + ", vehicle_type=" + vehicle_type + ", vehicle_plate=" + vehicle_plate
+                + ", statusDriver=" + statusDriver + "]";
     }
 
 }

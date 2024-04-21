@@ -1,5 +1,6 @@
 package tubespbo.View;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,62 +20,40 @@ public class FindOrder {
     }
 
     private void showDataScreen() {
-        Controller con = new Controller();
-        JFrame f = new JFrame();
-
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame f = FrameHandler.createFrame("Your Frame Title", 600, 600);
 
         Font font = new Font("Courier", Font.BOLD, 20);
         Font font2 = new Font("Courier", Font.PLAIN, 16);
-        
-        JLabel intro = new JLabel("Cari Order.");
-        intro.setFont(font);
-        intro.setBounds(30, 70, 400, 30);
-        JLabel intro2 = new JLabel("Cari semua orderan user");
-        intro2.setFont(font2);
-        intro2.setBounds(30, 95, 300, 30);
 
+        JLabel intro = FrameHandler.createLabel("Cari Order.", font, 30, 70, 400, 30);
+        JLabel intro2 = FrameHandler.createLabel("Cari semua orderan user", font2, 30, 95, 300, 30);
 
-        Font fontButton = new Font("Courier", Font.BOLD, 14);
-        Font fontBack = new Font("Courier", Font.BOLD, 12);
+        JLabel lineDiv = FrameHandler.createLabel("__________________________________________________", null, 10, 120, 500, 20);
 
+        JLabel idOrder = FrameHandler.createLabel("Masukkan ID Order : ", null, 30, 160, 200, 30);
+        JTextField inputOrder = FrameHandler.createTextField("", Color.WHITE, null, 255, 160, 200, 30);
 
-        JLabel lineDiv = new JLabel("_______________________________"
-                + "__________________________________________");
-        lineDiv.setBounds(10, 120, 500, 20);
-
-        JLabel idOrder = new JLabel("Masukkan ID Order : ");
-        idOrder.setBounds(30, 160, 200, 30);
-        JTextField inputOrder = new JTextField();
-        inputOrder.setBounds(255, 160, 200, 30);
-        JButton buttonCari = new JButton("Cari");
-        buttonCari.setFont(fontButton);
-        buttonCari.setBounds(40, 515, 400, 30);
-        buttonCari.addActionListener(new ActionListener() {
+        JButton buttonCari = FrameHandler.createButton("Cari", new Font("Courier", Font.BOLD, 12), 40, 515, 400, 30, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String thisID = inputOrder.getText();
                 int getID = Integer.parseInt(thisID);
-                boolean found = con.getOrder(getID);
+                boolean found = Controller.getInstance().getOrder(getID);
                 if (found) {
                     f.dispose();
-                    new DetailOrder(1, getID, 0);
+                    new DetailOrderAdmin(1, getID, 0);
                 } else {
-                    JOptionPane.showMessageDialog(f, "Order tidak ditemukan", "Huff", JOptionPane.WARNING_MESSAGE);
+                    FrameHandler.showWarningMessage("Order tidak ditemukan", "Huff");
                 }
             }
         });
 
-        JButton backButton = new JButton("Kembali");
-        backButton.setFont(fontBack);
-        backButton.setBounds(10, 10, 85, 30);
-        backButton.addActionListener(new ActionListener() {
+        JButton backButton = FrameHandler.createButton("Kembali", new Font("Courier", Font.BOLD, 12), 10, 10, 85, 30, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
                 new MainMenuAdmin();
             }
         });
-
-        f.add((backButton));
+        f.add(backButton);
 
         f.add((intro));
         f.add((intro2));
@@ -89,7 +68,4 @@ public class FindOrder {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
-    // public static void main(String[] args) {
-    //     new FindOrder();
-    // }
 }

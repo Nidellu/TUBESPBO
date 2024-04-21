@@ -3,9 +3,9 @@ package tubespbo.View;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,119 +15,103 @@ import tubespbo.Controller.Controller;
 import tubespbo.Model.Driver;
 
 public class DriverProfile {
-    public DriverProfile (int id) {
-        showDataScreen(id);
+
+    public DriverProfile(Driver driver) {
+        showDataScreen(driver);
     }
+    protected JFrame f = new JFrame();
+    JLabel labelNamaVehicle, labelPlat;
+    protected JTextField textPlat, textNamaVehicle;
 
     //bertahap yaa sayy kalemm
-    private void showDataScreen (int id) {
-        Controller con = new Controller();
-        JFrame f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ArrayList<Driver> driver = con.getDriverByID(id);
-
-        JLabel intro = new JLabel("Halo, " + driver.get(driver.size() - 1).getUser_name() + "!");
+    private void showDataScreen(Driver driver) {
         Font font = new Font("Courier", Font.BOLD, 20);
-        JLabel intro2 = new JLabel("Mau update apa nih?");
         Font font2 = new Font("Courier", Font.PLAIN, 16);
-        intro.setFont(font);
-        intro2.setFont(font2);
-        intro.setBounds(30, 70, 400, 30);
-        intro2.setBounds(30, 90, 300, 30);
-
+        Font fontLabel = new Font("Courier", Font.BOLD, 16);
         Font fontButton = new Font("Courier", Font.BOLD, 13);
 
-        JLabel lineDiv = new JLabel("_______________________________"
-                + "__________________________________________");
-        lineDiv.setBounds(10, 120, 500, 20);
+        f = FrameHandler.createFrame("Your Title", 500, 600);
 
-        Font fontLabel = new Font("Courier", Font.BOLD, 16);
+        JLabel intro = FrameHandler.createLabel("Halo, " + driver.getUser_name() + "!", font, 30, 70, 400, 30);
+        JLabel intro2 = FrameHandler.createLabel("Mau update apa nih?", font2, 30, 90, 300, 30);
+        JLabel lineDiv = FrameHandler.createLabel("________________________________________________", null, 10, 120, 500, 20);
 
+        JLabel labelNama = FrameHandler.createLabel("Username ", fontLabel, 30, 160, 100, 30);
+        JTextField textNama = FrameHandler.createTextField(driver.getUser_name(), null, null, 260, 160, 200, 30);
 
-        JLabel labelNama = new JLabel("Username ");
-        JTextField textNama = new JTextField(driver.get(driver.size() - 1).getUser_name());
-        labelNama.setFont(fontLabel);
-        labelNama.setBounds(30, 160, 100, 30);
-        textNama.setBounds(260, 160, 200, 30);
+        JLabel labelTelepon = FrameHandler.createLabel("Nomor Telepon ", fontLabel, 30, 190, 200, 30);
+        JTextField textTelepon = FrameHandler.createTextField(driver.getDriver_phonNum(), null, null, 260, 190, 200, 30);
 
-        JLabel labelTelepon = new JLabel("Nomor Telepon ");
-        JTextField textTelepon = new JTextField(driver.get(driver.size() - 1).getDriver_phonNum());
-        labelTelepon.setFont(fontLabel);
-        labelTelepon.setBounds(30, 190, 200, 30);
-        textTelepon.setBounds(260, 190, 200, 30);
+        JLabel labelJenis = FrameHandler.createLabel("Ganti jenis Kendaraan ", fontLabel, 30, 230, 200, 30);
 
-        JLabel labelNamaVehicle = new JLabel("Nama Vehicle ");
-        JTextField textNamaVehicle = new JTextField(driver.get(driver.size() - 1).getVehicle_name());
-        labelNamaVehicle.setFont(fontLabel);
-        labelNamaVehicle.setBounds(30, 220, 200, 30);
-        textNamaVehicle.setBounds(260, 220, 200, 30);
+        String listKendaraan[] = {"Mobil", "Motor"};
+        JComboBox boxPilihVehicle = new JComboBox(listKendaraan);
+        boxPilihVehicle.setSelectedItem(null);
+        boxPilihVehicle.setBounds(260, 230, 200, 30);
 
-        JLabel labelPlat = new JLabel("Plat Nomor Kendaraan ");
-        JTextField textPlat = new JTextField(driver.get(driver.size() - 1).getVehicle_plate());
-        labelPlat.setFont(fontLabel);
-        labelPlat.setBounds(30, 250, 250, 30);
-        textPlat.setBounds(260, 250, 200, 30);
+        labelNamaVehicle = FrameHandler.createLabel("Nama Vehicle ", fontLabel, 30, 270, 200, 30);
+        textNamaVehicle = FrameHandler.createTextField("", null, null, 260, 270, 200, 30);
 
-        
+        labelPlat = FrameHandler.createLabel("Plat Nomor Kendaraan ", fontLabel, 30, 310, 250, 30);
+        textPlat = FrameHandler.createTextField("", null, null, 260, 310, 200, 30);
 
-        JButton buttonGanti = new JButton("Ganti Password");
-        buttonGanti.setBounds(40, 480, 400, 30);
-        buttonGanti.addActionListener(new ActionListener() {
+        boxPilihVehicle.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                new GantiPassword(id, driver.get(driver.size() - 1).getUser_pass());
-                f.dispose();
+                labelNamaVehicle.setText("Nama Vehicle ");
+                labelNamaVehicle.setBounds(30, 270, 200, 30);
+                textNamaVehicle.setBounds(260, 270, 200, 30);
+
+                labelPlat.setText("Plat Nomor Kendaraan ");
+                labelPlat.setBounds(30, 310, 250, 30);
+                textPlat.setBounds(260, 310, 200, 30);
             }
         });
 
-        JButton buttonSimpan = new JButton("Simpan");
-        buttonSimpan.setBounds(40, 515, 400, 30);
-        buttonSimpan.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                boolean succeed = con.updateUsernameDataDriverToDB(id, textNama.getText());
-                boolean succeed2 = con.updatePhoneNumDataDriverToDB(id, textTelepon.getText());
-                boolean succeed3 = con.updateVehicleNameDataDriverToDB(id, textNamaVehicle.getText());
-                boolean succeed4 = con.updateVehiclePlateDataDriverToDB(id, textPlat.getText());
+        JButton buttonGanti = FrameHandler.createButton("Ganti Password", fontButton, 40, 480, 400, 30,
+                new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new GantiPassword(driver.getDriver_id(), driver.getUser_pass());
+                f.dispose();
+            }
+        });
+        f.add(buttonGanti);
 
-                if (succeed && succeed2 && succeed3 && succeed4) {
-                    JOptionPane.showMessageDialog(f, "Data berhasil disimpan");
+        JButton buttonSimpan = FrameHandler.createButton("Simpan", fontButton, 40, 515, 400, 30,
+                new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean succeed = Controller.getInstance().updateUsernameDataDriverToDB(driver.getDriver_id(), textNama.getText());
+                boolean succeed2 = Controller.getInstance().updateDataDriverToDB(driver.getDriver_id(), textTelepon.getText(), textNamaVehicle.getText(), textPlat.getText(), boxPilihVehicle.getSelectedItem().toString());
+                if (succeed && succeed2) {
+                    FrameHandler.showInformationMessage("Data berhasil disimpan", "");
                 } else {
-                    JOptionPane.showMessageDialog(f, "Gagal di Update", "", JOptionPane.WARNING_MESSAGE);
+                    FrameHandler.showErrorDialog("Gagal di Update", "");
                 }
             }
         });
+        f.add(buttonSimpan);
 
-        JButton backButton = new JButton("Kembali");
-        backButton.setFont(fontButton);
-        backButton.setBounds(
-                10, 10, 90, 30);
-        backButton.addActionListener(new ActionListener() {
+        JButton backButton = FrameHandler.createButton("Kembali", fontButton, 10, 10, 90, 30,
+                new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 f.dispose();
-                new MainMenuDriver(id);
+                new MainMenuDriver(driver.getDriver_id());
             }
         });
-        
+        f.add(backButton);
+
         f.add(intro);
         f.add(intro2);
+        f.add(lineDiv);
         f.add(labelNama);
         f.add(textNama);
         f.add(labelTelepon);
         f.add(textTelepon);
-        f.add(labelNamaVehicle);
-        f.add(textNamaVehicle);
-        f.add(labelPlat);
-        f.add(textPlat);
-        f.add(backButton);
-        f.add(buttonGanti);
-        f.add(buttonSimpan);
+        f.add(labelJenis);
+        f.add(boxPilihVehicle);
 
-
-        f.setSize(500, 600);
         f.setLayout(null);
-        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
 
-    
 }
